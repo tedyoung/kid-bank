@@ -31,7 +31,6 @@ public class AccountDepositIntegrationTest {
     mockMvc.perform(post("/deposit").param("amount", "12.45"))
            .andExpect(redirectedUrl("/"));
 
-    // verify model has correct balance
     mockMvc.perform(get("/"))
            .andExpect(model().attribute("balance", "$12.45"));
   }

@@ -13,6 +13,8 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,4 +33,16 @@ public class AccountTransactionViewIntegrationTest {
         .isEmpty();
   }
 
+  @Test
+  public void depositToNewAccountShouldHaveOneDepositTransaction() throws Exception {
+    mockMvc.perform(post("/deposit").param("amount", "12.45"))
+           .andExpect(redirectedUrl("/"));
+
+    MvcResult mvcResult = mockMvc.perform(get("/"))
+                                 .andReturn();
+    Collection<TransactionView> transactions = (Collection<TransactionView>) mvcResult.getModelAndView().getModel().get("transactions");
+    assertThat(transactions)
+        .containsExactly(new TransactionView("01/05/2005", "Cash Deposit", "$12.45", "Birthday gift"));
+
+  }
 }

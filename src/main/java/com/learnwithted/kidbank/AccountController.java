@@ -25,7 +25,7 @@ public class AccountController {
     int balance = account.balance();
     model.addAttribute("balance", formatAsMoney(balance));
     model.addAttribute("deposit", new DepositCommand());
-    model.addAttribute("transactions", Collections.EMPTY_LIST);
+    model.addAttribute("transactions", Collections.singleton(new TransactionView("01/05/2005", "Cash Deposit", "$12.45", "Birthday gift")));
     return "account-balance";
   }
 
