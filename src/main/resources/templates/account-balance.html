@@ -7,8 +7,33 @@
 <body>
 Balance: <span th:text="${balance}">$99.99</span>
 
+<h2>Transactions</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Action</th>
+    <th>Amount</th>
+    <th>Source</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="txn : ${transactions}">
+    <td th:text="${txn.date}">01/05/2018</td>
+    <td th:text="${txn.action}">Cash Deposit</td>
+    <td th:text="${txn.amount}">$50.00</td>
+    <td th:text="${txn.source}">Birthday gift</td>
+  </tr>
+  </tbody>
+</table>
+
+<br/>
+
 <form action="#" th:object="${deposit}" th:action="@{/deposit}" method="post">
-  <label>Deposit Amount: <input type="number" step="0.01" th:field="*{amount}"/></label>
+  <fieldset>
+    <legend>Deposit</legend>
+    <label>Amount:<input type="number" step="0.01" th:field="*{amount}"/></label>
+  </fieldset>
 </form>
 
 </body>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Collections;
 
 @Controller
 public class AccountController {
@@ -24,6 +25,7 @@ public class AccountController {
     int balance = account.balance();
     model.addAttribute("balance", formatAsMoney(balance));
     model.addAttribute("deposit", new DepositCommand());
+    model.addAttribute("transactions", Collections.EMPTY_LIST);
     return "account-balance";
   }
 
