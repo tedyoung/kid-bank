@@ -15,6 +15,14 @@ public class AccountControllerTest {
   }
 
   @Test
+  public void formatLessThanOneDollarShouldHaveLeadingZero() throws Exception {
+    AccountController accountController = new AccountController(null);
+
+    assertThat(accountController.formatAsMoney(99))
+        .isEqualTo("$0.99");
+  }
+
+  @Test
   public void viewBalanceShouldDisplayBalanceOfGivenAccount() throws Exception {
     Account account = new Account();
     account.deposit(10);

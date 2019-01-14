@@ -10,12 +10,7 @@ import java.text.DecimalFormat;
 
 @Controller
 public class AccountController {
-  public static final DecimalFormat FORMAT_AS_DOLLARS_AND_CENTS = new DecimalFormat();
-
-  static {
-    FORMAT_AS_DOLLARS_AND_CENTS.setMaximumFractionDigits(2);
-    FORMAT_AS_DOLLARS_AND_CENTS.setMinimumFractionDigits(2);
-  }
+  public static final DecimalFormat FORMAT_AS_DOLLARS_AND_CENTS = new DecimalFormat("$###,##0.00");
 
   private final Account account;
 
@@ -42,7 +37,7 @@ public class AccountController {
 
   public String formatAsMoney(int amount) {
     BigDecimal amountInDollars = new BigDecimal(amount).scaleByPowerOfTen(-2);
-    return "$" + FORMAT_AS_DOLLARS_AND_CENTS.format(amountInDollars);
+    return FORMAT_AS_DOLLARS_AND_CENTS.format(amountInDollars);
   }
 
   public String viewBalance() {
