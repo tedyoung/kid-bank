@@ -31,8 +31,8 @@ public class AccountController {
   @PostMapping("/deposit")
   public String deposit(DepositCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
-
-    return "";
+    account.deposit(depositAmount);
+    return "redirect:/";
   }
 
   public String formatAsMoney(int amount) {

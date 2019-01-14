@@ -31,6 +31,21 @@ public class AccountControllerTest {
   }
 
   @Test
+  public void depositCommandShouldAddAmountToAccount() throws Exception {
+    DepositCommand depositCommand = new DepositCommand();
+    depositCommand.setAmount("12.34");
+
+    Account account = new Account();
+
+    AccountController accountController = new AccountController(account);
+
+    accountController.deposit(depositCommand);
+
+    assertThat(account.balance())
+        .isEqualTo(1234);
+  }
+
+  @Test
   public void viewBalanceShouldDisplayBalanceOfGivenAccount() throws Exception {
     Account account = new Account();
     account.deposit(10);
