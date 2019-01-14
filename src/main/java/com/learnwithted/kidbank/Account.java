@@ -1,7 +1,13 @@
 package com.learnwithted.kidbank;
 
 public class Account {
+  private int balance = 0;
+
   public int balance() {
-    return 0;
+    return balance;
+  }
+
+  public void deposit(int amount) {
+    balance += amount;
   }
 }

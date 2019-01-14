@@ -13,4 +13,5 @@ public class AccountControllerTest {
     assertThat(accountController.formatAsMoney(0))
         .isEqualTo("$0.00");
   }
+
 }
