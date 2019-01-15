@@ -12,4 +12,9 @@ public class TransactionView {
   private String action;
   private String amount;
   private String source;
+
+  public static TransactionView from(Transaction txn) {
+    String amountString = AccountController.formatAsMoney(txn.amount());
+    return new TransactionView(txn.toString(), txn.action(), amountString, txn.source());
+  }
 }

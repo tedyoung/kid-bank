@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
 
 @Controller
 public class AccountController {
@@ -21,13 +24,9 @@ public class AccountController {
     this.account = account;
   }
 
-  @GetMapping("/")
-  public String viewBalance(Model model) {
-    int balance = account.balance();
-    model.addAttribute("balance", formatAsMoney(balance));
-    model.addAttribute("deposit", new DepositCommand());
-    model.addAttribute("transactions", Collections.singleton(new TransactionView("01/05/2005", "Cash Deposit", "$12.45", "Birthday gift")));
-    return "account-balance";
+  public static String formatAsMoney(int amount) {
+    BigDecimal amountInDollars = new BigDecimal(amount).scaleByPowerOfTen(-2);
+    return FORMAT_AS_DOLLARS_AND_CENTS.format(amountInDollars);
   }
 
   @PostMapping("/deposit")
@@ -37,9 +36,17 @@ public class AccountController {
     return "redirect:/";
   }
 
-  public String formatAsMoney(int amount) {
-    BigDecimal amountInDollars = new BigDecimal(amount).scaleByPowerOfTen(-2);
-    return FORMAT_AS_DOLLARS_AND_CENTS.format(amountInDollars);
+  @GetMapping("/")
+  public String viewBalance(Model model) {
+    int balance = account.balance();
+    model.addAttribute("balance", formatAsMoney(balance));
+    model.addAttribute("deposit", new DepositCommand());
+    List<TransactionView> transactionViews = account.transactions().stream()
+                                                    .sorted(comparing(Transaction::dateTime).reversed())
+                                                    .map(TransactionView::from)
+                                                    .collect(Collectors.toList());
+    model.addAttribute("transactions", transactionViews);
+    return "account-balance";
   }
 
   public String viewBalance() {
