@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Controller
@@ -32,7 +33,7 @@ public class AccountController {
   @PostMapping("/deposit")
   public String deposit(DepositCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
-    account.deposit(depositAmount);
+    account.deposit(LocalDateTime.now(), depositAmount, "tbd");
     return "redirect:/";
   }
 

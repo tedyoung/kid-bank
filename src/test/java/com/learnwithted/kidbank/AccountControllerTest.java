@@ -2,6 +2,8 @@ package com.learnwithted.kidbank;
 
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountControllerTest {
@@ -48,7 +50,7 @@ public class AccountControllerTest {
   @Test
   public void viewBalanceShouldDisplayBalanceOfGivenAccount() throws Exception {
     Account account = new Account();
-    account.deposit(10);
+    account.deposit(LocalDateTime.now(), 10, "doesn't matter");
     AccountController accountController = new AccountController(account);
 
     assertThat(accountController.viewBalance())

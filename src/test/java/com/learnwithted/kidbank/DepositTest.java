@@ -2,6 +2,8 @@ package com.learnwithted.kidbank;
 
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DepositTest {
@@ -10,7 +12,7 @@ public class DepositTest {
   public void deposit495ShouldResultInBalanceOf495() throws Exception {
     Account account = new Account();
 
-    account.deposit(495);
+    account.deposit(LocalDateTime.now(), 495, "Bottle Return");
 
     assertThat(account.balance())
         .isEqualTo(495);
@@ -20,8 +22,8 @@ public class DepositTest {
   public void deposit100Then200ShouldResultIn300Balance() throws Exception {
     Account account = new Account();
 
-    account.deposit(100);
-    account.deposit(200);
+    account.deposit(LocalDateTime.now(), 100, "Bottle Return");
+    account.deposit(LocalDateTime.now(), 200, "Bottle Return");
 
     assertThat(account.balance())
         .isEqualTo(300);

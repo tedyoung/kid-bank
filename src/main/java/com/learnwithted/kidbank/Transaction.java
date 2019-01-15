@@ -1,7 +1,12 @@
 package com.learnwithted.kidbank;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode
+@ToString
 public class Transaction {
   private final LocalDateTime date;
   private final String action;
