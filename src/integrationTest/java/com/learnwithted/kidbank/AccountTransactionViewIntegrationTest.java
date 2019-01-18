@@ -25,24 +25,32 @@ public class AccountTransactionViewIntegrationTest {
   private MockMvc mockMvc;
 
   @Test
-  public void newAccountViewHasNoTransactions() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/"))
-                                 .andReturn();
-    Collection transactions = (Collection) mvcResult.getModelAndView().getModel().get("transactions");
-    assertThat(transactions)
-        .isEmpty();
-  }
-
-  @Test
   public void depositToNewAccountShouldHaveOneDepositTransaction() throws Exception {
     mockMvc.perform(post("/deposit").param("amount", "12.45"))
            .andExpect(redirectedUrl("/"));
 
     MvcResult mvcResult = mockMvc.perform(get("/"))
                                  .andReturn();
-    Collection<TransactionView> transactions = (Collection<TransactionView>) mvcResult.getModelAndView().getModel().get("transactions");
+    Collection<TransactionView> transactions = transactionsFromModel(mvcResult);
+
     assertThat(transactions)
         .containsExactly(new TransactionView("01/05/2005", "Cash Deposit", "$12.45", "Birthday gift"));
+  }
 
+  @Test
+  public void newAccountViewHasNoTransactions() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/"))
+                                 .andReturn();
+    Collection transactions = transactionsFromModel(mvcResult);
+    assertThat(transactions)
+        .isEmpty();
+  }
+
+  @SuppressWarnings({"unchecked", "ConstantConditions"})
+  private Collection<TransactionView> transactionsFromModel(MvcResult mvcResult) {
+    return (Collection<TransactionView>) mvcResult
+                                             .getModelAndView()
+                                             .getModel()
+                                             .get("transactions");
   }
 }
