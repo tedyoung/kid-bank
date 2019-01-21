@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Transaction {
   private final LocalDateTime date;
   private final String action;
-  private final int amount;
+  private final int amount; // scaled two decimal places, i.e., cents
   private final String source;
 
   public Transaction(LocalDateTime date, String action, int amount, String source) {

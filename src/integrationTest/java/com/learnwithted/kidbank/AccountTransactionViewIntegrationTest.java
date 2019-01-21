@@ -28,7 +28,10 @@ public class AccountTransactionViewIntegrationTest {
 
   @Test
   public void depositToNewAccountShouldHaveOneDepositTransaction() throws Exception {
-    mockMvc.perform(post("/deposit").param("amount", "12.45"))
+    mockMvc.perform(post("/deposit")
+                        .param("amount", "12.45")
+                        .param("source", "Birthday gift")
+                        .param("date", "2/9/2018"))
            .andExpect(redirectedUrl("/"));
 
     MvcResult mvcResult = mockMvc.perform(get("/"))
@@ -36,7 +39,7 @@ public class AccountTransactionViewIntegrationTest {
     Collection<TransactionView> transactions = transactionsFromModel(mvcResult);
 
     assertThat(transactions)
-        .containsExactly(new TransactionView("01/05/2005", "Cash Deposit", "$12.45", "Birthday gift"));
+        .containsExactly(new TransactionView("02/09/2018", "Deposit", "$12.45", "Birthday gift"));
   }
 
   @Test
