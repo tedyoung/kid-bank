@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class AccountController {
 
   private final Account account;
 
-
+  @Autowired
   public AccountController(Account account) {
     this.account = account;
   }
@@ -32,7 +33,7 @@ public class AccountController {
   @PostMapping("/deposit")
   public String deposit(DepositCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
-    account.deposit(LocalDateTime.now(), depositAmount, "tbd");
+    account.deposit(LocalDateTime.now(), depositAmount, "the source");
     return "redirect:/";
   }
 
@@ -49,7 +50,4 @@ public class AccountController {
     return "account-balance";
   }
 
-  public String viewBalance() {
-    return formatAsMoney(account.balance());
-  }
 }
