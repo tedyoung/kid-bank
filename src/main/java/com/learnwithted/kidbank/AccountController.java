@@ -26,7 +26,7 @@ public class AccountController {
   public String deposit(DepositCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
     LocalDateTime dateTime = depositCommand.dateAsLocalDateTime();
-    account.deposit(dateTime, depositAmount, "the source");
+    account.deposit(dateTime, depositAmount, depositCommand.getSource());
     return "redirect:/";
   }
 
