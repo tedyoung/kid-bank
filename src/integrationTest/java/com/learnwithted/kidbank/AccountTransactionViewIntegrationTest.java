@@ -31,7 +31,7 @@ public class AccountTransactionViewIntegrationTest {
     mockMvc.perform(post("/deposit")
                         .param("amount", "12.45")
                         .param("source", "Birthday gift")
-                        .param("date", "2/9/2018"))
+                        .param("date", "2018-02-09"))
            .andExpect(redirectedUrl("/"));
 
     MvcResult mvcResult = mockMvc.perform(get("/"))

@@ -32,7 +32,10 @@ Balance: <span th:text="${balance}">$99.99</span>
 <form action="#" th:object="${deposit}" th:action="@{/deposit}" method="post">
   <fieldset>
     <legend>Deposit</legend>
-    <label>Amount:<input type="number" step="0.01" th:field="*{amount}"/></label>
+    <label>Date: <input th:field="*{date}" type="date"></label>
+    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/></label>
+    <label>Source: <input th:field="*{source}" type="text"></label>
+    <button type="submit">Deposit!</button>
   </fieldset>
 </form>
 

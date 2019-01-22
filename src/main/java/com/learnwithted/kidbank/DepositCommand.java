@@ -10,7 +10,8 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class DepositCommand {
 
-  public static final DateTimeFormatter M_D_YYYY_DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
+  // the format for browsers <input> tag is YYYY-MM-DD -- dashes only! (not slash separators)
+  public static final DateTimeFormatter YYYY_MM_DD_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   private String date;
   private String amount;
@@ -22,14 +23,14 @@ public class DepositCommand {
   }
 
   public static LocalDateTime toLocalDateTime(String rawDate) {
-    LocalDate localDate = LocalDate.parse(rawDate, M_D_YYYY_DATE_FORMATTER);
+    LocalDate localDate = LocalDate.parse(rawDate, YYYY_MM_DD_DATE_FORMATTER);
     return localDate.atStartOfDay(); // midnight on the above date
   }
 
   public static DepositCommand createWithTodayDate() {
     DepositCommand depositCommand = new DepositCommand();
     LocalDate localDate = LocalDate.now();
-    depositCommand.setDate(localDate.format(M_D_YYYY_DATE_FORMATTER));
+    depositCommand.setDate(localDate.format(YYYY_MM_DD_DATE_FORMATTER));
     return depositCommand;
   }
 

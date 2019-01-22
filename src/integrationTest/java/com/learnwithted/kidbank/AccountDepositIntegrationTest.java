@@ -32,7 +32,7 @@ public class AccountDepositIntegrationTest {
   public void submitDepositAddsAmountToAccount() throws Exception {
     mockMvc.perform(post("/deposit")
                         .param("amount", "12.45")
-                        .param("date", "1/2/2000")
+                        .param("date", "2000-01-02")
                         .param("source", "the source"))
            .andExpect(redirectedUrl("/"));
 

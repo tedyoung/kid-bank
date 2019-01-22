@@ -16,8 +16,8 @@ public class DepositCommandTest {
   }
 
   @Test
-  public void mdyyyStringShouldBeCorrectLocalDate() throws Exception {
-    String rawDate = "7/8/2019";
+  public void yyyy_MM_dd_StringShouldBeCorrectLocalDate() throws Exception {
+    String rawDate = "2019-07-08";
 
     LocalDateTime localDateTime = DepositCommand.toLocalDateTime(rawDate);
 
