@@ -33,7 +33,7 @@ public class AccountDepositIntegrationTest {
     mockMvc.perform(post("/deposit")
                         .param("amount", "12.45")
                         .param("date", "2000-01-02")
-                        .param("source", "the source"))
+                        .param("description", "the description"))
            .andExpect(redirectedUrl("/"));
 
     mockMvc.perform(get("/"))

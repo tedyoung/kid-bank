@@ -23,10 +23,21 @@ public class AccountController {
   }
 
   @PostMapping("/deposit")
-  public String deposit(DepositCommand depositCommand) {
+  public String deposit(TransactionCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
     LocalDateTime dateTime = depositCommand.dateAsLocalDateTime();
-    account.deposit(dateTime, depositAmount, depositCommand.getSource());
+
+    account.deposit(dateTime, depositAmount, depositCommand.getDescription());
+    return "redirect:/";
+  }
+
+  @PostMapping("/spend")
+  public String spend(TransactionCommand spendCommand) {
+    int spendAmount = spendCommand.amountInCents();
+    LocalDateTime dateTime = spendCommand.dateAsLocalDateTime();
+
+    account.spend(dateTime, spendAmount, spendCommand.getDescription());
+
     return "redirect:/";
   }
 
@@ -42,13 +53,12 @@ public class AccountController {
                                                     .collect(Collectors.toList());
     model.addAttribute("transactions", transactionViews);
 
-    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
+    TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("deposit", depositCommand);
 
-    SpendCommand spendCommand = new SpendCommand();
+    TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("spend", spendCommand);
 
     return "account-balance";
   }
-
 }

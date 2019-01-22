@@ -30,7 +30,7 @@ public class AccountTransactionViewIntegrationTest {
   public void depositToNewAccountShouldHaveOneDepositTransaction() throws Exception {
     mockMvc.perform(post("/deposit")
                         .param("amount", "12.45")
-                        .param("source", "Birthday gift")
+                        .param("description", "Birthday gift")
                         .param("date", "2018-02-09"))
            .andExpect(redirectedUrl("/"));
 

@@ -8,7 +8,7 @@ public class AccountControllerTest {
 
   @Test
   public void depositCommandShouldAddAmountToAccount() throws Exception {
-    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
+    TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
     depositCommand.setAmount("12.34");
 
     Account account = new Account();
@@ -19,6 +19,21 @@ public class AccountControllerTest {
 
     assertThat(account.balance())
         .isEqualTo(1234);
+  }
+
+  @Test
+  public void spendCommandShouldReduceAmountInAccount() throws Exception {
+    TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
+    spendCommand.setAmount("34.79");
+
+    Account account = new Account();
+
+    AccountController accountController = new AccountController(account);
+
+    accountController.spend(spendCommand);
+
+    assertThat(account.balance())
+        .isEqualTo(-3479);
   }
 
 }
