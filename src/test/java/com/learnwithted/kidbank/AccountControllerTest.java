@@ -8,7 +8,7 @@ public class AccountControllerTest {
 
   @Test
   public void depositCommandShouldAddAmountToAccount() throws Exception {
-    DepositCommand depositCommand = new DepositCommand();
+    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
     depositCommand.setAmount("12.34");
 
     Account account = new Account();

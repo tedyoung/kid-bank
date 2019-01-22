@@ -25,7 +25,8 @@ public class AccountController {
   @PostMapping("/deposit")
   public String deposit(DepositCommand depositCommand) {
     int depositAmount = depositCommand.amountInCents();
-    account.deposit(LocalDateTime.now(), depositAmount, "the source");
+    LocalDateTime dateTime = depositCommand.dateAsLocalDateTime();
+    account.deposit(dateTime, depositAmount, "the source");
     return "redirect:/";
   }
 
@@ -33,7 +34,8 @@ public class AccountController {
   public String viewBalance(Model model) {
     int balance = account.balance();
     model.addAttribute("balance", TransactionView.formatAsMoney(balance));
-    model.addAttribute("deposit", new DepositCommand());
+    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
+    model.addAttribute("deposit", depositCommand);
     List<TransactionView> transactionViews = account.transactions().stream()
                                                     .sorted(comparing(Transaction::dateTime).reversed())
                                                     .map(TransactionView::from)
