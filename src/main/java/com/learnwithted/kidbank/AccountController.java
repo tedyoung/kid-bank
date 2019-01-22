@@ -33,14 +33,21 @@ public class AccountController {
   @GetMapping("/")
   public String viewBalance(Model model) {
     int balance = account.balance();
+
     model.addAttribute("balance", TransactionView.formatAsMoney(balance));
-    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
-    model.addAttribute("deposit", depositCommand);
+
     List<TransactionView> transactionViews = account.transactions().stream()
                                                     .sorted(comparing(Transaction::dateTime).reversed())
                                                     .map(TransactionView::from)
                                                     .collect(Collectors.toList());
     model.addAttribute("transactions", transactionViews);
+
+    DepositCommand depositCommand = DepositCommand.createWithTodayDate();
+    model.addAttribute("deposit", depositCommand);
+
+    SpendCommand spendCommand = new SpendCommand();
+    model.addAttribute("spend", spendCommand);
+
     return "account-balance";
   }
 
