@@ -23,7 +23,7 @@ public class Account {
     addNewTransaction(spend);
   }
 
-  public void addNewTransaction(Transaction transaction) {
+  private void addNewTransaction(Transaction transaction) {
     transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactions)
                        .add(transaction)

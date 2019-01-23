@@ -8,8 +8,17 @@ public class DateFormatting {
   // the format for browsers <input> tag is YYYY-MM-DD -- dashes only! (not slash separators)
   public static final DateTimeFormatter YYYY_MM_DD_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-  public static LocalDateTime toLocalDateTime(String rawDate) {
+  // the format that CSV file has when exported from Excel, MM/DD/YYYY, separated by slashes
+  public static final DateTimeFormatter MM_DD_YYYY_DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+  public static LocalDateTime fromBrowserDate(String rawDate) {
     LocalDate localDate = LocalDate.parse(rawDate, YYYY_MM_DD_DATE_FORMATTER);
     return localDate.atStartOfDay(); // midnight on the above date
   }
+
+  public static LocalDateTime fromCsvDate(String rawDate) {
+    LocalDate localDate = LocalDate.parse(rawDate, MM_DD_YYYY_DATE_FORMATTER);
+    return localDate.atStartOfDay();
+  }
+
 }

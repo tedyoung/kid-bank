@@ -19,7 +19,7 @@ public class TransactionCommandTest {
   public void yyyy_MM_dd_StringShouldBeCorrectLocalDate() throws Exception {
     String rawDate = "2019-07-08";
 
-    LocalDateTime localDateTime = DateFormatting.toLocalDateTime(rawDate);
+    LocalDateTime localDateTime = DateFormatting.fromBrowserDate(rawDate);
 
     assertThat(localDateTime)
         .isEqualToIgnoringHours(LocalDateTime.of(2019, 7, 8, 0, 0));

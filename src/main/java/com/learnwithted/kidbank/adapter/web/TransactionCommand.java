@@ -24,6 +24,6 @@ public class TransactionCommand {
   }
 
   public LocalDateTime dateAsLocalDateTime() {
-    return DateFormatting.toLocalDateTime(date);
+    return DateFormatting.fromBrowserDate(date);
   }
 }
