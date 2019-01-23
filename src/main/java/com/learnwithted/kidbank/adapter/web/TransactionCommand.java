@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
 import lombok.Data;
 

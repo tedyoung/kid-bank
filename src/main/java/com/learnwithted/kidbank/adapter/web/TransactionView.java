@@ -1,5 +1,6 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
+import com.learnwithted.kidbank.domain.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

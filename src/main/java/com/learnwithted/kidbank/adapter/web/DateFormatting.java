@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

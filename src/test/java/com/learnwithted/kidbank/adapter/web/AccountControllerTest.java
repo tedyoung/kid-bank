@@ -1,5 +1,6 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
+import com.learnwithted.kidbank.domain.Account;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +19,7 @@ public class AccountControllerTest {
     accountController.deposit(depositCommand);
 
     assertThat(account.balance())
-        .isEqualTo(1234);
+              .isEqualTo(1234);
   }
 
   @Test
@@ -33,7 +34,7 @@ public class AccountControllerTest {
     accountController.spend(spendCommand);
 
     assertThat(account.balance())
-        .isEqualTo(-3479);
+              .isEqualTo(-3479);
   }
 
 }

@@ -1,5 +1,6 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
+import com.learnwithted.kidbank.domain.Transaction;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

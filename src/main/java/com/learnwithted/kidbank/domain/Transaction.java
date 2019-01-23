@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

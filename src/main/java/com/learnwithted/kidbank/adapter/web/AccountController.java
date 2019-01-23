@@ -1,5 +1,7 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
