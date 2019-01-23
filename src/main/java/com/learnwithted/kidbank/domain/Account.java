@@ -3,14 +3,15 @@ package com.learnwithted.kidbank.domain;
 import com.google.common.collect.ImmutableSet;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Account {
   private ImmutableSet<Transaction> transactions = ImmutableSet.of();
 
   public int balance() {
     return transactions.stream()
-        .mapToInt(Transaction::signedAmount)
-        .sum();
+                       .mapToInt(Transaction::signedAmount)
+                       .sum();
   }
 
   public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
@@ -32,5 +33,12 @@ public class Account {
 
   public ImmutableSet<Transaction> transactions() {
     return transactions;
+  }
+
+  public void load(List<Transaction> transactionsToLoad) {
+    transactions = ImmutableSet.<Transaction>builder()
+                       .addAll(transactions)
+                       .addAll(transactionsToLoad)
+                       .build();
   }
 }

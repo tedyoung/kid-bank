@@ -52,5 +52,10 @@ Balance: <span th:text="${balance}">$99.99</span>
   </fieldset>
 </form>
 
+<form action="#" th:object="${import}" th:action="@{/import}" method="post">
+  <label>Paste CSV Here: <textarea th:field="*{content}" rows="40" cols="80"></textarea></label>
+  <button type="submit">Import!</button>
+</form>
+
 </body>
 </html>

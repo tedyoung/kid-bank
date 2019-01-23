@@ -43,6 +43,13 @@ public class AccountController {
     return "redirect:/";
   }
 
+  @PostMapping("/import")
+  public String importCsv(ImportCommand importCommand) {
+    List<Transaction> transactions = new CsvImporter().importFrom(importCommand.asLines());
+    account.load(transactions);
+    return "redirect:/";
+  }
+
   @GetMapping("/")
   public String viewBalance(Model model) {
     int balance = account.balance();
@@ -60,6 +67,8 @@ public class AccountController {
 
     TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("spend", spendCommand);
+
+    model.addAttribute("import", new ImportCommand());
 
     return "account-balance";
   }
