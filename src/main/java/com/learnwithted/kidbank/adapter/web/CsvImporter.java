@@ -17,11 +17,29 @@ public class CsvImporter {
     int amount = dollarStringToScaledInt(csvCells.get(2));
     String description = csvCells.get(3);
 
-    return Transaction.createDeposit(localDateTime, amount, description);
+    return createTransactionFrom(localDateTime, transactionType, amount, description);
+  }
+
+  private static Transaction createTransactionFrom(LocalDateTime localDateTime,
+      String transactionType, int amount, String description) {
+
+    Transaction transaction;
+    switch (transactionType) {
+      case "Cash Deposit":
+      case "Interest Credit":
+        transaction = Transaction.createDeposit(localDateTime, amount, description);
+        break;
+      case "Payment":
+        transaction = Transaction.createSpend(localDateTime, amount, description);
+        break;
+      default:
+        throw new IllegalArgumentException("Unknown transaction type: " + transactionType);
+    }
+    return transaction;
   }
 
   private static int dollarStringToScaledInt(String dollarString) {
-    return Integer.parseInt(dollarString.replaceAll("[$,.]", ""));
+    return Integer.parseInt(dollarString.replaceAll("[$,.()]", ""));
   }
 
   private static List<String> parseCsvRow(String csvRow) {
