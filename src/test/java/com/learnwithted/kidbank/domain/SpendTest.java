@@ -17,4 +17,15 @@ public class SpendTest {
     assertThat(account.balance())
         .isEqualTo(-5695);
   }
+
+  @Test
+  public void spendMoneyTwiceShouldReduceAccountBalanceBySumOfAllSpending() throws Exception {
+    Account account = new Account();
+
+    account.spend(LocalDateTime.of(2013, 12, 11, 0, 0), 1695, "New Game");
+    account.spend(LocalDateTime.of(2013, 12, 12, 0, 0), 3100, "New Game");
+
+    assertThat(account.balance())
+        .isEqualTo(-4795);
+  }
 }

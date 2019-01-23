@@ -5,27 +5,28 @@ import com.google.common.collect.ImmutableSet;
 import java.time.LocalDateTime;
 
 public class Account {
-  private int balance = 0;
   private ImmutableSet<Transaction> transactions = ImmutableSet.of();
 
   public int balance() {
-    return balance;
+    return transactions.stream()
+        .mapToInt(Transaction::signedAmount)
+        .sum();
   }
 
   public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
-    balance += amount;
-    addNewTransaction("Deposit", amount, source, transactionDateTime);
+    Transaction deposit = Transaction.createDeposit(transactionDateTime, amount, source);
+    addNewTransaction(deposit);
   }
 
   public void spend(LocalDateTime transactionDateTime, int amount, String description) {
-    balance -= amount;
-    addNewTransaction("Spend", amount, description, transactionDateTime);
+    Transaction spend = Transaction.createSpend(transactionDateTime, amount, description);
+    addNewTransaction(spend);
   }
 
-  public void addNewTransaction(String action, int amount, String source, LocalDateTime transactionDateTime) {
+  public void addNewTransaction(Transaction transaction) {
     transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactions)
-                       .add(new Transaction(transactionDateTime, action, amount, source))
+                       .add(transaction)
                        .build();
   }
 

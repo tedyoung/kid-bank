@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class Transaction {
+  private static final String SPEND = "Spend";
+  private static final String DEPOSIT = "Deposit";
+
   private final LocalDateTime date;
   private final String action;
   private final int amount; // scaled two decimal places, i.e., cents
@@ -18,6 +21,14 @@ public class Transaction {
     this.action = action;
     this.amount = amount;
     this.source = source;
+  }
+
+  public static Transaction createSpend(LocalDateTime localDateTime, int amount, String source) {
+    return new Transaction(localDateTime, SPEND, amount, source);
+  }
+
+  public static Transaction createDeposit(LocalDateTime localDateTime, int amount, String source) {
+    return new Transaction(localDateTime, DEPOSIT, amount, source);
   }
 
   public LocalDateTime dateTime() {
@@ -34,5 +45,9 @@ public class Transaction {
 
   public String source() {
     return source;
+  }
+
+  public int signedAmount() {
+    return action.equals(SPEND) ? -amount : amount;
   }
 }
