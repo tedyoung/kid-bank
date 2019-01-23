@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AccountDepositIntegrationTest {
+public class AccountTransactionIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -33,11 +33,23 @@ public class AccountDepositIntegrationTest {
     mockMvc.perform(post("/deposit")
                         .param("amount", "12.45")
                         .param("date", "2000-01-02")
-                        .param("description", "the description"))
+                        .param("description", "the source of money"))
            .andExpect(redirectedUrl("/"));
 
     mockMvc.perform(get("/"))
            .andExpect(model().attribute("balance", "$12.45"));
+  }
+
+  @Test
+  public void submitSpendShouldReduceAmountInAccount() throws Exception {
+    mockMvc.perform(post("/spend")
+                        .param("amount", "87.34")
+                        .param("date", "2001-11-12")
+                        .param("description", "you spent it on what?"))
+           .andExpect(redirectedUrl("/"));
+
+    mockMvc.perform(get("/"))
+           .andExpect(model().attribute("balance", "-$87.34"));
   }
 
 }

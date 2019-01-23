@@ -24,4 +24,9 @@ public class TransactionViewMoneyFormatTest {
         .isEqualTo("$1.23");
   }
 
+  @Test
+  public void formatNegativeAmountShouldHaveMinusSignBeforeDollarSign() throws Exception {
+    assertThat(TransactionView.formatAsMoney(-895))
+        .isEqualTo("-$8.95");
+  }
 }
