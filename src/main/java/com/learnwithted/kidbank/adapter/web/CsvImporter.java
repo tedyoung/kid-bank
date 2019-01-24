@@ -26,6 +26,7 @@ public class CsvImporter {
     Transaction transaction;
     switch (transactionType) {
       case "Cash Deposit":
+      case "Deposit":
       case "Interest Credit":
         transaction = Transaction.createDeposit(localDateTime, amount, description);
         break;
@@ -33,7 +34,7 @@ public class CsvImporter {
         transaction = Transaction.createSpend(localDateTime, amount, description);
         break;
       default:
-        throw new IllegalArgumentException("Unknown transaction type: " + transactionType);
+        throw new IllegalArgumentException("During CSV Import, transaction type: '" + transactionType + "' was not expected for transaction dated " + localDateTime);
     }
     return transaction;
   }

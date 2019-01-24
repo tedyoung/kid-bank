@@ -30,7 +30,7 @@ public class CsvImportTest {
   public void multipleDepositRowsShouldResultInMultipleDepositTransactions() throws Exception {
     List<String> csvList = Lists.list(
         "05/03/2018,Cash Deposit, $6.75 ,Bottle return",
-        "05/24/2018,Cash Deposit, $7.75 ,Bottle return");
+        "05/24/2018,Deposit, $7.75 ,Bottle return");
 
     List<Transaction> transactions = new CsvImporter().importFrom(csvList);
 
@@ -71,7 +71,5 @@ public class CsvImportTest {
                                     3000, "Share of Corsair headphones"));
 
   }
-
-
 
 }
