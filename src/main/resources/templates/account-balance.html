@@ -2,27 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Balance</title>
+  <title>KidBank Balance</title>
+  <link rel="stylesheet" type="text/css" href="kidbank.css">
 </head>
 <body>
-Balance: <span th:text="${balance}">$99.99</span>
+<header>
+  <h3>account balance</h3>
+  <h1 th:text="${balance}">$99.99</h1>
+</header>
 
-<h2>Transactions</h2>
 <table>
   <thead>
   <tr>
     <th>Date</th>
     <th>Action</th>
+    <th>Description</th>
     <th>Amount</th>
-    <th>Source</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="txn : ${transactions}">
     <td th:text="${txn.date}">01/05/2018</td>
     <td th:text="${txn.action}">Cash Deposit</td>
-    <td th:text="${txn.amount}">$50.00</td>
     <td th:text="${txn.source}">Birthday gift</td>
+    <td th:text="${txn.amount}">$50.00</td>
   </tr>
   </tbody>
 </table>
