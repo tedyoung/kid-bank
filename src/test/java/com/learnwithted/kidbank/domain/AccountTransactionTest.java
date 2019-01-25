@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.domain;
 
+import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ public class AccountTransactionTest {
 
   @Test
   public void newAccountShouldHaveZeroTransactions() throws Exception {
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     assertThat(account.transactions())
         .isEmpty();
@@ -18,7 +19,7 @@ public class AccountTransactionTest {
 
   @Test
   public void depositToAccountShouldResultInOneTransaction() throws Exception {
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     LocalDateTime transactionDateTime = LocalDateTime.now();
 

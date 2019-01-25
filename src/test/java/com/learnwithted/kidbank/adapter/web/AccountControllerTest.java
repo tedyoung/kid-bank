@@ -15,7 +15,7 @@ public class AccountControllerTest {
     TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
     depositCommand.setAmount("12.34");
 
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     AccountController accountController = new AccountController(account);
 
@@ -30,7 +30,7 @@ public class AccountControllerTest {
     TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     spendCommand.setAmount("34.79");
 
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     AccountController accountController = new AccountController(account);
 
@@ -47,7 +47,7 @@ public class AccountControllerTest {
                                  "03/25/2018,Payment, $(12.00),MTG Draft Game Kastle\r\n" +
                                  "04/01/2018,Interest Credit, $0.11 ,Interest based on 2%/year\r\n");
 
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     AccountController accountController = new AccountController(account);
     accountController.importCsv(importCommand);

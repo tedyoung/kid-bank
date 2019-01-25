@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.domain;
 
+import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ public class SpendTest {
 
   @Test
   public void spendMoneyShouldReduceAccountBalance() throws Exception {
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     account.spend(LocalDateTime.of(2012, 10, 11, 0, 0), 5695, "New Switch Game");
 
@@ -20,7 +21,7 @@ public class SpendTest {
 
   @Test
   public void spendMoneyTwiceShouldReduceAccountBalanceBySumOfAllSpending() throws Exception {
-    Account account = new Account();
+    Account account = new Account(new FakeTransactionRepository());
 
     account.spend(LocalDateTime.of(2013, 12, 11, 0, 0), 1695, "New Game");
     account.spend(LocalDateTime.of(2013, 12, 12, 0, 0), 3100, "New Game");

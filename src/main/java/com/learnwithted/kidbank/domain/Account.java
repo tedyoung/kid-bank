@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class Account {
-  private ImmutableSet<Transaction> transactions = ImmutableSet.of();
+  private ImmutableSet<Transaction> transactions;
 
   private final TransactionRepository transactionRepository;
 
@@ -18,10 +18,6 @@ public class Account {
     this.transactionRepository = transactionRepository;
     List<Transaction> transactionsToLoad = transactionRepository.findAll();
     transactions = ImmutableSet.<Transaction>builder().addAll(transactionsToLoad).build();
-  }
-
-  public Account() {
-    transactionRepository = null;
   }
 
   public int balance() {
@@ -41,9 +37,7 @@ public class Account {
   }
 
   private void addNewTransaction(Transaction transaction) {
-    if (transactionRepository != null) {
-      transaction = transactionRepository.save(transaction);
-    }
+    transaction = transactionRepository.save(transaction);
     transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactions)
                        .add(transaction)
@@ -55,9 +49,7 @@ public class Account {
   }
 
   public void load(List<Transaction> transactionsToLoad) {
-    if (transactionRepository != null) {
-      transactionRepository.saveAll(transactionsToLoad);
-    }
+    transactionRepository.saveAll(transactionsToLoad);
     transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactions)
                        .addAll(transactionsToLoad)
