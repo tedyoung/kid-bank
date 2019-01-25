@@ -1,20 +1,33 @@
 package com.learnwithted.kidbank.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @ToString
+@Entity
+@NoArgsConstructor
 public class Transaction {
   private static final String SPEND = "Spend";
   private static final String DEPOSIT = "Deposit";
 
-  private final LocalDateTime date;
-  private final String action;
-  private final int amount; // scaled two decimal places, i.e., cents
-  private final String source;
+  // EXTRINSIC property used by Repository
+  @Getter
+  @Setter
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  // INTRINSIC properties of Transaction
+  private LocalDateTime date;
+  private String action;
+  private int amount; // scaled two decimal places, i.e., cents
+  private String source;
 
   public Transaction(LocalDateTime date, String action, int amount, String source) {
     this.date = date;
