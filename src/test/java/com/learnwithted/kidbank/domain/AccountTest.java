@@ -24,4 +24,5 @@ public class AccountTest {
     assertThat(account.transactions())
         .containsExactlyInAnyOrderElementsOf(transactionsToLoad);
   }
+
 }

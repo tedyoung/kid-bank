@@ -5,10 +5,12 @@ import com.learnwithted.kidbank.domain.TransactionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FakeTransactionRepository implements TransactionRepository {
 
   private List<Transaction> transactions = new ArrayList<>();
+  private AtomicLong idGenerator = new AtomicLong(0);
 
   @Override
   public List<Transaction> findAll() {
@@ -17,6 +19,9 @@ public class FakeTransactionRepository implements TransactionRepository {
 
   @Override
   public Transaction save(Transaction transaction) {
+    if (transaction.getId() == null) {
+      transaction.setId(idGenerator.getAndIncrement());
+    }
     transactions.add(transaction);
     return transaction;
   }
