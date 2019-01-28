@@ -15,19 +15,37 @@
 05/01/2018,Interest Credit, $0.24 ,Interest based on 2%/year
 05/03/2018,Cash Deposit, $6.75 ,Bottle return
 05/24/2018,Cash Deposit, $7.75 ,Bottle return
-06/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-07/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-08/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-09/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-10/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-11/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-12/01/2018,Interest Credit, $0.27 ,Interest based on 2%/year
-01/01/2019,Interest Credit, $0.27 ,Interest based on 2%/year
-01/04/2019,Payment, $(30.00),Share of Corsair headphones
+>> 01/28/2019: generate credits from (last month + 1) thru (current month), with day = 1
 ,,,
 ,,,
 ,,,
 ,,,
 ,,,
-,,,
-,,,
+
+Given today is 1/28/2019
+And last interest credit was on 5/1/2018
+When we request balance today (1/28/2019)
+Then we add interest credits for 6/1, 7/1, 8/1, 9/1, 10/1, 11/1, 12/1/2018, 1/1/2019
+(5/2018 + 1 = 6/2018 thru 1/1/2019): {6, 7, 8, 9, ... 1/2019}
+
+Given today is 2/1/2019
+And last interest credit was on 1/1/2019
+When we request balance
+Then we add credit for 2/1/2019
+
+Test? Yes: interestShouldOnlyBeDepositedOnceForCurrentMonth
+Given today is 2/1/2019
+And last interest credit was on 2/1/2019
+When we request balance
+Then we don't add any credit
+
+Given today is 2/2/2019
+And last interest credit was on 1/1/2019
+When we request balance on 2/2
+Then we add credit for 2/1/2019 (1 + 1 = 2 thru 2): {2}
+
+Test? Yes: missingOneMonthCreditShouldAddOneMonthCredit
+Given today 3/1/2019
+And no interest was ever credited
+When we request balance (on 3/1)
+Then we add credit ONLY for 3/2/2019

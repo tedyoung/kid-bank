@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Transaction {
   private static final String SPEND = "Spend";
   private static final String DEPOSIT = "Deposit";
+  private static final String INTEREST = "Interest Credit";
 
   // EXTRINSIC property used by Repository
   @Getter
@@ -44,6 +45,10 @@ public class Transaction {
     return new Transaction(localDateTime, DEPOSIT, amount, source);
   }
 
+  public static Transaction createInterestCredit(LocalDateTime localDateTime, int amount) {
+    return new Transaction(localDateTime, INTEREST, amount, "Interest Credit");
+  }
+
   public LocalDateTime dateTime() {
     return date;
   }
@@ -62,5 +67,9 @@ public class Transaction {
 
   public int signedAmount() {
     return action.equals(SPEND) ? -amount : amount;
+  }
+
+  public boolean isInterestCredit() {
+    return action.equals(INTEREST);
   }
 }

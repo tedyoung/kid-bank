@@ -38,23 +38,35 @@ public class Account {
                        .sum();
   }
 
-  public void creditInterestAsNeeded() {
+  private void creditInterestAsNeeded() {
     if (shouldCreditInterest()) {
       int currentBalance = transactions.stream()
                                        .mapToInt(Transaction::signedAmount)
                                        .sum();
       int interestCredit = calculateInterest(currentBalance);
-      deposit(LocalDateTime.now(clock), interestCredit, "Interest Credit");
+      interestCredit(LocalDateTime.now(clock), interestCredit);
     }
   }
 
-  public boolean shouldCreditInterest() {
-    // is it the first of the month && have we NOT credited interest yet?
-    return LocalDateTime.now(clock).getDayOfMonth() == 1;
+  public void interestCredit(LocalDateTime localDateTime, int interestAmount) {
+    Transaction interestCreditTransaction = Transaction.createInterestCredit(localDateTime, interestAmount);
+    addNewTransaction(interestCreditTransaction);
   }
 
-  // Calculates interest credit rounding up
-  public int calculateInterest(int currentBalance) {
+  private boolean shouldCreditInterest() {
+    // have we NOT credited interest yet for the current month?
+    LocalDateTime now = LocalDateTime.now(clock);
+    boolean hasTransactionForCurrentMonth =
+        transactions.stream()
+                    .filter(Transaction::isInterestCredit)
+                    .map(Transaction::dateTime)
+                    .anyMatch(date -> date.getMonthValue() == now.getMonthValue()
+                                     && date.getYear() == now.getYear());
+    return !hasTransactionForCurrentMonth;
+  }
+
+  private int calculateInterest(int currentBalance) {
+    // Calculates interest credit with rounding up
     return (int) (currentBalance * INTEREST_RATE_PER_MONTH + 0.5);
   }
 
