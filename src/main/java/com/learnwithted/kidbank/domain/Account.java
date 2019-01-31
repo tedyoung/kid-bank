@@ -8,7 +8,6 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Component
 public class Account {
@@ -42,11 +41,16 @@ public class Account {
 
   private void creditInterestAsNeeded() {
     // get month/year dates for retroactive credits
-    LocalDateTime mostRecentTransactionDateTime = mostRecentInterestCreditDateTime();
+    Optional<LocalDateTime> mostRecentTransactionDateTime = mostRecentInterestCreditDateTime();
+
+    if (!mostRecentTransactionDateTime.isPresent()) {
+      return;
+    }
+
     // loop from recent interest credit date to first of current clock's month
     LocalDateTime lastDateTimeForCredit = firstDayOfNowMonth();
 
-    LocalDateTime creditDateTime = firstDayOfMonthAfter(mostRecentTransactionDateTime);
+    LocalDateTime creditDateTime = firstDayOfMonthAfter(mostRecentTransactionDateTime.get());
     while (!creditDateTime.isAfter(lastDateTimeForCredit)) {
       creditInterestFor(creditDateTime);
       creditDateTime = creditDateTime.plusMonths(1);
@@ -58,15 +62,17 @@ public class Account {
   }
 
   private void creditInterestFor(LocalDateTime creditDateTime) {
-    int currentBalance = transactions.stream()
-                                     .mapToInt(Transaction::signedAmount)
-                                     .sum();
-    int interestCredit = calculateInterest(currentBalance);
+    int balanceThruCreditDate = transactions
+                                    .stream()
+                                    .filter(t -> t.dateTime().isBefore(creditDateTime))
+                                    .mapToInt(Transaction::signedAmount)
+                                    .sum();
+    int interestCredit = calculateInterest(balanceThruCreditDate);
 
     interestCredit(creditDateTime, interestCredit);
   }
 
-  private LocalDateTime mostRecentInterestCreditDateTime() {
+  private Optional<LocalDateTime> mostRecentInterestCreditDateTime() {
     // most recent interest credit date
     Optional<LocalDateTime> mostRecentInterestCreditTransaction
         = transactions.stream()
@@ -74,13 +80,14 @@ public class Account {
                       .map(Transaction::dateTime)
                       .max(LocalDateTime::compareTo);
 
-    Supplier<LocalDateTime> firstTransactionDateTime =
-        () -> transactions.stream()
-                          .map(Transaction::dateTime)
-                          .min(LocalDateTime::compareTo)
-                          .orElseThrow(IndexOutOfBoundsException::new);
-
-    return mostRecentInterestCreditTransaction.orElseGet(firstTransactionDateTime);
+    Optional<LocalDateTime> firstTransactionDateTime = transactions.stream()
+                                                                   .map(Transaction::dateTime)
+                                                                   .min(LocalDateTime::compareTo);
+    if (mostRecentInterestCreditTransaction.isPresent()) {
+      return mostRecentInterestCreditTransaction;
+    } else {
+      return firstTransactionDateTime;
+    }
   }
 
   private LocalDateTime firstDayOfNowMonth() {

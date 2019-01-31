@@ -1,7 +1,15 @@
 >> Heuristic: generate credits from (most recent credit month/year + 1) thru (current month/year)
               for each month/year, date will have day = 1 (e.g., 12/1/2018)
 
-!! For Interest Credit calculated on 2/1/2019, must use balance as of 2/1, even if we credit it on 2/25
+
+-- Ensure that interest credit is based on balance as of interest credit date
+Given today is 2/28/2019
+And a deposit of $100 was made on 12/1/2018
+And another deposit of $200 was made on 1/15/2019
+When we request balance
+Then we add interest credits of 1/1/2018 (bal=$100.00->21c), 2/1/2018 (bal=$300.21->63c)
+
+-- Test for including interest credit in balance
 
 Test: monthsWithoutCreditsShouldFillInCreditsRetroactively
 -- Multiple Retroactive Credit + Crossing Year Boundary
