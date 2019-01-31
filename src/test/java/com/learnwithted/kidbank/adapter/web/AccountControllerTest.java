@@ -58,7 +58,7 @@ public class AccountControllerTest {
                                       550, "Bottle return"),
             Transaction.createSpend(LocalDateTime.of(2018, 3, 25, 0, 0),
                                     1200, "MTG Draft Game Kastle"),
-            Transaction.createDeposit(LocalDateTime.of(2018, 4, 1, 0, 0), 11, "Interest based on 2%/year"));
+            Transaction.createInterestCredit(LocalDateTime.of(2018, 4, 1, 0, 0), 11));
   }
 
 }

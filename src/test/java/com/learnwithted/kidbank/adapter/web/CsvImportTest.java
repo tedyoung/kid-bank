@@ -43,7 +43,7 @@ public class CsvImportTest {
   }
 
   @Test
-  public void singleRowInterestCreditShouldResultInSingleDepositTransaction() throws Exception {
+  public void singleRowInterestCreditShouldResultInSingleInterestCreditTransaction() throws Exception {
 
     String csv = "02/01/2018,Interest Credit, $0.08 ,Interest based on 2%/year";
     List<String> csvList = Lists.list(csv);
@@ -52,9 +52,7 @@ public class CsvImportTest {
 
     assertThat(transactions)
         .containsExactly(
-            Transaction.createDeposit(LocalDateTime.of(2018, 2, 1, 0, 0),
-                                      8, "Interest based on 2%/year"));
-
+            Transaction.createInterestCredit(LocalDateTime.of(2018, 2, 1, 0, 0), 8));
   }
 
   @Test
