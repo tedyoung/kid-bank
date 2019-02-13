@@ -1,7 +1,6 @@
 package com.learnwithted.kidbank;
 
 import com.learnwithted.kidbank.adapter.web.TransactionView;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@Ignore("Need to use fake/mock database for these tests")
 public class AccountTransactionViewIntegrationTest {
 
   @Autowired
@@ -42,7 +40,7 @@ public class AccountTransactionViewIntegrationTest {
     Collection<TransactionView> transactions = transactionsFromModel(mvcResult);
 
     assertThat(transactions)
-        .containsExactly(new TransactionView("02/09/2018", "Deposit", "$12.45", "Birthday gift"));
+        .contains(new TransactionView("02/09/2018", "Deposit", "$12.45", "Birthday gift"));
   }
 
   @Test

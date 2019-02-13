@@ -7,15 +7,14 @@ import org.springframework.stereotype.Component;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class Account {
-  public static final double INTEREST_RATE_PER_MONTH = (0.025 / 12);
   private ImmutableSet<Transaction> transactions;
 
   private final TransactionRepository transactionRepository;
   private final Clock clock;
+  private final InterestStrategy interestStrategy;
 
   @Autowired
   public Account(TransactionRepository transactionRepository) {
@@ -24,96 +23,32 @@ public class Account {
                        .addAll(transactionRepository.findAll())
                        .build();
     clock = Clock.systemDefaultZone();
+    interestStrategy = new MonthlyInterestStrategy(clock);
   }
 
   public Account(TransactionRepository transactionRepository, Clock clock) {
-    this.transactionRepository = transactionRepository;
+    this(transactionRepository, clock, new MonthlyInterestStrategy(clock));
+  }
+
+  public Account(TransactionRepository transactionRepository,
+      Clock clock,
+      InterestStrategy interestStrategy) {
     this.clock = clock;
+    this.transactionRepository = transactionRepository;
+    this.interestStrategy = interestStrategy;
     this.transactions = ImmutableSet.of();
   }
 
   public int balance() {
-    creditInterestAsNeeded();
+    interestStrategy.creditInterestAsNeeded(this);
     return transactions.stream()
                        .mapToInt(Transaction::signedAmount)
                        .sum();
   }
 
-  private void creditInterestAsNeeded() {
-    // get month/year dates for retroactive credits
-    Optional<LocalDateTime> mostRecentTransactionDateTime = mostRecentInterestCreditDateTime();
-
-    if (!mostRecentTransactionDateTime.isPresent()) {
-      return;
-    }
-
-    // loop from recent interest credit date to first of current clock's month
-    LocalDateTime lastDateTimeForCredit = firstDayOfNowMonth();
-
-    LocalDateTime creditDateTime = firstDayOfMonthAfter(mostRecentTransactionDateTime.get());
-    while (!creditDateTime.isAfter(lastDateTimeForCredit)) {
-      creditInterestFor(creditDateTime);
-      creditDateTime = creditDateTime.plusMonths(1);
-    }
-  }
-
-  private LocalDateTime firstDayOfMonthAfter(LocalDateTime localDateTime) {
-    return localDateTime.plusMonths(1).withDayOfMonth(1);
-  }
-
-  private void creditInterestFor(LocalDateTime creditDateTime) {
-    int balanceThruCreditDate = transactions
-                                    .stream()
-                                    .filter(t -> t.dateTime().isBefore(creditDateTime))
-                                    .mapToInt(Transaction::signedAmount)
-                                    .sum();
-    int interestCredit = calculateInterest(balanceThruCreditDate);
-
-    interestCredit(creditDateTime, interestCredit);
-  }
-
-  private Optional<LocalDateTime> mostRecentInterestCreditDateTime() {
-    // most recent interest credit date
-    Optional<LocalDateTime> mostRecentInterestCreditTransaction
-        = transactions.stream()
-                      .filter(Transaction::isInterestCredit)
-                      .map(Transaction::dateTime)
-                      .max(LocalDateTime::compareTo);
-
-    Optional<LocalDateTime> firstTransactionDateTime = transactions.stream()
-                                                                   .map(Transaction::dateTime)
-                                                                   .min(LocalDateTime::compareTo);
-    if (mostRecentInterestCreditTransaction.isPresent()) {
-      return mostRecentInterestCreditTransaction;
-    } else {
-      return firstTransactionDateTime;
-    }
-  }
-
-  private LocalDateTime firstDayOfNowMonth() {
-    return LocalDateTime.now(clock).withDayOfMonth(1);
-  }
-
   public void interestCredit(LocalDateTime localDateTime, int interestAmount) {
     Transaction interestCreditTransaction = Transaction.createInterestCredit(localDateTime, interestAmount);
     addNewTransaction(interestCreditTransaction);
-  }
-
-  private boolean shouldCreditInterest() {
-    // have we NOT credited interest yet for the current month?
-    LocalDateTime now = LocalDateTime.now(clock);
-    boolean hasTransactionForCurrentMonth =
-        transactions.stream()
-                    .filter(Transaction::isInterestCredit)
-                    .map(Transaction::dateTime)
-                    .anyMatch(date -> date.getMonthValue() == now.getMonthValue()
-                                          && date.getYear() == now.getYear());
-    return !hasTransactionForCurrentMonth;
-  }
-
-  private int calculateInterest(int currentBalance) {
-    // Calculates interest credit with rounding up
-    return (int) (currentBalance * INTEREST_RATE_PER_MONTH + 0.5);
   }
 
   public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
