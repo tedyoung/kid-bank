@@ -95,6 +95,11 @@
       <!--<artifactId>spring-security-test</artifactId>-->
       <!--<scope>test</scope>-->
     <!--</dependency>-->
+    <dependency>
+      <groupId>com.twilio.sdk</groupId>
+      <artifactId>twilio</artifactId>
+      <version>7.35.0</version>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
