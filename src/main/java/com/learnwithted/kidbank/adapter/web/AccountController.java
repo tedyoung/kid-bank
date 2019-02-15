@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.adapter.web;
 
+import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class AccountController {
   public String viewBalance(Model model) {
     int balance = account.balance();
 
-    model.addAttribute("balance", TransactionView.formatAsMoney(balance));
+    model.addAttribute("balance", ScaledDecimals.formatAsMoney(balance));
 
     List<TransactionView> transactionViews = account.transactions().stream()
                                                     .sorted(comparing(Transaction::dateTime).reversed())

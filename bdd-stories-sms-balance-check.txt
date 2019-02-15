@@ -1,0 +1,12 @@
+Given the account has a balance of $23.95
+When a message of "balance" comes in from a /known phone number/
+Then a text is sent back: "Your balance is $23.95"
+
+Given the account has a balance of $23.95
+When any message comes in from a /UNKNOWN phone number/
+Then log message and phone number, and do nothing
+
+
+Given the account has a balance of $23.95
+When any message other than "balance" comes in from a /known phone number/
+Then send text back: "Didn't understand message, send BALANCE for current balance."

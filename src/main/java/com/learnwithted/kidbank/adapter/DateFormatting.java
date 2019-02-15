@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank.adapter.web;
+package com.learnwithted.kidbank.adapter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,4 +21,7 @@ public class DateFormatting {
     return localDate.atStartOfDay();
   }
 
+  public static String formatAsDate(LocalDateTime localDateTime) {
+    return DateTimeFormatter.ofPattern("MM/dd/yyyy").format(localDateTime);
+  }
 }
