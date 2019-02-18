@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kid Money Manager: Deposit</title>
+  <link rel="stylesheet" type="text/css" href="kidbank.css">
+</head>
+<body>
+<header>
+  <h3>account balance</h3>
+  <h1 th:text="${balance}">$99.99</h1>
+</header>
+
+<br/>
+
+<form action="#" th:object="${deposit}" th:action="@{/deposit}" method="post">
+  <fieldset>
+    <legend>Deposit</legend>
+    <label>Date: <input th:field="*{date}" type="date"></label>
+    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/></label>
+    <label>Source: <input th:field="*{description}" type="text"></label>
+    <button type="submit">Deposit!</button>
+  </fieldset>
+</form>
+
+</body>
+</html>

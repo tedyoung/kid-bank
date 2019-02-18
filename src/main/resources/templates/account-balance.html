@@ -31,34 +31,13 @@
 </table>
 
 <br/>
+<a href="/deposit">Deposit Money</a>
 
-<form action="#" th:object="${deposit}" th:action="@{/deposit}" method="post">
-  <fieldset>
-    <legend>Deposit</legend>
-    <label>Date: <input th:field="*{date}" type="date"></label>
-    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/></label>
-    <label>Source: <input th:field="*{description}" type="text"></label>
-    <button type="submit">Deposit!</button>
-  </fieldset>
-</form>
+<a href="/spend">Spend Money</a>
 
-<br>
-<br>
+<a href="/import">Import CSV</a>
 
-<form action="#" th:object="${spend}" th:action="@{/spend}" method="post">
-  <fieldset>
-    <legend>Spend Money</legend>
-    <label>Date: <input th:field="*{date}" type="date"></label>
-    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/></label>
-    <label>Description: <input th:field="*{description}" type="text"></label>
-    <button type="submit">Spend!</button>
-  </fieldset>
-</form>
-
-<form action="#" th:object="${import}" th:action="@{/import}" method="post">
-  <label>Paste CSV Here: <textarea th:field="*{content}" rows="40" cols="80"></textarea></label>
-  <button type="submit">Import!</button>
-</form>
-
+<br/>
+<br/>
 </body>
 </html>

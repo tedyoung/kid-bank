@@ -16,8 +16,10 @@ public class AccountTest {
     Account account = new Account(new FakeTransactionRepository());
 
     List<Transaction> transactionsToLoad = new ArrayList<>();
-    transactionsToLoad.add(Transaction.createDeposit(LocalDateTime.of(2015, 5, 8, 0, 0), 7825, "txn 1"));
-    transactionsToLoad.add(Transaction.createSpend(LocalDateTime.of(2015, 5, 9, 0, 0), 2595, "txn 2"));
+    transactionsToLoad.add(
+        Transaction.createDeposit(LocalDateTime.of(2015, 5, 8, 0, 0), 7825, "txn 1"));
+    transactionsToLoad.add(
+        Transaction.createSpend(LocalDateTime.of(2015, 5, 9, 0, 0), 2595, "txn 2"));
 
     account.load(transactionsToLoad);
 

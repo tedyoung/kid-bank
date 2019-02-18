@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kid Money Manager: Import CSV</title>
+  <link rel="stylesheet" type="text/css" href="kidbank.css">
+</head>
+<body>
+<header>
+  <h3>account balance</h3>
+  <h1 th:text="${balance}">$99.99</h1>
+</header>
+
+<br/>
+
+<form action="#" th:object="${import}" th:action="@{/import}" method="post">
+  <label>Paste CSV Here: <textarea th:field="*{content}" rows="40" cols="80"></textarea></label>
+  <button type="submit">Import!</button>
+</form>
+
+</body>
+</html>

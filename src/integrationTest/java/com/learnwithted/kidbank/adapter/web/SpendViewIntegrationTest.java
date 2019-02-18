@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.adapter.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,27 +17,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AccountTransactionIntegrationTest {
+public class SpendViewIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  public void homePageExists() throws Exception {
-    mockMvc.perform(get("/"))
-           .andExpect(status().isOk());
-  }
-
-  @Test
-  public void submitDepositAddsAmountToAccount() throws Exception {
-    mockMvc.perform(post("/deposit")
-                        .param("amount", "12.45")
-                        .param("date", "2000-01-02")
-                        .param("description", "the source of money"))
-           .andExpect(redirectedUrl("/"));
-
-    mockMvc.perform(get("/"))
-           .andExpect(status().isOk());
+  public void getAgainstSpendUriShouldReturnSpendFormPage() throws Exception {
+    mockMvc.perform(get("/spend"))
+           .andExpect(status().isOk())
+           .andExpect(view().name("spend"))
+           .andExpect(model().attributeExists("balance", "spend"));
   }
 
   @Test
