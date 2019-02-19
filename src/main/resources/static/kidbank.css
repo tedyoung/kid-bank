@@ -4,7 +4,7 @@ body {
   font-family: Nunito, Arial, sans-serif;
   padding: 0;
   margin: 5px;
-  width: 100%;
+  width: auto;
 }
 
 header {
@@ -72,9 +72,10 @@ td:nth-of-type(4) {
 }
 
 a {
-  background-color: red;
-  box-shadow: 0 5px 0 darkred;
+  background-color: #770087;
+  box-shadow: 0 5px 0 #aa00aa;
   color: white;
+  font-weight: bold;
   padding: 1em 1.5em;
   position: relative;
   text-decoration: none;
@@ -82,7 +83,7 @@ a {
 }
 
 a:hover {
-  background-color: #ce0606;
+  background-color: #B300B3;
   cursor: pointer;
 }
 

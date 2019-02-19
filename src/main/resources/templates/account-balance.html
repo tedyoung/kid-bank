@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
   <meta charset="UTF-8">
   <title>KidBank Balance</title>
@@ -10,6 +12,15 @@
   <h3>account balance</h3>
   <h1 th:text="${balance}">$99.99</h1>
 </header>
+
+<a sec:authorize-url="/deposit" href="/deposit">Deposit Money</a>
+
+<a sec:authorize-url="/spend" href="/spend">Spend Money</a>
+
+<a sec:authorize-url="/import" href="/import">Import CSV</a>
+
+<a href="/logout" style="float: right;">Log out</a>
+<br/>
 
 <table>
   <thead>
@@ -31,13 +42,8 @@
 </table>
 
 <br/>
-<a href="/deposit">Deposit Money</a>
-
-<a href="/spend">Spend Money</a>
-
-<a href="/import">Import CSV</a>
-
-<br/>
-<br/>
+<div sec:authentication="name">
+  Name property of Authentication object.
+</div>
 </body>
 </html>
