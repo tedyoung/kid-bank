@@ -16,6 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .csrf().disable()
         .authorizeRequests()
+          .antMatchers("/kidbank.css").permitAll()
           .antMatchers("/").hasRole("KID")
           .antMatchers("/deposit", "/spend", "/import").hasRole("PARENT")
         .and()

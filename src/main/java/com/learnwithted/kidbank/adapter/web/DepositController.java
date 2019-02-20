@@ -5,10 +5,13 @@ import com.learnwithted.kidbank.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @Controller
@@ -28,17 +31,24 @@ public class DepositController {
     model.addAttribute("balance", ScaledDecimals.formatAsMoney(balance));
 
     TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
-    model.addAttribute("deposit", depositCommand);
+    model.addAttribute("depositCommand", depositCommand);
 
     return "deposit";
   }
 
   @PostMapping
-  public String processDepositCommand(TransactionCommand depositCommand) {
+  public String processDepositCommand(
+      @Valid @ModelAttribute("depositCommand") TransactionCommand depositCommand,
+      BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return "deposit";
+    }
+
     int depositAmount = depositCommand.amountInCents();
     LocalDateTime dateTime = depositCommand.dateAsLocalDateTime();
 
     account.deposit(dateTime, depositAmount, depositCommand.getDescription());
+
     return "redirect:/";
   }
 

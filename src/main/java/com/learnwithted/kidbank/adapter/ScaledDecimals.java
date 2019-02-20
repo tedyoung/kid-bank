@@ -7,7 +7,10 @@ public class ScaledDecimals {
   private static final DecimalFormat FORMAT_AS_DOLLARS_AND_CENTS = new DecimalFormat("$###,##0.00");
 
   public static int decimalToPennies(String amount) {
-    BigDecimal decimalAmount = new BigDecimal(amount);
+    return decimalToPennies(new BigDecimal(amount));
+  }
+
+  public static int decimalToPennies(BigDecimal decimalAmount) {
     return decimalAmount.scaleByPowerOfTen(2).intValue();
   }
 

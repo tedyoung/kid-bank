@@ -28,7 +28,7 @@ public class DepositViewIntegrationTest {
     mockMvc.perform(get("/deposit"))
            .andExpect(status().isOk())
            .andExpect(view().name("deposit"))
-           .andExpect(model().attributeExists("balance", "deposit"));
+           .andExpect(model().attributeExists("balance", "depositCommand"));
   }
 
   @Test
@@ -43,4 +43,14 @@ public class DepositViewIntegrationTest {
            .andExpect(status().isOk());
   }
 
+  @Test
+  public void submitNegativeAmountShouldDisplayErrorMessage() throws Exception {
+    mockMvc.perform(post("/deposit")
+                        .param("amount", "-11.23")
+                        .param("date", "2018-09-25")
+                        .param("description", "ha ha, this shouldn't be allowed"))
+           .andExpect(model().hasErrors())
+           .andExpect(model().attributeHasErrors("depositCommand"))
+           .andExpect(model().attributeHasFieldErrors("depositCommand", "amount"));
+  }
 }

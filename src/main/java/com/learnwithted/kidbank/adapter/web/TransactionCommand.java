@@ -4,6 +4,8 @@ import com.learnwithted.kidbank.adapter.DateFormatting;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import lombok.Data;
 
+import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,7 +13,10 @@ import java.time.LocalDateTime;
 public class TransactionCommand {
 
   private String date;
-  private String amount;
+
+  @Positive(message = "Amount must be more than $0.00")
+  private BigDecimal amount;
+
   private String description;
 
   public static TransactionCommand createWithTodayDate() {

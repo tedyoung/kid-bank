@@ -29,7 +29,7 @@ public class SpendViewIntegrationTest {
     mockMvc.perform(get("/spend"))
            .andExpect(status().isOk())
            .andExpect(view().name("spend"))
-           .andExpect(model().attributeExists("balance", "spend"));
+           .andExpect(model().attributeExists("balance", "spendCommand"));
   }
 
   @Test
