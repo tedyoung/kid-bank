@@ -16,11 +16,16 @@
 <form action="#" th:object="${spendCommand}" th:action="@{/spend}" method="post">
   <fieldset>
     <legend>Spend Money</legend>
-    <label>Date: <input th:field="*{date}" type="date"></label>
+    <label>Date: <input th:field="*{date}" type="date">
+      <p th:if="${#fields.hasErrors('date')}"
+         th:errors="*{date}">
+        The date must be today, or in the past.
+      </p>
+    </label>
     <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/>
       <div th:if="${#fields.hasErrors('amount')}"
            th:errors="*{amount}"
-           style="color: #dc3545; font-weight: 500;">Some error message here</div>
+           class="help is-danger">Some error message here</div>
     </label>
     <label>Description: <input th:field="*{description}" type="text"></label>
     <button type="submit">Spend!</button>

@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.adapter.web;
 
-import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,19 +15,15 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/spend")
-public class SpendController {
-  private final Account account;
+public class SpendController extends TransactionController {
 
   @Autowired
   public SpendController(Account account) {
-    this.account = account;
+    super(account);
   }
 
   @GetMapping
   public String spendForm(Model model) {
-    int balance = account.balance();
-    model.addAttribute("balance", ScaledDecimals.formatAsMoney(balance));
-
     TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("spendCommand", spendCommand);
 
@@ -44,7 +39,7 @@ public class SpendController {
     }
 
     int spendAmount = spendCommand.amountInCents();
-    LocalDateTime dateTime = spendCommand.dateAsLocalDateTime();
+    LocalDateTime dateTime = spendCommand.getDateAsLocalDateTime();
 
     account.spend(dateTime, spendAmount, spendCommand.getDescription());
 

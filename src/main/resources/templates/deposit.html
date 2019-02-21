@@ -3,29 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <title>Kid Money Manager: Deposit</title>
-  <link rel="stylesheet" type="text/css" href="kidbank.css">
+  <link rel="stylesheet" type="text/css"
+        href="../static/kidbank.css"
+        th:href="@{/kidbank.css}">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
 <header>
-  <h3>account balance</h3>
-  <h1 th:text="${balance}">$99.99</h1>
+  <h2 class="subtitle">ACCOUNT BALANCE</h2>
+  <h1 class="title" th:text="${balance}">$99.99</h1>
 </header>
 
 <br/>
+<div class="section">
+  <div class="container">
+    <h1 class="title">Deposit Money</h1>
+    <form action="#" th:object="${depositCommand}" th:action="@{/deposit}" method="post">
 
-<form action="#" th:object="${depositCommand}" th:action="@{/deposit}" method="post">
-  <fieldset>
-    <legend>Deposit</legend>
-    <label>Date: <input th:field="*{date}" type="date"></label>
-    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/>
-      <div th:if="${#fields.hasErrors('amount')}"
-            th:errors="*{amount}"
-            style="color: #dc3545; font-weight: 500;">Some error message here</div>
-    </label>
-    <label>Source: <input th:field="*{description}" type="text"></label>
-    <button type="submit">Deposit!</button>
-  </fieldset>
-</form>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Date</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-narrow">
+            <div class="control has-icons-left">
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar"></i>
+              </span>
+              <input class="input" type="date"
+                     th:field="*{date}"
+                     th:classappend="${#fields.hasErrors('dateAsLocalDateTime')} ? is-danger : ''"
+              >
+            </div>
+            <p th:if="${#fields.hasErrors('dateAsLocalDateTime')}"
+               th:errors="*{dateAsLocalDateTime}"
+               class="help is-danger">
+              The date must be today, or in the past.
+            </p>
+          </div>
+        </div>
+      </div>
 
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Amount</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-narrow">
+            <div class="control has-icons-left">
+              <span class="icon is-small is-left">
+                <i class="fas fa-dollar-sign"></i>
+              </span>
+              <input class="input"
+                     step="0.01" type="number"
+                     th:field="*{amount}"
+                     th:errorclass="is-danger">
+            </div>
+            <p th:if="${#fields.hasErrors('amount')}"
+               th:errors="*{amount}"
+               class="help is-danger">
+              Must be greater than $0.00.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Source</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input" type="text"
+                     th:field="*{description}"
+                     th:errorclass="is-danger">
+            </div>
+            <p th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}"
+               class="help is-danger">
+              This field is required.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <!-- Left empty for spacing -->
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary">
+                Deposit Money
+              </button>
+            </div>
+            <div class="control">
+              <a href="/" class="button is-text">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>

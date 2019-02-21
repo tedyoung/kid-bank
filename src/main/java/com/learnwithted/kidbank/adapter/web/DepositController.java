@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.adapter.web;
 
-import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,20 +15,15 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/deposit")
-public class DepositController {
-
-  private final Account account;
+public class DepositController extends TransactionController {
 
   @Autowired
   public DepositController(Account account) {
-    this.account = account;
+    super(account);
   }
 
   @GetMapping
   public String depositForm(Model model) {
-    int balance = account.balance();
-    model.addAttribute("balance", ScaledDecimals.formatAsMoney(balance));
-
     TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("depositCommand", depositCommand);
 
@@ -45,7 +39,7 @@ public class DepositController {
     }
 
     int depositAmount = depositCommand.amountInCents();
-    LocalDateTime dateTime = depositCommand.dateAsLocalDateTime();
+    LocalDateTime dateTime = depositCommand.getDateAsLocalDateTime();
 
     account.deposit(dateTime, depositAmount, depositCommand.getDescription());
 

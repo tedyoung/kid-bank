@@ -31,7 +31,7 @@ public class TransactionCommandTest {
   public void createWithTodayDateShouldHaveTodayDate() throws Exception {
     TransactionCommand withTodayDate = TransactionCommand.createWithTodayDate();
 
-    assertThat(withTodayDate.dateAsLocalDateTime())
+    assertThat(withTodayDate.getDateAsLocalDateTime())
         .isEqualToIgnoringHours(LocalDateTime.now());
   }
 }

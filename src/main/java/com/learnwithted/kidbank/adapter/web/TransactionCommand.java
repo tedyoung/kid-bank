@@ -4,6 +4,7 @@ import com.learnwithted.kidbank.adapter.DateFormatting;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import lombok.Data;
 
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,7 +31,8 @@ public class TransactionCommand {
     return ScaledDecimals.decimalToPennies(amount);
   }
 
-  public LocalDateTime dateAsLocalDateTime() {
+  @PastOrPresent(message = "Date must be on or before Today")
+  public LocalDateTime getDateAsLocalDateTime() {
     return DateFormatting.fromBrowserDate(date);
   }
 }
