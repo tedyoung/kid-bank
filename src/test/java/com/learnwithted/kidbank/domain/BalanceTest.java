@@ -13,7 +13,7 @@ public class BalanceTest {
 
   @Test
   public void newAccountShouldHaveZeroBalance() throws Exception {
-    Account account = new Account(new FakeTransactionRepository());
+    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     assertThat(account.balance())
         .isZero();

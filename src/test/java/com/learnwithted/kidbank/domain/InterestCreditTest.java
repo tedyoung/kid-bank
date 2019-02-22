@@ -163,9 +163,9 @@ public class InterestCreditTest {
     Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
 
     //    And a deposit of $100 was made on 12/1/2018
-    account.deposit(localDateTimeAtMidnightOf(2018, 12, 1), 10000, "initial deposit");
+    account.deposit(localDateTimeAtMidnightOf(2018, 12, 1), 100_00, "initial deposit");
     //    And another deposit of $200 was made on 1/15/2019
-    account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 20000, "second deposit");
+    account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 200_00, "second deposit");
 
     //    When we request balance
     account.balance();

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Component
 public class Account {
+  private BalanceChangedNotifier balanceChangedNotifier = (amount, balance) -> { };
   private ImmutableSet<Transaction> transactions;
 
   private final TransactionRepository transactionRepository;
@@ -17,13 +18,14 @@ public class Account {
   private final InterestStrategy interestStrategy;
 
   @Autowired
-  public Account(TransactionRepository transactionRepository) {
+  public Account(TransactionRepository transactionRepository, BalanceChangedNotifier balanceChangedNotifier) {
     this.transactionRepository = transactionRepository;
-    transactions = ImmutableSet.<Transaction>builder()
+    this.transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactionRepository.findAll())
                        .build();
-    clock = Clock.systemDefaultZone();
-    interestStrategy = new MonthlyInterestStrategy(clock);
+    this.clock = Clock.systemDefaultZone();
+    this.interestStrategy = new MonthlyInterestStrategy(clock);
+    this.balanceChangedNotifier = balanceChangedNotifier;
   }
 
   public Account(TransactionRepository transactionRepository, Clock clock) {
@@ -41,6 +43,10 @@ public class Account {
 
   public int balance() {
     interestStrategy.creditInterestAsNeeded(this);
+    return internalBalance();
+  }
+
+  private int internalBalance() {
     return transactions.stream()
                        .mapToInt(Transaction::signedAmount)
                        .sum();
@@ -54,11 +60,13 @@ public class Account {
   public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
     Transaction deposit = Transaction.createDeposit(transactionDateTime, amount, source);
     addNewTransaction(deposit);
+    balanceChangedNotifier.balanceChanged(amount, internalBalance());
   }
 
   public void spend(LocalDateTime transactionDateTime, int amount, String description) {
     Transaction spend = Transaction.createSpend(transactionDateTime, amount, description);
     addNewTransaction(spend);
+    balanceChangedNotifier.balanceChanged(-amount, internalBalance());
   }
 
   private void addNewTransaction(Transaction transaction) {

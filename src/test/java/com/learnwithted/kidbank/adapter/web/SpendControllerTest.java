@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,7 +24,7 @@ public class SpendControllerTest {
     TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     spendCommand.setAmount(BigDecimal.valueOf(34.79));
 
-    Account account = new Account(new FakeTransactionRepository());
+    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     SpendController spendController = new SpendController(account);
 

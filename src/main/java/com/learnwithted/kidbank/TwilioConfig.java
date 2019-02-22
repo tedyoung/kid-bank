@@ -8,6 +8,15 @@ import org.springframework.context.annotation.Configuration;
 public class TwilioConfig {
   private String accountSid;
   private String authToken;
+  private String phoneNumber;
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
 
   public String getAccountSid() {
     return accountSid;
