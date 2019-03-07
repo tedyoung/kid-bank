@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
+import com.learnwithted.kidbank.config.PhoneNumberConfig;
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
 import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
@@ -11,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SmsBalanceRequestTest {
 
   private static final String FROM_UNKNOWN_NUMBER = "+12125551212";
-  private static final String FROM_KNOWN_NUMBER = "+14155551212";
+  private static final String PARENT_NUMBER = "+14155551212";
   private static final PhoneNumberAuthorizer PHONE_NUMBER_AUTHORIZER
-      = new PhoneNumberAuthorizer(FROM_KNOWN_NUMBER);
+      = new PhoneNumberAuthorizer(new PhoneNumberConfig(PARENT_NUMBER, ""));
 
   @Test
   public void fromUnknownNumberShouldReturnEmptyResponse() throws Exception {
@@ -37,7 +38,7 @@ public class SmsBalanceRequestTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("balance");
-    twilioIncomingRequest.setFrom(FROM_KNOWN_NUMBER);
+    twilioIncomingRequest.setFrom(PARENT_NUMBER);
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 
@@ -52,7 +53,7 @@ public class SmsBalanceRequestTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("wrong message");
-    twilioIncomingRequest.setFrom(FROM_KNOWN_NUMBER);
+    twilioIncomingRequest.setFrom(PARENT_NUMBER);
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 

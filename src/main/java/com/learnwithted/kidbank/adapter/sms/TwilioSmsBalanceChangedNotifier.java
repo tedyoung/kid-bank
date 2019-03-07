@@ -1,12 +1,13 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.TwilioConfig;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
+import com.learnwithted.kidbank.config.TwilioConfig;
 import com.learnwithted.kidbank.domain.BalanceChangedNotifier;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class TwilioSmsBalanceChangedNotifier implements BalanceChangedNotifier {
   private final TwilioConfig twilioConfig;
 
+  @Autowired
   public TwilioSmsBalanceChangedNotifier(TwilioConfig twilioConfig) {
     this.twilioConfig = twilioConfig;
     Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());

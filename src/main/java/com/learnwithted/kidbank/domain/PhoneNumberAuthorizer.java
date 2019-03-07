@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.domain;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.learnwithted.kidbank.config.PhoneNumberConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -9,11 +10,12 @@ import java.util.Map;
 @Service
 public class PhoneNumberAuthorizer {
 
-  private Map<PhoneNumber, Role> phoneNumberToRole = new HashMap<>();
+  private final Map<PhoneNumber, Role> phoneNumberToRole = new HashMap<>();
 
-  public PhoneNumberAuthorizer(@Value("${KNOWN_PHONE_NUMBER}") String knownRawPhoneNumber) {
-    PhoneNumber knownPhoneNumber = new PhoneNumber(knownRawPhoneNumber);
-    phoneNumberToRole.put(knownPhoneNumber, Role.DEFAULT);
+  @Autowired
+  public PhoneNumberAuthorizer(PhoneNumberConfig config) {
+    phoneNumberToRole.put(new PhoneNumber(config.getParent()), Role.PARENT);
+    phoneNumberToRole.put(new PhoneNumber(config.getKid()), Role.KID);
   }
 
   public boolean isKnown(PhoneNumber rawPhoneNumber) {

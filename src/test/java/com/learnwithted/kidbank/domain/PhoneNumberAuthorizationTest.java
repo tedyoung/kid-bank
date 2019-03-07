@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.domain;
 
+import com.learnwithted.kidbank.config.PhoneNumberConfig;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,11 +9,12 @@ public class PhoneNumberAuthorizationTest {
 
   @Test
   public void parentPhoneNumberShouldBeRecognizedAsParentRole() throws Exception {
-    String parentRawPhoneNumber = "+14155551212";
-    PhoneNumber parentPhoneNumber = new PhoneNumber(parentRawPhoneNumber);
+    String rawParentPhoneNumber = "+14155551212";
+    PhoneNumber parentPhoneNumber = new PhoneNumber(rawParentPhoneNumber);
 
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhoneNumber, Role.PARENT);
+    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
+        new PhoneNumberConfig(rawParentPhoneNumber, "")
+    );
 
     assertThat(phoneNumberAuthorizer.roleFor(parentPhoneNumber))
         .isEqualTo(Role.PARENT);
@@ -20,9 +22,12 @@ public class PhoneNumberAuthorizationTest {
 
   @Test
   public void phoneNumberWithRoleShouldBeKnown() throws Exception {
-    PhoneNumber rolePhoneNumber = new PhoneNumber("+14155551212");
+    String rawRolePhoneNumber = "+14155551212";
+    PhoneNumber rolePhoneNumber = new PhoneNumber(rawRolePhoneNumber);
 
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
+    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
+        new PhoneNumberConfig(rawRolePhoneNumber, "")
+    );
     phoneNumberAuthorizer.addPhoneWithRole(rolePhoneNumber, Role.PARENT);
 
     assertThat(phoneNumberAuthorizer.isKnown(rolePhoneNumber))
@@ -30,20 +35,13 @@ public class PhoneNumberAuthorizationTest {
   }
 
   @Test
-  public void knownPhoneNumberShouldBeKnown() throws Exception {
-    PhoneNumber phoneNumber = new PhoneNumber("+12125551212");
-
-    boolean isKnown = new PhoneNumberAuthorizer("+12125551212").isKnown(phoneNumber);
-
-    assertThat(isKnown)
-        .isTrue();
-  }
-
-  @Test
   public void unknownPhoneNumberShouldNotBeKnown() throws Exception {
-    PhoneNumber phoneNumber = new PhoneNumber("+12125551212");
+    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
+        new PhoneNumberConfig("parent", "kid")
+    );
 
-    boolean isKnown = new PhoneNumberAuthorizer("+11234567890").isKnown(phoneNumber);
+    PhoneNumber unknownPhoneNumber = new PhoneNumber("+12125551212");
+    boolean isKnown = phoneNumberAuthorizer.isKnown(unknownPhoneNumber);
 
     assertThat(isKnown)
         .isFalse();

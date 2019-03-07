@@ -1,7 +1,10 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.*;
+import com.learnwithted.kidbank.config.PhoneNumberConfig;
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
+import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,10 +14,10 @@ public class SmsDepositTest {
   @Test
   public void depositFromParentShouldDepositTheAmount() throws Exception {
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
     String rawParentPhoneNumber = "+14155556789";
-    PhoneNumber parentPhone = new PhoneNumber(rawParentPhoneNumber);
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, Role.PARENT);
+    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
+        new PhoneNumberConfig(rawParentPhoneNumber, "")
+    );
     SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
@@ -30,10 +33,10 @@ public class SmsDepositTest {
   @Test
   public void depositFromParentShouldReturnAmountDepositedWithNewBalance() throws Exception {
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
     String rawParentPhoneNumber = "+14155556789";
-    PhoneNumber parentPhone = new PhoneNumber(rawParentPhoneNumber);
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, Role.PARENT);
+    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
+        new PhoneNumberConfig(rawParentPhoneNumber, "")
+    );
     SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();

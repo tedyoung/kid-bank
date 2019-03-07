@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SmsController {
 
-  private final Account account;
   private final PhoneNumberAuthorizer phoneNumberAuthorizer;
+  private final CommandParser commandParser;
 
   @Autowired
   public SmsController(Account account, PhoneNumberAuthorizer phoneNumberAuthorizer) {
-    this.account = account;
     this.phoneNumberAuthorizer = phoneNumberAuthorizer;
+    commandParser = new CommandParser(account);
   }
 
   @PostMapping(
@@ -44,15 +44,7 @@ public class SmsController {
   }
 
   private String executeCommand(String commandText, PhoneNumber fromPhone) {
-    TransactionCommand command;
-    if (commandText.toLowerCase().startsWith("deposit ")) {
-      String rawAmount = commandText.split(" ")[1];
-      command = new DepositCommand(account, rawAmount);
-    } else if (commandText.equalsIgnoreCase("balance")) {
-      command = new BalanceCommand(account);
-    } else {
-      command = new InvalidCommand(commandText);
-    }
+    TransactionCommand command = commandParser.parse(commandText);
     return wrapInTwiml(command.execute(phoneNumberAuthorizer.roleFor(fromPhone)));
   }
 

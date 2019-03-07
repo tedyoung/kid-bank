@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank;
 
 import com.learnwithted.kidbank.adapter.sms.TwilioSmsBalanceChangedNotifier;
+import com.learnwithted.kidbank.config.TwilioConfig;
 import com.learnwithted.kidbank.domain.BalanceChangedNotifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

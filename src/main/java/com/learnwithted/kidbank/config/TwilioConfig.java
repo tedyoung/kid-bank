@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank;
+package com.learnwithted.kidbank.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

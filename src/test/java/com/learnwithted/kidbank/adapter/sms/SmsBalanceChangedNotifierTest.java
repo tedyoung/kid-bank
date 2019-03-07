@@ -1,7 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.KidBankApplication;
-import com.learnwithted.kidbank.TwilioConfig;
+import com.learnwithted.kidbank.config.TwilioConfig;
 import com.learnwithted.kidbank.domain.BalanceChangedNotifier;
 import org.junit.Test;
 
