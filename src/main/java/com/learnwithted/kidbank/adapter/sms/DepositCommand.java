@@ -2,6 +2,7 @@ package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.Role;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,10 @@ public class DepositCommand implements TransactionCommand {
     this.amountToDeposit = ScaledDecimals.decimalToPennies(rawAmountToDeposit);
   }
 
-  public String execute() {
+  public String execute(Role role) {
+    if (role != Role.PARENT) {
+      return "Only Parents can deposit money.";
+    }
     account.deposit(LocalDateTime.now(), amountToDeposit, "SMS message");
 
     String formattedBalance = ScaledDecimals.formatAsMoney(account.balance());

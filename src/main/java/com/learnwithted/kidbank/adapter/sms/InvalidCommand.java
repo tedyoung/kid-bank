@@ -1,5 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
+import com.learnwithted.kidbank.domain.Role;
+
 public class InvalidCommand implements TransactionCommand {
   private final String originalText;
 
@@ -8,7 +10,7 @@ public class InvalidCommand implements TransactionCommand {
   }
 
   @Override
-  public String execute() {
+  public String execute(Role role) {
     return "Did not understand \"" + originalText + "\".";
   }
 }

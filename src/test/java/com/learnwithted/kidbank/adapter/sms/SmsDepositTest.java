@@ -1,10 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.PhoneNumber;
-import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
-import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
+import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +14,7 @@ public class SmsDepositTest {
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
     String rawParentPhoneNumber = "+14155556789";
     PhoneNumber parentPhone = new PhoneNumber(rawParentPhoneNumber);
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, "parent");
+    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, Role.PARENT);
     SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
@@ -36,7 +33,7 @@ public class SmsDepositTest {
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
     String rawParentPhoneNumber = "+14155556789";
     PhoneNumber parentPhone = new PhoneNumber(rawParentPhoneNumber);
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, "parent");
+    phoneNumberAuthorizer.addPhoneWithRole(parentPhone, Role.PARENT);
     SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();

@@ -44,18 +44,16 @@ public class SmsController {
   }
 
   private String executeCommand(String commandText, PhoneNumber fromPhone) {
-    TransactionCommand command = new NoopCommand();
+    TransactionCommand command;
     if (commandText.toLowerCase().startsWith("deposit ")) {
-      if (phoneNumberAuthorizer.roleFor(fromPhone).equalsIgnoreCase("parent")) {
-        String rawAmount = commandText.split(" ")[1];
-        command = new DepositCommand(account, rawAmount);
-      }
+      String rawAmount = commandText.split(" ")[1];
+      command = new DepositCommand(account, rawAmount);
     } else if (commandText.equalsIgnoreCase("balance")) {
       command = new BalanceCommand(account);
     } else {
       command = new InvalidCommand(commandText);
     }
-    return wrapInTwiml(command.execute());
+    return wrapInTwiml(command.execute(phoneNumberAuthorizer.roleFor(fromPhone)));
   }
 
   private String wrapInTwiml(String message) {

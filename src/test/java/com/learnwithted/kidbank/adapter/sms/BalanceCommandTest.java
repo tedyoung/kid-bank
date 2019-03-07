@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.Role;
 import com.learnwithted.kidbank.domain.TestClockSupport;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class BalanceCommandTest {
     };
     BalanceCommand balanceCommand = new BalanceCommand(account);
 
-    assertThat(balanceCommand.execute())
+    assertThat(balanceCommand.execute(Role.PARENT))
         .isEqualTo("Your balance is $25.00");
   }
 

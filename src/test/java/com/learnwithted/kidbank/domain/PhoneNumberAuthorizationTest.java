@@ -12,10 +12,10 @@ public class PhoneNumberAuthorizationTest {
     PhoneNumber parentPhoneNumber = new PhoneNumber(parentRawPhoneNumber);
 
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
-    phoneNumberAuthorizer.addPhoneWithRole(parentPhoneNumber, "parent");
+    phoneNumberAuthorizer.addPhoneWithRole(parentPhoneNumber, Role.PARENT);
 
     assertThat(phoneNumberAuthorizer.roleFor(parentPhoneNumber))
-        .isEqualTo("parent");
+        .isEqualTo(Role.PARENT);
   }
 
   @Test
@@ -23,7 +23,7 @@ public class PhoneNumberAuthorizationTest {
     PhoneNumber rolePhoneNumber = new PhoneNumber("+14155551212");
 
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer("");
-    phoneNumberAuthorizer.addPhoneWithRole(rolePhoneNumber, "parent");
+    phoneNumberAuthorizer.addPhoneWithRole(rolePhoneNumber, Role.PARENT);
 
     assertThat(phoneNumberAuthorizer.isKnown(rolePhoneNumber))
         .isTrue();
