@@ -24,7 +24,7 @@ public class SpendController extends TransactionController {
 
   @GetMapping
   public String spendForm(Model model) {
-    TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
+    TransactionDto spendCommand = TransactionDto.createWithTodayDate();
     model.addAttribute("spendCommand", spendCommand);
 
     return "spend";
@@ -32,16 +32,16 @@ public class SpendController extends TransactionController {
 
   @PostMapping
   public String processSpendCommand(
-                @Valid @ModelAttribute("spendCommand") TransactionCommand spendCommand,
+                @Valid @ModelAttribute("spendCommand") TransactionDto spendDto,
                 BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return "spend";
     }
 
-    int spendAmount = spendCommand.amountInCents();
-    LocalDateTime dateTime = spendCommand.getDateAsLocalDateTime();
+    int spendAmount = spendDto.amountInCents();
+    LocalDateTime dateTime = spendDto.getDateAsLocalDateTime();
 
-    account.spend(dateTime, spendAmount, spendCommand.getDescription());
+    account.spend(dateTime, spendAmount, spendDto.getDescription());
 
     return "redirect:/";
   }

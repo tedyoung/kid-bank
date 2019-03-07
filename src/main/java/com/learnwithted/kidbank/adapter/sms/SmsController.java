@@ -1,7 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.PhoneNumber;
 import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
 import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.messaging.Body;
@@ -30,28 +30,32 @@ public class SmsController {
   @PostMapping(
       path = "/sms",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-      produces = MediaType.APPLICATION_XML_VALUE)
+      produces = MediaType.APPLICATION_XML_VALUE
+  )
   public String incomingSms(TwilioIncomingRequest request) {
+    PhoneNumber fromPhone = new PhoneNumber(request.getFrom());
     String commandText = request.getBody();
-    String fromPhone = request.getFrom();
-    if (phoneNumberAuthorizer.isKnown(fromPhone)) {
-      return executeCommand(commandText);
-    }
-    log.info("Message {} from unknown number {}", commandText, fromPhone);
-    return "";
-  }
-
-  private String executeCommand(String commandText) {
-    if (!commandText.equalsIgnoreCase("balance")) {
-      return wrapInTwiml("Did not understand \"" + commandText + "\", use BALANCE to check your account balance.");
+    if (!phoneNumberAuthorizer.isKnown(fromPhone)) {
+      log.info("Message {} from unknown number {}", commandText, fromPhone);
+      return "";
     }
 
-    int balance = account.balance();
-    return balanceInTwiml(ScaledDecimals.formatAsMoney(balance));
+    return executeCommand(commandText, fromPhone);
   }
 
-  private String balanceInTwiml(String balanceAmount) {
-    return wrapInTwiml("Your balance is " + balanceAmount);
+  private String executeCommand(String commandText, PhoneNumber fromPhone) {
+    TransactionCommand command = new NoopCommand();
+    if (commandText.toLowerCase().startsWith("deposit ")) {
+      if (phoneNumberAuthorizer.roleFor(fromPhone).equalsIgnoreCase("parent")) {
+        String rawAmount = commandText.split(" ")[1];
+        command = new DepositCommand(account, rawAmount);
+      }
+    } else if (commandText.equalsIgnoreCase("balance")) {
+      command = new BalanceCommand(account);
+    } else {
+      command = new InvalidCommand(commandText);
+    }
+    return wrapInTwiml(command.execute());
   }
 
   private String wrapInTwiml(String message) {

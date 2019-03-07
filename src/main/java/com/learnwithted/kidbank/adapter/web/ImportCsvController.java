@@ -27,14 +27,14 @@ public class ImportCsvController {
     int balance = account.balance();
     model.addAttribute("balance", ScaledDecimals.formatAsMoney(balance));
 
-    model.addAttribute("import", new ImportCommand());
+    model.addAttribute("import", new ImportDto());
 
     return "import-csv";
   }
 
   @PostMapping
-  public String processImportCommand(ImportCommand importCommand) {
-    List<Transaction> transactions = new CsvImporter().importFrom(importCommand.asLines());
+  public String processImportCommand(ImportDto importDto) {
+    List<Transaction> transactions = new CsvImporter().importFrom(importDto.asLines());
     account.load(transactions);
     return "redirect:/";
   }

@@ -12,7 +12,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransactionCommandValidationTest {
+public class TransactionDtoValidationTest {
 
   private LocalValidatorFactoryBean localValidatorFactory;
 
@@ -26,11 +26,11 @@ public class TransactionCommandValidationTest {
   @Test
   public void amountAsZeroShouldBeNotValid() throws Exception {
 
-    TransactionCommand transactionCommand = TransactionCommand.createWithTodayDate();
-    transactionCommand.setAmount(BigDecimal.ZERO);
+    TransactionDto transactionDto = TransactionDto.createWithTodayDate();
+    transactionDto.setAmount(BigDecimal.ZERO);
 
-    Set<ConstraintViolation<TransactionCommand>> constraintViolations =
-        localValidatorFactory.validate(transactionCommand);
+    Set<ConstraintViolation<TransactionDto>> constraintViolations =
+        localValidatorFactory.validate(transactionDto);
 
     assertThat(constraintViolations)
         .hasSize(1);
@@ -48,11 +48,11 @@ public class TransactionCommandValidationTest {
   @Test
   public void amountLessThanZeroShouldBeNotValid() throws Exception {
 
-    TransactionCommand transactionCommand = TransactionCommand.createWithTodayDate();
-    transactionCommand.setAmount(BigDecimal.valueOf(-1));
+    TransactionDto transactionDto = TransactionDto.createWithTodayDate();
+    transactionDto.setAmount(BigDecimal.valueOf(-1));
 
-    Set<ConstraintViolation<TransactionCommand>> constraintViolations =
-        localValidatorFactory.validate(transactionCommand);
+    Set<ConstraintViolation<TransactionDto>> constraintViolations =
+        localValidatorFactory.validate(transactionDto);
 
     assertThat(constraintViolations)
         .hasSize(1);
@@ -69,11 +69,11 @@ public class TransactionCommandValidationTest {
 
   @Test
   public void amountGreaterThanZeroShouldBeValid() throws Exception {
-    TransactionCommand transactionCommand = TransactionCommand.createWithTodayDate();
-    transactionCommand.setAmount(BigDecimal.ONE);
+    TransactionDto transactionDto = TransactionDto.createWithTodayDate();
+    transactionDto.setAmount(BigDecimal.ONE);
 
-    Set<ConstraintViolation<TransactionCommand>> constraintViolations =
-        localValidatorFactory.validate(transactionCommand);
+    Set<ConstraintViolation<TransactionDto>> constraintViolations =
+        localValidatorFactory.validate(transactionDto);
 
     assertThat(constraintViolations)
         .isEmpty();
@@ -81,12 +81,12 @@ public class TransactionCommandValidationTest {
 
   @Test
   public void dateInFutureShouldNotBeValid() throws Exception {
-    TransactionCommand transactionCommand = new TransactionCommand();
-    transactionCommand.setAmount(BigDecimal.ONE); // valid
-    transactionCommand.setDate("2100-02-12"); // invalid future date
+    TransactionDto transactionDto = new TransactionDto();
+    transactionDto.setAmount(BigDecimal.ONE); // valid
+    transactionDto.setDate("2100-02-12"); // invalid future date
 
-    Set<ConstraintViolation<TransactionCommand>> constraintViolations =
-        localValidatorFactory.validate(transactionCommand);
+    Set<ConstraintViolation<TransactionDto>> constraintViolations =
+        localValidatorFactory.validate(transactionDto);
 
     assertThat(constraintViolations)
         .hasSize(1);

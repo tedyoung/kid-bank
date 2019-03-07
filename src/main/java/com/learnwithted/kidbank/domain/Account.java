@@ -18,18 +18,26 @@ public class Account {
   private final InterestStrategy interestStrategy;
 
   @Autowired
-  public Account(TransactionRepository transactionRepository, BalanceChangedNotifier balanceChangedNotifier) {
+  public Account(TransactionRepository transactionRepository,
+                 BalanceChangedNotifier balanceChangedNotifier,
+                 InterestStrategy interestStrategy) {
     this.transactionRepository = transactionRepository;
     this.transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactionRepository.findAll())
                        .build();
     this.clock = Clock.systemDefaultZone();
-    this.interestStrategy = new MonthlyInterestStrategy(clock);
+    this.interestStrategy = interestStrategy;
     this.balanceChangedNotifier = balanceChangedNotifier;
   }
 
   public Account(TransactionRepository transactionRepository, Clock clock) {
     this(transactionRepository, clock, new MonthlyInterestStrategy(clock));
+  }
+
+  public Account(TransactionRepository transactionRepository,
+                 BalanceChangedNotifier balanceChangedNotifier) {
+    this(transactionRepository, balanceChangedNotifier,
+         new MonthlyInterestStrategy(Clock.systemDefaultZone()));
   }
 
   public Account(TransactionRepository transactionRepository,

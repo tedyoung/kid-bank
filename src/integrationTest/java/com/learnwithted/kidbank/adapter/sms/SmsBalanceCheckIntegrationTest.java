@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.adapter.sms;
 
+import com.learnwithted.kidbank.IntegrationTestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "KNOWN_PHONE_NUMBER=+14085551212")
+@SpringBootTest(properties = "KNOWN_PHONE_NUMBER=+14085551212",
+    classes = IntegrationTestConfiguration.class)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WithMockUser(username = "parent", roles = {"KID", "PARENT"})

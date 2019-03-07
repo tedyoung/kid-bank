@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransactionCommandTest {
+public class TransactionDtoTest {
 
   @Test
   public void decimalToPennies() {
@@ -29,7 +29,7 @@ public class TransactionCommandTest {
 
   @Test
   public void createWithTodayDateShouldHaveTodayDate() throws Exception {
-    TransactionCommand withTodayDate = TransactionCommand.createWithTodayDate();
+    TransactionDto withTodayDate = TransactionDto.createWithTodayDate();
 
     assertThat(withTodayDate.getDateAsLocalDateTime())
         .isEqualToIgnoringHours(LocalDateTime.now());

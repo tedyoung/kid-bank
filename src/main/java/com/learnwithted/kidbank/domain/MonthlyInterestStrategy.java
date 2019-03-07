@@ -1,11 +1,13 @@
 package com.learnwithted.kidbank.domain;
 
 import com.google.common.collect.ImmutableSet;
+import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Component
 public class MonthlyInterestStrategy implements InterestStrategy {
   public static final double INTEREST_RATE_PER_MONTH = (0.025 / 12);
 

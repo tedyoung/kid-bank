@@ -3,16 +3,28 @@ package com.learnwithted.kidbank.domain;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class PhoneNumberAuthorizer {
 
-  private final String knownRawPhoneNumber;
+  private Map<PhoneNumber, String> phoneNumberToRole = new HashMap<>();
 
   public PhoneNumberAuthorizer(@Value("${KNOWN_PHONE_NUMBER}") String knownRawPhoneNumber) {
-    this.knownRawPhoneNumber = knownRawPhoneNumber;
+    PhoneNumber knownPhoneNumber = new PhoneNumber(knownRawPhoneNumber);
+    phoneNumberToRole.put(knownPhoneNumber, "default");
   }
 
-  public boolean isKnown(String rawPhoneNumber) {
-    return knownRawPhoneNumber.equals(rawPhoneNumber);
+  public boolean isKnown(PhoneNumber rawPhoneNumber) {
+    return phoneNumberToRole.containsKey(rawPhoneNumber);
+  }
+
+  public void addPhoneWithRole(PhoneNumber phoneNumber, String role) {
+    phoneNumberToRole.put(phoneNumber, role);
+  }
+
+  public String roleFor(PhoneNumber phoneNumber) {
+    return phoneNumberToRole.get(phoneNumber);
   }
 }

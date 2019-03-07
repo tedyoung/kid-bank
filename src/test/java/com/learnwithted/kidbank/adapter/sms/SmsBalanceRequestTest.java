@@ -57,6 +57,6 @@ public class SmsBalanceRequestTest {
     String response = smsController.incomingSms(twilioIncomingRequest);
 
     assertThat(response)
-        .contains("Did not understand \"wrong message\", use BALANCE to check your account balance.");
+        .contains("Did not understand \"wrong message\".");
   }
 }

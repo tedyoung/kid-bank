@@ -24,7 +24,7 @@ public class DepositController extends TransactionController {
 
   @GetMapping
   public String depositForm(Model model) {
-    TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
+    TransactionDto depositCommand = TransactionDto.createWithTodayDate();
     model.addAttribute("depositCommand", depositCommand);
 
     return "deposit";
@@ -32,16 +32,16 @@ public class DepositController extends TransactionController {
 
   @PostMapping
   public String processDepositCommand(
-      @Valid @ModelAttribute("depositCommand") TransactionCommand depositCommand,
+      @Valid @ModelAttribute("depositCommand") TransactionDto depositDto,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return "deposit";
     }
 
-    int depositAmount = depositCommand.amountInCents();
-    LocalDateTime dateTime = depositCommand.getDateAsLocalDateTime();
+    int depositAmount = depositDto.amountInCents();
+    LocalDateTime dateTime = depositDto.getDateAsLocalDateTime();
 
-    account.deposit(dateTime, depositAmount, depositCommand.getDescription());
+    account.deposit(dateTime, depositAmount, depositDto.getDescription());
 
     return "redirect:/";
   }

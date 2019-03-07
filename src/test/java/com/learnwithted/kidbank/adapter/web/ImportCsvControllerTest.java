@@ -12,15 +12,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ImportCsvControllerTest {
   @Test
   public void importCommandShouldLoadTransactionsIntoAccount() throws Exception {
-    ImportCommand importCommand = new ImportCommand();
-    importCommand.setContent("03/07/2018,Cash Deposit, $5.50 ,Bottle return\r\n" +
+    ImportDto importDto = new ImportDto();
+    importDto.setContent("03/07/2018,Cash Deposit, $5.50 ,Bottle return\r\n" +
                                  "03/25/2018,Payment, $(12.00),MTG Draft Game Kastle\r\n" +
                                  "04/01/2018,Interest Credit, $0.11 ,Interest based on 2%/year\r\n");
 
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     ImportCsvController importCsvController = new ImportCsvController(account);
-    importCsvController.processImportCommand(importCommand);
+    importCsvController.processImportCommand(importDto);
 
     assertThat(account.transactions())
         .containsExactlyInAnyOrder(

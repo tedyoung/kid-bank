@@ -141,11 +141,12 @@ public class InterestCreditTest {
     //    When we request balance today (2/28/2019)
     account.balance();
 
-    List<LocalDateTime> interestCreditDateTimes = account.transactions()
-                                                         .stream()
-                                                         .filter(Transaction::isInterestCredit)
-                                                         .map(Transaction::dateTime)
-                                                         .collect(Collectors.toList());
+    List<LocalDateTime> interestCreditDateTimes =
+        account.transactions()
+               .stream()
+               .filter(Transaction::isInterestCredit)
+               .map(Transaction::dateTime)
+               .collect(Collectors.toList());
 
     //    Then we should have interest credits for 12/1/2018, 1/1/2019, 2/1/2019
     assertThat(interestCreditDateTimes)
