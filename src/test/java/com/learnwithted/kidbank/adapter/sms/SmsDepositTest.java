@@ -1,9 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.config.PhoneNumberConfig;
 import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
 import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
 import org.junit.Test;
 
@@ -14,15 +12,11 @@ public class SmsDepositTest {
   @Test
   public void depositFromParentShouldDepositTheAmount() throws Exception {
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
-    String rawParentPhoneNumber = "+14155556789";
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
-        new PhoneNumberConfig(rawParentPhoneNumber, "")
-    );
-    SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
+    SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("deposit 12.50");
-    twilioIncomingRequest.setFrom(rawParentPhoneNumber);
+    twilioIncomingRequest.setFrom("always parent");
 
     smsController.incomingSms(twilioIncomingRequest);
 
@@ -33,15 +27,12 @@ public class SmsDepositTest {
   @Test
   public void depositFromParentShouldReturnAmountDepositedWithNewBalance() throws Exception {
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
-    String rawParentPhoneNumber = "+14155556789";
-    PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
-        new PhoneNumberConfig(rawParentPhoneNumber, "")
-    );
-    SmsController smsController = new SmsController(account, phoneNumberAuthorizer);
+
+    SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("deposit 12.50");
-    twilioIncomingRequest.setFrom(rawParentPhoneNumber);
+    twilioIncomingRequest.setFrom("always parent");
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 

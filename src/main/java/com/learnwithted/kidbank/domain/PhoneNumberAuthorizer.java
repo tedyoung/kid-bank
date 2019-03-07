@@ -12,6 +12,10 @@ public class PhoneNumberAuthorizer {
 
   private final Map<PhoneNumber, Role> phoneNumberToRole = new HashMap<>();
 
+  // for testing purposes
+  public PhoneNumberAuthorizer() {
+  }
+
   @Autowired
   public PhoneNumberAuthorizer(PhoneNumberConfig config) {
     phoneNumberToRole.put(new PhoneNumber(config.getParent()), Role.PARENT);
