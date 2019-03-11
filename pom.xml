@@ -65,6 +65,27 @@
       <version>3.0.4.RELEASE</version>
     </dependency>
 
+    <!-- check with Auth0 the proper version to use -->
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>mvc-auth-commons</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>auth0</artifactId>
+      <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+      <version>3.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>jwks-rsa</artifactId>
+      <version>0.7.0</version>
+    </dependency>
     <!-- A Z U R E -->
 
     <!--<dependency>-->
