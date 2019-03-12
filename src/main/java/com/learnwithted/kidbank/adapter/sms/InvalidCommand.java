@@ -1,13 +1,15 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.domain.Role;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@RequiredArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class InvalidCommand implements TransactionCommand {
   private final String originalText;
-
-  public InvalidCommand(String originalText) {
-    this.originalText = originalText;
-  }
 
   @Override
   public String execute(Role role) {

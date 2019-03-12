@@ -13,7 +13,7 @@ public class DepositCommandTest {
   @Test
   public void depositCommandShouldDepositAmount() throws Exception {
     Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
-    DepositCommand depositCommand = new DepositCommand(account, "13.75");
+    DepositCommand depositCommand = new DepositCommand(account, 13_75);
 
     assertThat(depositCommand.execute(Role.PARENT))
         .isEqualTo("Deposited $13.75, current balance is now $13.75");

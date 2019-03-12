@@ -19,11 +19,13 @@ public class InterestCreditTest {
 
   @Test
   public void onFirstOfMonthInterestShouldBeDepositedIntoAccount() throws Exception {
-    Clock clock20170201 = createFixedClockOn(2017, 2, 1);
 
     // Given an account with $100
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20170201);
-    account.deposit(localDateTimeAtMidnightOf(2016, 12, 7), 10000, "initial deposit");
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00, 2016, 12, 7)
+                                        .clockOf(2017, 2, 1)
+                                        .monthlyInterestStrategy()
+                                        .build();
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17
     assertThat(account.balance())

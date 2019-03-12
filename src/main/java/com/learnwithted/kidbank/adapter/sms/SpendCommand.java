@@ -9,21 +9,23 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @EqualsAndHashCode
+@RequiredArgsConstructor
 @ToString
-public class DepositCommand implements TransactionCommand {
+public class SpendCommand implements TransactionCommand {
   private final Account account;
-  private final int amountToDeposit;
+  private final int amountToSpend;
 
+  @Override
   public String execute(Role role) {
     if (role != Role.PARENT) {
       return "Only Parents can deposit money.";
     }
-    account.deposit(LocalDateTime.now(), amountToDeposit, "SMS message");
+    account.spend(LocalDateTime.now(), amountToSpend, "SMS message");
 
     String formattedBalance = ScaledDecimals.formatAsMoney(account.balance());
-    String formattedDeposit = ScaledDecimals.formatAsMoney(amountToDeposit);
-    return "Deposited " + formattedDeposit + ", current balance is now " + formattedBalance;
+    String formattedSpend = ScaledDecimals.formatAsMoney(amountToSpend);
+    return "Spent " + formattedSpend + ", current balance is now " + formattedBalance;
   }
+
 }

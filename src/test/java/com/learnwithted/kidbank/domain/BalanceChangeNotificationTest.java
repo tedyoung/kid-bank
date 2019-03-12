@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.domain;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import org.junit.Test;
 
 import static java.time.LocalDateTime.now;
@@ -11,8 +10,11 @@ public class BalanceChangeNotificationTest {
   @Test
   public void depositShouldCauseNotificationOfBalanceChange() throws Exception {
     BalanceChangedNotifier mockNotifier = mock(BalanceChangedNotifier.class);
+
     // Given an account
-    Account account = new Account(new FakeTransactionRepository(), mockNotifier);
+    Account account = TestAccountBuilder.builder()
+                                        .notifier(mockNotifier)
+                                        .build();
 
     // When we deposit money
     account.deposit(now(), 25_00, "test");
@@ -24,11 +26,11 @@ public class BalanceChangeNotificationTest {
   @Test
   public void spendShouldCauseNotificationOfBalanceChange() throws Exception {
     BalanceChangedNotifier mockNotifier = mock(BalanceChangedNotifier.class);
-    // Given an account with $100
-    FakeTransactionRepository transactionRepository = new FakeTransactionRepository();
-    transactionRepository.save(Transaction.createDeposit(now(), 100_00, "initialize"));
 
-    Account account = new Account(transactionRepository, mockNotifier);
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00)
+                                        .notifier(mockNotifier)
+                                        .build();
 
     account.spend(now(), 35_35, "test");
 

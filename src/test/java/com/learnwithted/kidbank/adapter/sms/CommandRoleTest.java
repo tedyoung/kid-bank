@@ -14,7 +14,7 @@ public class CommandRoleTest {
   public void parentRoleShouldBeAllowedToExecuteDepositCommand() throws Exception {
     Account account = new Account(new FakeTransactionRepository(),
                                   TestClockSupport.createFixedClockOn(2019, 2, 1));
-    DepositCommand depositCommand = new DepositCommand(account, "25.00");
+    DepositCommand depositCommand = new DepositCommand(account, 25_00);
 
     depositCommand.execute(Role.PARENT);
 
@@ -26,7 +26,7 @@ public class CommandRoleTest {
   public void kidRoleShouldNotBeAllowedToExecuteDepositCommand() throws Exception {
     Account account = new Account(new FakeTransactionRepository(),
                                   TestClockSupport.createFixedClockOn(2019, 2, 1));
-    DepositCommand depositCommand = new DepositCommand(account, "25.00");
+    DepositCommand depositCommand = new DepositCommand(account, 25_00);
 
     depositCommand.execute(Role.KID);
 
