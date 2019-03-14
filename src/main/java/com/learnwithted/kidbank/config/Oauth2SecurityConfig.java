@@ -14,6 +14,8 @@ public class Oauth2SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/", "/error", "/login")
           .permitAll()
+        .antMatchers("/deposit", "/spend", "/import")
+          .hasRole("PARENT")
         .anyRequest()
           .authenticated()
         .and()
