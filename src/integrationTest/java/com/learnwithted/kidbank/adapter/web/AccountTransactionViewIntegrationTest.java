@@ -37,7 +37,7 @@ public class AccountTransactionViewIntegrationTest {
                         .param("amount", "12.45")
                         .param("description", "Birthday gift")
                         .param("date", "2018-02-09"))
-           .andExpect(redirectedUrl("/"));
+           .andExpect(redirectedUrl(AccountController.ACCOUNT_URL));
 
     Collection<TransactionView> transactions = transactionsFromModel();
 
@@ -55,7 +55,7 @@ public class AccountTransactionViewIntegrationTest {
 
   @SuppressWarnings({"unchecked", "ConstantConditions"})
   private Collection<TransactionView> transactionsFromModel() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/"))
+    MvcResult mvcResult = mockMvc.perform(get(AccountController.ACCOUNT_URL))
                                  .andReturn();
     assertThat(mvcResult.getResponse().getStatus())
         .isEqualTo(200);

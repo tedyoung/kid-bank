@@ -13,13 +13,19 @@
   <h1 th:text="${balance}">$99.99</h1>
 </header>
 
+<br>
 <a sec:authorize-url="/deposit" href="/deposit">Deposit Money</a>
 
 <a sec:authorize-url="/spend" href="/spend">Spend Money</a>
 
 <a sec:authorize-url="/import" href="/import">Import CSV</a>
 
-<a href="/logout" style="float: right;">Log out</a>
+<div style="float: right;">
+  <form action="#" method="post" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+  </form>
+</div>
+<br/>
 <br/>
 
 <table>

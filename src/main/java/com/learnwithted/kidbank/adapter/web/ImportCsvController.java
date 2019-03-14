@@ -36,7 +36,7 @@ public class ImportCsvController {
   public String processImportCommand(ImportDto importDto) {
     List<Transaction> transactions = new CsvImporter().importFrom(importDto.asLines());
     account.load(transactions);
-    return "redirect:/";
+    return "redirect:" + AccountController.ACCOUNT_URL;
   }
 
 }

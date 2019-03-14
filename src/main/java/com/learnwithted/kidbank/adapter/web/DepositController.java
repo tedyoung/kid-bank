@@ -43,7 +43,7 @@ public class DepositController extends TransactionController {
 
     account.deposit(dateTime, depositAmount, depositDto.getDescription());
 
-    return "redirect:/";
+    return "redirect:" + AccountController.ACCOUNT_URL;
   }
 
 }

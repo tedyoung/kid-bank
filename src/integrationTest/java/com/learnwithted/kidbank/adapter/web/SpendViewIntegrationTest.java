@@ -41,9 +41,9 @@ public class SpendViewIntegrationTest {
                         .param("amount", "87.34")
                         .param("date", "2001-11-12")
                         .param("description", "you spent it on what?"))
-           .andExpect(redirectedUrl("/"));
+           .andExpect(redirectedUrl(AccountController.ACCOUNT_URL));
 
-    mockMvc.perform(get("/"))
+    mockMvc.perform(get(AccountController.ACCOUNT_URL))
            .andExpect(model().attribute("balance", "-$87.34"));
   }
 

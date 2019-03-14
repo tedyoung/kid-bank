@@ -43,7 +43,7 @@ public class SpendController extends TransactionController {
 
     account.spend(dateTime, spendAmount, spendDto.getDescription());
 
-    return "redirect:/";
+    return "redirect:" + AccountController.ACCOUNT_URL;
   }
 
 }

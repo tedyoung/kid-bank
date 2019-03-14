@@ -40,9 +40,9 @@ public class DepositViewIntegrationTest {
                         .param("amount", "12.45")
                         .param("date", "2000-01-02")
                         .param("description", "the source of money"))
-           .andExpect(redirectedUrl("/"));
+           .andExpect(redirectedUrl(AccountController.ACCOUNT_URL));
 
-    mockMvc.perform(get("/"))
+    mockMvc.perform(get(AccountController.ACCOUNT_URL))
            .andExpect(status().isOk());
   }
 
