@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.domain;
 
-import com.learnwithted.kidbank.config.PhoneNumberConfig;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,12 +7,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PhoneNumberAuthorizationTest {
 
   @Test
-  public void parentPhoneNumberShouldBeRecognizedAsParentRole() throws Exception {
+  public void parentPhoneNumberShouldHaveParentRole() throws Exception {
     String rawParentPhoneNumber = "+14155551212";
     PhoneNumber parentPhoneNumber = new PhoneNumber(rawParentPhoneNumber);
+    UserProfile parentProfile = new UserProfile("parent", parentPhoneNumber, "email", Role.PARENT);
 
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
-        new PhoneNumberConfig(rawParentPhoneNumber, "")
+        new FakeUserProfileRepository(parentProfile)
     );
 
     assertThat(phoneNumberAuthorizer.roleFor(parentPhoneNumber))
@@ -24,11 +24,11 @@ public class PhoneNumberAuthorizationTest {
   public void phoneNumberWithRoleShouldBeKnown() throws Exception {
     String rawRolePhoneNumber = "+14155551212";
     PhoneNumber rolePhoneNumber = new PhoneNumber(rawRolePhoneNumber);
+    UserProfile kidProfile = new UserProfile("parent", rolePhoneNumber, "email", Role.KID);
 
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
-        new PhoneNumberConfig(rawRolePhoneNumber, "")
+        new FakeUserProfileRepository(kidProfile)
     );
-    phoneNumberAuthorizer.addPhoneWithRole(rolePhoneNumber, Role.PARENT);
 
     assertThat(phoneNumberAuthorizer.isKnown(rolePhoneNumber))
         .isTrue();
@@ -37,7 +37,7 @@ public class PhoneNumberAuthorizationTest {
   @Test
   public void unknownPhoneNumberShouldNotBeKnown() throws Exception {
     PhoneNumberAuthorizer phoneNumberAuthorizer = new PhoneNumberAuthorizer(
-        new PhoneNumberConfig("parent", "kid")
+        new FakeUserProfileRepository(null)
     );
 
     PhoneNumber unknownPhoneNumber = new PhoneNumber("+12125551212");
@@ -46,4 +46,5 @@ public class PhoneNumberAuthorizationTest {
     assertThat(isKnown)
         .isFalse();
   }
+
 }

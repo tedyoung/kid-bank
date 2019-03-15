@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @ToString
-@Entity
 @NoArgsConstructor
+@Entity
 public class Transaction {
   private static final String SPEND = "Spend";
   private static final String DEPOSIT = "Deposit";

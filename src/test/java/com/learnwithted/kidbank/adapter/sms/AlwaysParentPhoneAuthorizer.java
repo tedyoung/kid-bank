@@ -6,8 +6,12 @@ import com.learnwithted.kidbank.domain.Role;
 
 class AlwaysParentPhoneAuthorizer extends PhoneNumberAuthorizer {
 
+  public AlwaysParentPhoneAuthorizer() {
+    super(null);
+  }
+
   @Override
-  public boolean isKnown(PhoneNumber rawPhoneNumber) {
+  public boolean isKnown(PhoneNumber phoneNumber) {
     return true;
   }
 
