@@ -1,16 +1,12 @@
 package com.learnwithted.kidbank.domain;
 
-import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-@NoArgsConstructor
-@Entity
 public class UserProfile {
 
   private String name;
@@ -21,8 +17,6 @@ public class UserProfile {
   // EXTRINSIC property used by Repository
   @Getter
   @Setter
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   public UserProfile(String name, PhoneNumber phoneNumber, String email, Role role) {
@@ -34,5 +28,17 @@ public class UserProfile {
 
   public Role role() {
     return role;
+  }
+
+  public String name() {
+    return name;
+  }
+
+  public String email() {
+    return email;
+  }
+
+  public PhoneNumber phoneNumber() {
+    return phoneNumber;
   }
 }

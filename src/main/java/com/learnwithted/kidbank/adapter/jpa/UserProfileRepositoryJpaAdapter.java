@@ -11,15 +11,25 @@ import java.util.Optional;
 @Repository
 public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
 
-  private final JpaUserProfileRepository jpaUserProfileRepository;
+  private final UserProfileJpaRepository userProfileJpaRepository;
 
   @Autowired
-  public UserProfileRepositoryJpaAdapter(JpaUserProfileRepository jpaUserProfileRepository) {
-    this.jpaUserProfileRepository = jpaUserProfileRepository;
+  public UserProfileRepositoryJpaAdapter(UserProfileJpaRepository userProfileJpaRepository) {
+    this.userProfileJpaRepository = userProfileJpaRepository;
   }
 
   @Override
   public Optional<UserProfile> findByPhoneNumber(PhoneNumber phoneNumber) {
-    return jpaUserProfileRepository.findByPhoneNumber(phoneNumber);
+    Optional<UserProfileDto> dto = userProfileJpaRepository.findByPhoneNumber(phoneNumber.asRaw());
+    return dto.map(UserProfileDto::asUserProfile);
+  }
+
+  @Override
+  public UserProfile save(UserProfile userProfile) {
+    UserProfileDto dto = UserProfileDto.from(userProfile);
+
+    dto = userProfileJpaRepository.save(dto);
+
+    return dto.asUserProfile();
   }
 }

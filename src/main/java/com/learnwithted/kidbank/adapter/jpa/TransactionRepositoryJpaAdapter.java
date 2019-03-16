@@ -10,25 +10,25 @@ import java.util.List;
 @Repository
 public class TransactionRepositoryJpaAdapter implements TransactionRepository {
 
-  private final JpaTransactionRepository jpaTransactionRepository;
+  private final TransactionJpaRepository transactionJpaRepository;
 
   @Autowired
-  public TransactionRepositoryJpaAdapter(JpaTransactionRepository jpaTransactionRepository) {
-    this.jpaTransactionRepository = jpaTransactionRepository;
+  public TransactionRepositoryJpaAdapter(TransactionJpaRepository transactionJpaRepository) {
+    this.transactionJpaRepository = transactionJpaRepository;
   }
 
   @Override
   public List<Transaction> findAll() {
-    return jpaTransactionRepository.findAll();
+    return transactionJpaRepository.findAll();
   }
 
   @Override
   public Transaction save(Transaction transaction) {
-    return jpaTransactionRepository.save(transaction);
+    return transactionJpaRepository.save(transaction);
   }
 
   @Override
   public List<Transaction> saveAll(List<Transaction> transactions) {
-    return jpaTransactionRepository.saveAll(transactions);
+    return transactionJpaRepository.saveAll(transactions);
   }
 }

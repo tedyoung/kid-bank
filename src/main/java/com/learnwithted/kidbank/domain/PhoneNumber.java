@@ -14,4 +14,8 @@ public class PhoneNumber {
   public PhoneNumber(String rawPhoneNumber) {
     this.rawPhoneNumber = rawPhoneNumber;
   }
+
+  public String asRaw() {
+    return rawPhoneNumber;
+  }
 }

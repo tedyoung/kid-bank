@@ -3,7 +3,7 @@ package com.learnwithted.kidbank.domain;
 import java.util.Optional;
 
 public class FakeUserProfileRepository implements UserProfileRepository {
-  private final UserProfile userProfile;
+  private UserProfile userProfile;
 
   public FakeUserProfileRepository(UserProfile userProfile) {
     this.userProfile = userProfile;
@@ -12,5 +12,11 @@ public class FakeUserProfileRepository implements UserProfileRepository {
   @Override
   public Optional<UserProfile> findByPhoneNumber(PhoneNumber phoneNumber) {
     return Optional.ofNullable(userProfile);
+  }
+
+  @Override
+  public UserProfile save(UserProfile userProfile) {
+    this.userProfile = userProfile;
+    return userProfile;
   }
 }
