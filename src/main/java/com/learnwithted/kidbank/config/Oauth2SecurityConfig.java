@@ -12,7 +12,7 @@ public class Oauth2SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/", "/error", "/login")
+        .antMatchers("/", "/error", "/login", "/api/sms")
           .permitAll()
         .antMatchers("/deposit", "/spend", "/import")
           .hasRole("PARENT")
