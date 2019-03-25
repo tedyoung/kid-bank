@@ -1,12 +1,3 @@
-#spring.datasource.url=jdbc:h2:file:~/IdeaProjects/github.com/spiral-learning/kid-bank/txns;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-#spring.datasource.driver-class-name=org.h2.Driver
-
-# For the Phone Number Authorizer
-# Must be in E.164 format
-sms.phone.number:
-      parent: +16505551212
-      kid: +14155554321
-
 # Feature flag for notifying on balance change
 feature:
   notify.balance.change: false

@@ -7,4 +7,6 @@ public interface UserProfileRepository {
   Optional<UserProfile> findByPhoneNumber(PhoneNumber phoneNumber);
 
   UserProfile save(UserProfile userProfile);
+
+  Optional<UserProfile> findByEmail(String email);
 }

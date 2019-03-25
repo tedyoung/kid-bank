@@ -1,6 +1,8 @@
 package com.learnwithted.kidbank.adapter.web;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.learnwithted.kidbank.domain.UserProfile;
+import com.learnwithted.kidbank.domain.UserProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,18 +15,21 @@ import java.util.Map;
 @Component
 public class GoogleAuthoritiesExtractor implements AuthoritiesExtractor {
 
-  @Value("${PARENT_EMAIL}")
-  private String parentEmail;
+  private final UserProfileRepository userProfileRepository;
+
+  @Autowired
+  public GoogleAuthoritiesExtractor(UserProfileRepository userProfileRepository) {
+    this.userProfileRepository = userProfileRepository;
+  }
 
   @Override
   public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
-    GoogleSignInUser user = GoogleSignInUser.from(map);
+    GoogleSignInUser googleSignInUser = GoogleSignInUser.from(map);
 
-    String role = "ROLE_USER"; // default if not parent
-
-    if (user.getEmail().equals(parentEmail)) {
-      role = "ROLE_PARENT";
-    }
+    String role = userProfileRepository.findByEmail(googleSignInUser.getEmail())
+                                       .map(UserProfile::role)
+                                       .map(r -> "ROLE_" + r.name())
+                                       .orElse("ROLE_USER");
 
     return Collections.singletonList(new SimpleGrantedAuthority(role));
   }

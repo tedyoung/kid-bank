@@ -25,6 +25,12 @@ public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
   }
 
   @Override
+  public Optional<UserProfile> findByEmail(String email) {
+    Optional<UserProfileDto> dto = userProfileJpaRepository.findByEmail(email);
+    return dto.map(UserProfileDto::asUserProfile);
+  }
+
+  @Override
   public UserProfile save(UserProfile userProfile) {
     UserProfileDto dto = UserProfileDto.from(userProfile);
 
