@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank.config;
+package com.learnwithted.kidbank.adapter.web;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
@@ -18,15 +18,42 @@ public class GoogleAuthoritiesExtractor implements AuthoritiesExtractor {
 
   @Override
   public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
+    GoogleSignInUser user = GoogleSignInUser.from(map);
+
     String role = "ROLE_USER"; // default if not parent
 
-    // and check for map.get("hd") which is the domain
-    String email = (String) map.get("email");
-    if (email.equalsIgnoreCase(parentEmail)) {
+    if (user.getEmail().equals(parentEmail)) {
       role = "ROLE_PARENT";
     }
 
     return Collections.singletonList(new SimpleGrantedAuthority(role));
   }
 
+  private static class GoogleSignInUser {
+    private String email;
+    private String hostedDomain;
+
+    static GoogleSignInUser from(Map<String, Object> map) {
+      GoogleSignInUser user = new GoogleSignInUser();
+      user.setEmail((String) map.get("email"));
+      user.setHostedDomain((String) map.get("hd"));
+      return user;
+    }
+
+    String getEmail() {
+      return email;
+    }
+
+    private void setEmail(String email) {
+      this.email = email;
+    }
+
+    String getHostedDomain() {
+      return hostedDomain;
+    }
+
+    private void setHostedDomain(String hostedDomain) {
+      this.hostedDomain = hostedDomain;
+    }
+  }
 }
