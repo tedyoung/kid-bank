@@ -6,22 +6,21 @@ import com.learnwithted.kidbank.domain.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Data
+
+@Table(name = "user_profiles")
 class UserProfileDto {
   private String name;
-  private String phoneNumber;
+  private String phone;
   private String email;
-  private Role role;
+  private String role;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   public static UserProfileDto from(UserProfile userProfile) {
@@ -30,14 +29,14 @@ class UserProfileDto {
     dto.setId(userProfile.getId());
     dto.setName(userProfile.name());
     dto.setEmail(userProfile.email());
-    dto.setPhoneNumber(userProfile.phoneNumber().asRaw());
-    dto.setRole(userProfile.role());
+    dto.setPhone(userProfile.phoneNumber().asRaw());
+    dto.setRole(userProfile.role().name());
 
     return dto;
   }
 
   UserProfile asUserProfile() {
-    UserProfile userProfile = new UserProfile(name, new PhoneNumber(phoneNumber), email, role);
+    UserProfile userProfile = new UserProfile(name, new PhoneNumber(phone), email, Role.valueOf(role));
     userProfile.setId(id);
     return userProfile;
   }

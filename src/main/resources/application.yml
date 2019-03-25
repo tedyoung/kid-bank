@@ -1,6 +1,3 @@
-# Hibernate ddl auto (create, create-drop, validate, update)
-#spring.jpa.hibernate.ddl-auto=update
-
 #spring.datasource.url=jdbc:h2:file:~/IdeaProjects/github.com/spiral-learning/kid-bank/txns;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
 #spring.datasource.driver-class-name=org.h2.Driver
 
@@ -18,6 +15,12 @@ feature:
 spring:
   thymeleaf:
     cache: false
+
+  # Hibernate ddl auto (create, create-drop, validate, update)
+  # Use validate just to make sure everything's OK, otherwise Flyway takes care of schemas
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
 
 # Configuration for Google OAuth2

@@ -20,7 +20,7 @@ public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
 
   @Override
   public Optional<UserProfile> findByPhoneNumber(PhoneNumber phoneNumber) {
-    Optional<UserProfileDto> dto = userProfileJpaRepository.findByPhoneNumber(phoneNumber.asRaw());
+    Optional<UserProfileDto> dto = userProfileJpaRepository.findByPhone(phoneNumber.asRaw());
     return dto.map(UserProfileDto::asUserProfile);
   }
 

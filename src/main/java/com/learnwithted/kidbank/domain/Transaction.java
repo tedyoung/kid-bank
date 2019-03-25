@@ -2,16 +2,14 @@ package com.learnwithted.kidbank.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
 @Entity
+@Table(name = "transactions")
 public class Transaction {
   private static final String SPEND = "Spend";
   private static final String DEPOSIT = "Deposit";
@@ -21,7 +19,7 @@ public class Transaction {
   @Getter
   @Setter
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   // INTRINSIC properties of Transaction
