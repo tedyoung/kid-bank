@@ -1,5 +1,7 @@
+CREATE SEQUENCE hibernate_sequence;
+
 CREATE TABLE user_profiles (
-  id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+  id BIGINT NOT NULL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(255) NOT NULL,
@@ -7,7 +9,7 @@ CREATE TABLE user_profiles (
 );
 
 CREATE TABLE transactions (
-  id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+  id BIGINT NOT NULL PRIMARY KEY,
   date TIMESTAMP NOT NULL,
   action varchar(255) NOT NULL,
   amount INT NOT NULL,

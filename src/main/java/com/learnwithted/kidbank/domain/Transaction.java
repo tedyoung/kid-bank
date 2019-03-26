@@ -19,7 +19,7 @@ public class Transaction {
   @Getter
   @Setter
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   // INTRINSIC properties of Transaction

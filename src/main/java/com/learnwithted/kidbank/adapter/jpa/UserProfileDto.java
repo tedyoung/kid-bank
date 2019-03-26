@@ -20,7 +20,7 @@ class UserProfileDto {
   private String role;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   public static UserProfileDto from(UserProfile userProfile) {
