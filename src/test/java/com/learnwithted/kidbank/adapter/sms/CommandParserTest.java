@@ -1,10 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import com.learnwithted.kidbank.domain.Account;
 import org.junit.Test;
-
-import java.time.Clock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,15 +49,24 @@ public class CommandParserTest {
 
   @Test
   public void depositOnlyWithValidAmountShouldBeDepositCommand() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), Clock.systemDefaultZone());
+    Account account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("deposit 15.75");
 
-    DepositCommand expectedDepositCommand = new DepositCommand(account, 15_75);
+    assertThat(command)
+        .isEqualTo(new DepositCommand(account, 15_75));
+  }
+
+  @Test
+  public void depositWithDescriptionCreatesDepositCommandWithDescription() throws Exception {
+    Account account = null;
+    CommandParser commandParser = new CommandParser(account);
+
+    TransactionCommand command = commandParser.parse("deposit 2.5 Cookie");
 
     assertThat(command)
-        .isEqualTo(expectedDepositCommand);
+        .isEqualTo(new DepositCommand(account, 2_50, "Cookie"));
   }
 
   @Test
@@ -75,7 +81,7 @@ public class CommandParserTest {
 
   @Test
   public void spendOnlyWithValidAmountShouldBeSpendCommand() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), Clock.systemDefaultZone());
+    Account account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("spend 55");

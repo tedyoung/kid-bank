@@ -12,10 +12,10 @@ public class CommandParser {
   }
 
   public TransactionCommand parse(String commandText) {
-    commandText = commandText.trim().toLowerCase();
+    commandText = commandText.trim();
 
     String[] tokens = commandText.split(" ");
-    String commandToken = tokens[0];
+    String commandToken = tokens[0].toLowerCase();
 
     try {
       switch (commandToken) {
@@ -23,7 +23,11 @@ public class CommandParser {
           return new BalanceCommand(account);
 
         case "deposit":
-          return new DepositCommand(account, parseAmount(tokens));
+          if (tokens.length == 2) {
+            return new DepositCommand(account, parseAmount(tokens));
+          } else if (tokens.length == 3) {
+            return new DepositCommand(account, parseAmount(tokens), descriptionFrom(tokens));
+          }
 
         case "spend":
           return new SpendCommand(account, parseAmount(tokens));
@@ -34,6 +38,10 @@ public class CommandParser {
     } catch (InvalidCommandException e) {
       return new InvalidCommand(commandText);
     }
+  }
+
+  private String descriptionFrom(String[] tokens) {
+    return tokens[2].trim();
   }
 
   private int parseAmount(String[] parsed) {

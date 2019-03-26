@@ -1,9 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.Role;
-import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
+import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,5 +18,19 @@ public class DepositCommandTest {
 
     assertThat(account.balance())
         .isEqualTo(13_75);
+  }
+
+  @Test
+  public void depositCommandWithDescriptionCreateTransactionWithDescription() throws Exception {
+    TestAccountBuilder builder = TestAccountBuilder.builder();
+    Account account = builder.build();
+    DepositCommand depositCommand = new DepositCommand(account, 27_95, "Cookie");
+
+    depositCommand.execute(Role.PARENT);
+
+    assertThat(builder.transactionRepository().findAll())
+        .hasSize(1)
+        .extracting(Transaction::source)
+        .containsExactly("Cookie");
   }
 }
