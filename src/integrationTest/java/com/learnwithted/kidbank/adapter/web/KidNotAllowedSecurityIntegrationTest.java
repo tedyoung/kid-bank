@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WithMockUser(username = "kid", roles = {"KID"})
 @Import(IntegrationTestConfiguration.class)
-@Ignore("Until security roles are available again.")
+@Ignore("Until security roles are working again.")
 public class KidNotAllowedSecurityIntegrationTest {
 
   @Autowired
