@@ -159,27 +159,27 @@
         </dependencies>
       </plugin>
 
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-        <version>2.2.5</version>
-        <executions>
-          <execution>
-            <id>get-the-git-infos</id>
-            <goals>
-              <goal>revision</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <includeOnlyProperties>
-            <includeOnlyProperty>git.commit.id</includeOnlyProperty>
-            <includeOnlyProperty>git.commit.time</includeOnlyProperty>
-            <includeOnlyProperty>git.tags</includeOnlyProperty>
-          </includeOnlyProperties>
-          <generateGitPropertiesFile>true</generateGitPropertiesFile>
-        </configuration>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>pl.project13.maven</groupId>-->
+        <!--<artifactId>git-commit-id-plugin</artifactId>-->
+        <!--<version>2.2.5</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>get-the-git-infos</id>-->
+            <!--<goals>-->
+              <!--<goal>revision</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+        <!--<configuration>-->
+          <!--<includeOnlyProperties>-->
+            <!--<includeOnlyProperty>git.commit.id</includeOnlyProperty>-->
+            <!--<includeOnlyProperty>git.commit.time</includeOnlyProperty>-->
+            <!--<includeOnlyProperty>git.tags</includeOnlyProperty>-->
+          <!--</includeOnlyProperties>-->
+          <!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
     </plugins>
   </build>
 
