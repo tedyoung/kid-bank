@@ -3,6 +3,9 @@ package com.learnwithted.kidbank.adapter.sms;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class CommandParser {
 
   private final Account account;
@@ -25,35 +28,38 @@ public class CommandParser {
         case "deposit":
           if (tokens.length == 2) {
             return new DepositCommand(account, parseAmount(tokens));
-          } else if (tokens.length == 3) {
+          } else if (tokens.length >= 3) {
             return new DepositCommand(account, parseAmount(tokens), descriptionFrom(tokens));
           }
 
         case "spend":
-          return new SpendCommand(account, parseAmount(tokens));
-
-        default:
-          throw new InvalidCommandException();
+          if (tokens.length == 2) {
+            return new SpendCommand(account, parseAmount(tokens));
+          } else if (tokens.length >=3) {
+            return new SpendCommand(account, parseAmount(tokens), descriptionFrom(tokens));
+          }
       }
+
+      return new InvalidCommand(commandText);
+
     } catch (InvalidCommandException e) {
       return new InvalidCommand(commandText);
+    } catch (IllegalArgumentException e) {
+      return new InvalidCommand(e.getMessage());
     }
   }
 
   private String descriptionFrom(String[] tokens) {
-    return tokens[2].trim();
+    return Arrays.stream(tokens)
+                 .skip(2)
+                 .collect(Collectors.joining(" "));
   }
 
   private int parseAmount(String[] parsed) {
-    int amount;
-    if (parsed.length == 1) {
-      throw new InvalidCommandException();
-    }
     try {
-      amount = ScaledDecimals.decimalToPennies(parsed[1]);
+      return ScaledDecimals.decimalToPennies(parsed[1]);
     } catch (NumberFormatException nfe) {
       throw new InvalidCommandException();
     }
-    return amount;
   }
 }

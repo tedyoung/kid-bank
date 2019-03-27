@@ -48,7 +48,7 @@ public class CommandParserTest {
   }
 
   @Test
-  public void depositOnlyWithValidAmountShouldBeDepositCommand() throws Exception {
+  public void depositOnlyWithPositiveValidAmountCreatesDepositCommand() throws Exception {
     Account account = null;
     CommandParser commandParser = new CommandParser(account);
 
@@ -59,14 +59,46 @@ public class CommandParserTest {
   }
 
   @Test
-  public void depositWithDescriptionCreatesDepositCommandWithDescription() throws Exception {
+  public void depositWithNegativeAmountThrowsException() throws Exception {
+    CommandParser commandParser = new CommandParser(null);
+
+    TransactionCommand command = commandParser.parse("deposit -1");
+
+    assertThat(command)
+        .isEqualTo(new InvalidCommand("Amount must be greater than 0."));
+  }
+
+  @Test
+  public void depositWithSingleWordDescriptionCreatesDepositCommandWithDescription() throws Exception {
     Account account = null;
     CommandParser commandParser = new CommandParser(account);
 
-    TransactionCommand command = commandParser.parse("deposit 2.5 Cookie");
+    TransactionCommand command = commandParser.parse("deposit 25 Gift");
 
     assertThat(command)
-        .isEqualTo(new DepositCommand(account, 2_50, "Cookie"));
+        .isEqualTo(new DepositCommand(account, 25_00, "Gift"));
+  }
+
+  @Test
+  public void depositWithMultipleWordDescriptionCreatesDepositCommandWithDescription() throws Exception {
+    Account account = null;
+    CommandParser commandParser = new CommandParser(account);
+
+    TransactionCommand command = commandParser.parse("deposit 2.5 Bottle recycling");
+
+    assertThat(command)
+        .isEqualTo(new DepositCommand(account, 2_50, "Bottle recycling"));
+  }
+
+  @Test
+  public void spendWithSingleWordDescriptionCreatesSpendCommandWithDescription() throws Exception {
+    Account account = null;
+    CommandParser commandParser = new CommandParser(account);
+
+    TransactionCommand command = commandParser.parse("spend 37.95 Cards");
+
+    assertThat(command)
+        .isEqualTo(new SpendCommand(account, 37_95, "Cards"));
   }
 
   @Test

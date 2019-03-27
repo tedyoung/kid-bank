@@ -1,13 +1,10 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.Role;
-import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
+import com.learnwithted.kidbank.domain.TestAccountBuilder;
 import com.learnwithted.kidbank.domain.Transaction;
 import org.junit.Test;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,11 +12,9 @@ public class SpendCommandTest {
 
   @Test
   public void spendWithValidAmountShouldReduceAccountBalance() throws Exception {
-    FakeTransactionRepository transactionRepository = new FakeTransactionRepository();
-    transactionRepository.save(Transaction.createDeposit(LocalDateTime.now(), 100_00, "test"));
-    Account account = new Account(transactionRepository,
-                                  new StubBalanceChangeNotifier(),
-                                  a -> { });
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00)
+                                        .build();
 
     SpendCommand spendCommand = new SpendCommand(account, 13_75);
 
@@ -28,6 +23,23 @@ public class SpendCommandTest {
 
     assertThat(account.balance())
         .isEqualTo(86_25);
+  }
+
+  @Test
+  public void spendWithMultipleWordDescriptionCreatesSpendCommandWithDescription() throws Exception {
+    TestAccountBuilder builder = TestAccountBuilder.builder();
+    Account account = builder
+                          .initialBalanceOf(100_00)
+                          .build();
+
+    SpendCommand spendCommand = new SpendCommand(account, 13_75, "Cookie from store");
+
+    spendCommand.execute(Role.PARENT);
+
+    assertThat(builder.transactionRepository().findAll().get(1))
+        .extracting(Transaction::source)
+        .isEqualTo("Cookie from store");
+
   }
 
 }

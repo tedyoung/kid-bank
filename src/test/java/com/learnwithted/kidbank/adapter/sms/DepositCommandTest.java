@@ -5,6 +5,7 @@ import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DepositCommandTest {
 
@@ -21,7 +22,7 @@ public class DepositCommandTest {
   }
 
   @Test
-  public void depositCommandWithDescriptionCreateTransactionWithDescription() throws Exception {
+  public void depositCommandWithDescriptionCreatesTransactionWithDescription() throws Exception {
     TestAccountBuilder builder = TestAccountBuilder.builder();
     Account account = builder.build();
     DepositCommand depositCommand = new DepositCommand(account, 27_95, "Cookie");
@@ -32,5 +33,13 @@ public class DepositCommandTest {
         .hasSize(1)
         .extracting(Transaction::source)
         .containsExactly("Cookie");
+  }
+
+  @Test
+  public void depositCommandWithAmountLessThanZeroCannotBeCreated() throws Exception {
+    Account account = TestAccountBuilder.builder().build();
+    assertThatThrownBy(() -> new DepositCommand(account, -1))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("Amount must be greater than 0.");
   }
 }

@@ -15,13 +15,19 @@ import java.time.LocalDateTime;
 public class SpendCommand implements TransactionCommand {
   private final Account account;
   private final int amountToSpend;
+  private String description = "SMS message";
+
+  public SpendCommand(Account account, int amountToSpend, String description) {
+    this(account, amountToSpend);
+    this.description = description;
+  }
 
   @Override
   public String execute(Role role) {
     if (role != Role.PARENT) {
       return "Only Parents can deposit money.";
     }
-    account.spend(LocalDateTime.now(), amountToSpend, "SMS message");
+    account.spend(LocalDateTime.now(), amountToSpend, description);
 
     String formattedBalance = ScaledDecimals.formatAsMoney(account.balance());
     String formattedSpend = ScaledDecimals.formatAsMoney(amountToSpend);
