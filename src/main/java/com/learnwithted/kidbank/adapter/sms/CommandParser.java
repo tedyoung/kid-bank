@@ -35,7 +35,7 @@ public class CommandParser {
         case "spend":
           if (tokens.length == 2) {
             return new SpendCommand(account, parseAmount(tokens));
-          } else if (tokens.length >=3) {
+          } else if (tokens.length >= 3) {
             return new SpendCommand(account, parseAmount(tokens), descriptionFrom(tokens));
           }
       }
