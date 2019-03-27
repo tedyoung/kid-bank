@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class DepositCommand extends ParentTransactionCommand {
 
   public DepositCommand(Account account, int amount) {
-    super(account, amount);
+    this(account, amount, "");
   }
 
   public DepositCommand(Account account, int amount, String description) {

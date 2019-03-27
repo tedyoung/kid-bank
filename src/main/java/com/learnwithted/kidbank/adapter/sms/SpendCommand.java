@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class SpendCommand extends ParentTransactionCommand implements TransactionCommand {
 
   public SpendCommand(Account account, int amount) {
-    super(account, amount);
+    this(account, amount, "");
   }
 
   public SpendCommand(Account account, int amount, String description) {

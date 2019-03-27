@@ -23,7 +23,10 @@ public abstract class ParentTransactionCommand implements TransactionCommand {
 
   public ParentTransactionCommand(Account account, int amount, String description) {
     this(account, amount);
-    this.description = description;
+
+    if (!description.isEmpty()) {
+      this.description = description;
+    }
   }
 
   public String execute(Role role) {

@@ -59,6 +59,16 @@ public class CommandParserTest {
   }
 
   @Test
+  public void depositWithNoDescriptionHasDefaultSmsMessageDescription() throws Exception {
+    CommandParser commandParser = new CommandParser(null);
+
+    TransactionCommand command = commandParser.parse("deposit 1.2");
+
+    assertThat(command)
+        .isEqualTo(new DepositCommand(null, 1_20, "SMS message"));
+  }
+
+  @Test
   public void depositWithNegativeAmountThrowsException() throws Exception {
     CommandParser commandParser = new CommandParser(null);
 

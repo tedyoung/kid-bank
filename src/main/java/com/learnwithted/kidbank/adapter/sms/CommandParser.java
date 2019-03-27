@@ -26,18 +26,10 @@ public class CommandParser {
           return new BalanceCommand(account);
 
         case "deposit":
-          if (tokens.length == 2) {
-            return new DepositCommand(account, parseAmount(tokens));
-          } else if (tokens.length >= 3) {
-            return new DepositCommand(account, parseAmount(tokens), descriptionFrom(tokens));
-          }
+          return new DepositCommand(account, parseAmount(tokens), descriptionFrom(tokens));
 
         case "spend":
-          if (tokens.length == 2) {
-            return new SpendCommand(account, parseAmount(tokens));
-          } else if (tokens.length >= 3) {
-            return new SpendCommand(account, parseAmount(tokens), descriptionFrom(tokens));
-          }
+          return new SpendCommand(account, parseAmount(tokens), descriptionFrom(tokens));
       }
 
       return new InvalidCommand(commandText);
@@ -51,14 +43,14 @@ public class CommandParser {
 
   private String descriptionFrom(String[] tokens) {
     return Arrays.stream(tokens)
-                 .skip(2)
+                 .skip(2) // skip command and amount
                  .collect(Collectors.joining(" "));
   }
 
   private int parseAmount(String[] parsed) {
     try {
       return ScaledDecimals.decimalToPennies(parsed[1]);
-    } catch (NumberFormatException nfe) {
+    } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
       throw new InvalidCommandException();
     }
   }
