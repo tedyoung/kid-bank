@@ -12,4 +12,6 @@ public interface UserProfileRepository {
   Optional<UserProfile> findByEmail(String email);
 
   List<UserProfile> findAll();
+
+  Optional<UserProfile> findById(Long profileId);
 }

@@ -19,7 +19,7 @@ public class BalanceNotifierFeatureDisabledIntegrationTest {
   @Test
   public void balanceChangeNotifiedShouldNotBeTheRealNotifier() throws Exception {
     assertThat(balanceChangedNotifier)
-        .isNotInstanceOf(TwilioSmsBalanceChangedNotifier.class);
+        .isNotInstanceOf(TextMessageBalanceChangedNotifier.class);
   }
 
 }

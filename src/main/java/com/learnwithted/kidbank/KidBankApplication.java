@@ -1,7 +1,7 @@
 package com.learnwithted.kidbank;
 
-import com.learnwithted.kidbank.adapter.sms.TwilioSmsBalanceChangedNotifier;
-import com.learnwithted.kidbank.config.TwilioConfig;
+import com.learnwithted.kidbank.adapter.sms.TextMessageBalanceChangedNotifier;
+import com.learnwithted.kidbank.app.TextMessageSender;
 import com.learnwithted.kidbank.domain.BalanceChangedNotifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,11 +25,11 @@ public class KidBankApplication {
   }
 
   @Bean
-  public BalanceChangedNotifier balanceChangedNotifier(TwilioConfig twilioConfig,
+  public BalanceChangedNotifier balanceChangedNotifier(TextMessageSender textMessageSender,
         @Value("${feature.notify.balance.change}") boolean isEnabled) {
     log.info("Notify Balance Change is " + isEnabled);
     if (isEnabled) {
-      return new TwilioSmsBalanceChangedNotifier(twilioConfig);
+      return new TextMessageBalanceChangedNotifier(textMessageSender);
     } else {
       return (amount, balance) -> {};
     }

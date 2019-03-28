@@ -42,6 +42,18 @@ public class UserProfileJpaTest {
   }
 
   @Test
+  public void savedUserIsReturnedViaFindById() throws Exception {
+    UserProfileRepositoryJpaAdapter jpaAdapter = new UserProfileRepositoryJpaAdapter(repository);
+    UserProfile userProfile = new UserProfile("findByIdUser", new PhoneNumber("phone"), "email", Role.UNKNOWN);
+    Long profileId = jpaAdapter.save(userProfile).getId();
+
+    assertThat(jpaAdapter.findById(profileId))
+        .isPresent()
+        .get().extracting(UserProfile::name)
+        .isEqualTo("findByIdUser");
+  }
+
+  @Test
   public void savedProfileShouldBeFoundByPhoneNumber() throws Exception {
     UserProfileRepositoryJpaAdapter jpaAdapter = new UserProfileRepositoryJpaAdapter(repository);
 

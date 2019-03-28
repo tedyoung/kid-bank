@@ -41,6 +41,12 @@ public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
   }
 
   @Override
+  public Optional<UserProfile> findById(Long profileId) {
+    Optional<UserProfileDto> dto = userProfileJpaRepository.findById(profileId);
+    return dto.map(UserProfileDto::asUserProfile);
+  }
+
+  @Override
   public UserProfile save(UserProfile userProfile) {
     UserProfileDto dto = UserProfileDto.from(userProfile);
 

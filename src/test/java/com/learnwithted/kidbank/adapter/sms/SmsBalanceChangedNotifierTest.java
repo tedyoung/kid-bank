@@ -16,7 +16,7 @@ public class SmsBalanceChangedNotifierTest {
     BalanceChangedNotifier notifier = kidBankApplication.balanceChangedNotifier(null, false);
 
     assertThat(notifier)
-        .isNotInstanceOf(TwilioSmsBalanceChangedNotifier.class);
+        .isNotInstanceOf(TextMessageBalanceChangedNotifier.class);
   }
 
   @Test
@@ -27,10 +27,10 @@ public class SmsBalanceChangedNotifierTest {
     twilioConfig.setAccountSid("accountsid");
     twilioConfig.setAuthToken("authtoken");
     twilioConfig.setPhoneNumber("+16505551212");
-    BalanceChangedNotifier notifier = kidBankApplication.balanceChangedNotifier(twilioConfig, true);
+    BalanceChangedNotifier notifier = kidBankApplication.balanceChangedNotifier(null, true);
 
     assertThat(notifier)
-        .isInstanceOf(TwilioSmsBalanceChangedNotifier.class);
+        .isInstanceOf(TextMessageBalanceChangedNotifier.class);
   }
 
 }

@@ -23,7 +23,10 @@
     <td th:text="${profile.phoneNumber}">+17185551212</td>
     <td th:text="${profile.role}">Mascot</td>
     <td>
-      <button>Send Welcome</button>
+      <form method="post" th:action="@{/users/welcome}">
+        <input hidden name="id" th:value="${profile.id}" type="text"/>
+        <button>Send Welcome</button>
+      </form>
     </td>
   </tr>
   </tbody>

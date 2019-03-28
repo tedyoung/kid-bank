@@ -27,6 +27,11 @@ public class FakeUserProfileRepository implements UserProfileRepository {
   }
 
   @Override
+  public Optional<UserProfile> findById(Long profileId) {
+    return Optional.ofNullable(userProfile);
+  }
+
+  @Override
   public UserProfile save(UserProfile userProfile) {
     this.userProfile = userProfile;
     return userProfile;

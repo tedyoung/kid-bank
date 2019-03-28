@@ -3,6 +3,7 @@ package com.learnwithted.kidbank.adapter.web;
 import com.learnwithted.kidbank.IntegrationTestConfiguration;
 import com.learnwithted.kidbank.adapter.jpa.UserProfileJpaRepository;
 import com.learnwithted.kidbank.adapter.jpa.UserProfileRepositoryJpaAdapter;
+import com.learnwithted.kidbank.app.Welcomer;
 import com.learnwithted.kidbank.domain.PhoneNumber;
 import com.learnwithted.kidbank.domain.Role;
 import com.learnwithted.kidbank.domain.UserProfile;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -22,7 +24,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
@@ -41,6 +45,9 @@ public class UserManagementIntegrationTest {
 
   @Autowired
   private UserProfileRepositoryJpaAdapter userProfileRepositoryJpaAdapter;
+
+  @MockBean
+  Welcomer mockWelcomer;
 
   @Before
   public void clearUserProfileDatabase() {
@@ -66,7 +73,20 @@ public class UserManagementIntegrationTest {
 
     String body = mvcResult.getResponse().getContentAsString();
     assertThat(body)
-        .contains("Ted", "+16505551212", "Parent", "ted@tedmyoung.com", "Send Welcome");
+        .contains("Ted", "+16505551212", "Parent", "Send Welcome");
+  }
+
+  @Test
+  public void postToWelcomeSendsWelcomeTextMessageToUserPhone() throws Exception {
+    UserProfile ted = new UserProfile("Ted", new PhoneNumber("+16505551212"), "ted@tedmyoung.com", Role.PARENT);
+    ted = userProfileRepositoryJpaAdapter.save(ted);
+
+    mockMvc.perform(post("/users/welcome")
+                        .param("id", ted.getId().toString()))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/account"));
+
+    verify(mockWelcomer).welcome(ted.getId());
   }
 
 }
