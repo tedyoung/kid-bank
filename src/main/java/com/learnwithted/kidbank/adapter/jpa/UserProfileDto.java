@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Data
-
 @Table(name = "user_profiles")
 class UserProfileDto {
   private String name;

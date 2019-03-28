@@ -1,0 +1,51 @@
+
+Name   Email   Phone   Role
+-------------------------------
+Ted    ted@    +1650   PARENT    [Welcome Them]
+
+
+Given a user profile exists
+When "welcome them" is initiated for them
+Then The Welcomer for Text is performed:
+  send text with available commands: Balance, Deposit, and Spend
+
+
+
+Given new user profile created
+When user profile is PARENT role
+Then welcome is performed:
+  (1) send welcome email
+  (2) send welcome text message with commands: Balance, Deposit, and Spend
+
+Given new user profile created
+When user profile is KID role
+Then welcome is performed:
+  (1) send welcome email
+  (2) send welcome text message with command info: Balance
+
+
+[Secondary]
+Given user profile exists
+AND is PARENT role
+When trigger resend welcome
+Then welcome is performed:
+  (1) send welcome email
+  (2) send welcome text message with commands: Balance, Deposit, and Spend
+
+Given user profile exists
+AND is KID role
+When trigger resend welcome
+Then welcome is performed:
+  (1) send welcome email
+  (2) send welcome text message with command info: Balance
+
+
+
+[Optional]
+Given user profile exists
+When phone number is changed
+Then send welcome via text message to new number
+
+Given user profile exists
+When email is changed
+Then send welcome via email
