@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Profiles (Kid Money Manager)</title>
+</head>
+<body>
+<h1>User Profiles</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Role</th>
+    <th>Welcome Them</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="profile : ${userProfiles}">
+    <td th:text="${profile.name}">Mr. Met</td>
+    <td th:text="${profile.email}">lgm@mets.com</td>
+    <td th:text="${profile.phoneNumber}">+17185551212</td>
+    <td th:text="${profile.role}">Mascot</td>
+    <td>
+      <button>Send Welcome</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -6,7 +6,9 @@ import com.learnwithted.kidbank.domain.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
@@ -28,6 +30,14 @@ public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
   public Optional<UserProfile> findByEmail(String email) {
     Optional<UserProfileDto> dto = userProfileJpaRepository.findByEmail(email);
     return dto.map(UserProfileDto::asUserProfile);
+  }
+
+  @Override
+  public List<UserProfile> findAll() {
+    List<UserProfileDto> all = userProfileJpaRepository.findAll();
+    return all.stream()
+              .map(UserProfileDto::asUserProfile)
+              .collect(Collectors.toList());
   }
 
   @Override

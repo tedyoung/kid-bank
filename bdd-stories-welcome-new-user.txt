@@ -1,7 +1,7 @@
 
 Name   Email   Phone   Role
 -------------------------------
-Ted    ted@    +1650   PARENT    [Welcome Them]
+Ted    ted@    +1650   PARENT    [Send Welcome]
 
 
 Given a user profile exists

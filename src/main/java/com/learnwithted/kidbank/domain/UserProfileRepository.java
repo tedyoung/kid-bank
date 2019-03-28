@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserProfileRepository {
@@ -9,4 +10,6 @@ public interface UserProfileRepository {
   UserProfile save(UserProfile userProfile);
 
   Optional<UserProfile> findByEmail(String email);
+
+  List<UserProfile> findAll();
 }

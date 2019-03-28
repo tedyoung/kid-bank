@@ -3,6 +3,7 @@ package com.learnwithted.kidbank.adapter.jpa;
 import com.learnwithted.kidbank.domain.PhoneNumber;
 import com.learnwithted.kidbank.domain.Role;
 import com.learnwithted.kidbank.domain.UserProfile;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +23,11 @@ public class UserProfileJpaTest {
 
   @Autowired
   UserProfileJpaRepository repository;
+
+  @Before
+  public void clear() {
+    repository.deleteAll();
+  }
 
   @Test
   public void newUserProfileShouldHaveIdAfterSaving() throws Exception {
@@ -47,5 +54,19 @@ public class UserProfileJpaTest {
     assertThat(found)
         .isPresent()
         .get().isEqualToIgnoringGivenFields(userProfile, "id");
+  }
+
+  @Test
+  public void findAllReturnsAllProfiles() throws Exception {
+    UserProfileRepositoryJpaAdapter jpaAdapter = new UserProfileRepositoryJpaAdapter(repository);
+    jpaAdapter.save(new UserProfile("The Kid", new PhoneNumber("+16501234567"), "kid@example.com", Role.KID));
+    jpaAdapter.save(new UserProfile("The Parent", new PhoneNumber("+16505554567"), "parent@example.com", Role.PARENT));
+
+    List<UserProfile> all = jpaAdapter.findAll();
+
+    assertThat(all)
+        .hasSize(2)
+        .extracting(UserProfile::name)
+        .containsExactlyInAnyOrder("The Kid", "The Parent");
   }
 }

@@ -1,5 +1,7 @@
 package com.learnwithted.kidbank.domain;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class FakeUserProfileRepository implements UserProfileRepository {
@@ -17,6 +19,11 @@ public class FakeUserProfileRepository implements UserProfileRepository {
   @Override
   public Optional<UserProfile> findByEmail(String email) {
     return Optional.ofNullable(userProfile);
+  }
+
+  @Override
+  public List<UserProfile> findAll() {
+    return Collections.singletonList(userProfile);
   }
 
   @Override
