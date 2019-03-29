@@ -2,10 +2,6 @@ package com.learnwithted.kidbank.domain;
 
 import lombok.EqualsAndHashCode;
 
-/**
- * U.S. only phone number, stored as E.164.
- * RegEx for validation: ^\+?[1-9]\d{1,14}$
- */
 @EqualsAndHashCode
 public class PhoneNumber {
 
@@ -13,7 +9,7 @@ public class PhoneNumber {
 
   public PhoneNumber(String rawPhoneNumber) {
     if (!isValidUsaNumber(rawPhoneNumber)) {
-      throw new IllegalArgumentException("heck no buddy");
+      throw new IllegalArgumentException("Not a valid USA Phone Number.");
     }
     this.rawPhoneNumber = rawPhoneNumber;
   }

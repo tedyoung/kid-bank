@@ -8,24 +8,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class UserController {
+@RequestMapping(UserProfileController.USERS_URL)
+public class UserProfileController {
 
+  static final String USERS_URL = "/users";
   private final UserProfileRepository userProfileRepository;
   private final Welcomer welcomer;
 
   @Autowired
-  public UserController(UserProfileRepository userProfileRepository, Welcomer welcomer) {
+  public UserProfileController(UserProfileRepository userProfileRepository, Welcomer welcomer) {
     this.userProfileRepository = userProfileRepository;
     this.welcomer = welcomer;
   }
 
-  @GetMapping("/users")
+  @GetMapping
   public String viewAllUsers(Model model) {
     List<UserProfile> userProfiles = userProfileRepository.findAll();
 
@@ -37,7 +40,7 @@ public class UserController {
     return "users";
   }
 
-  @PostMapping("/users/welcome")
+  @PostMapping("welcome")
   public String sendWelcome(@RequestParam("id") Long profileId) {
     if (profileId == null) {
       throw new IllegalArgumentException("ID was null upon form submission.");
@@ -49,6 +52,21 @@ public class UserController {
     welcomer.welcome(profileId);
 
     return "redirect:" + AccountController.ACCOUNT_URL;
+  }
+
+  @PostMapping("create")
+  public String createUserProfile(CreateUserProfile createUserProfile) {
+    UserProfile userProfile = createUserProfile.asUserProfile();
+
+    userProfileRepository.save(userProfile);
+
+    return "redirect:" + USERS_URL;
+  }
+
+  @GetMapping("create")
+  public String getUserCreateForm(Model model) {
+    model.addAttribute("createUserProfile", new CreateUserProfile());
+    return "create-user";
   }
 
 }

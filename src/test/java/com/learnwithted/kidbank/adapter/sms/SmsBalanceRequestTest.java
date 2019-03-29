@@ -16,7 +16,7 @@ public class SmsBalanceRequestTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("balance");
-    twilioIncomingRequest.setFrom("unknown");
+    twilioIncomingRequest.setFrom("+16505550000");
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 
@@ -31,7 +31,7 @@ public class SmsBalanceRequestTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("balance");
-    twilioIncomingRequest.setFrom("parent number");
+    twilioIncomingRequest.setFrom("+16541231234");
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 
@@ -46,7 +46,7 @@ public class SmsBalanceRequestTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("wrong message");
-    twilioIncomingRequest.setFrom("parent number");
+    twilioIncomingRequest.setFrom("+16541231234");
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 

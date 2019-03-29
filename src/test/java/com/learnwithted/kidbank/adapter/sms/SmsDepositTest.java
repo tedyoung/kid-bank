@@ -16,7 +16,7 @@ public class SmsDepositTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("deposit 12.50");
-    twilioIncomingRequest.setFrom("always parent");
+    twilioIncomingRequest.setFrom("+16541231234");
 
     smsController.incomingSms(twilioIncomingRequest);
 
@@ -32,7 +32,7 @@ public class SmsDepositTest {
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
     twilioIncomingRequest.setBody("deposit 12.50");
-    twilioIncomingRequest.setFrom("always parent");
+    twilioIncomingRequest.setFrom("+16541231234");
 
     String response = smsController.incomingSms(twilioIncomingRequest);
 

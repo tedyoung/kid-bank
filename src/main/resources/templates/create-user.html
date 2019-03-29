@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create User Profile (Kid Money Manager)</title>
+</head>
+<body>
+<h1>Create User Profile</h1>
+
+<form method="post" th:action="@{/users/create}" th:object="${createUserProfile}">
+  <div>Name: <input class="input" th:field="*{name}" type="text"></div>
+  <div>Phone: <input class="input" th:field="*{phoneNumber}" type="text"></div>
+  <div>Email: <input class="input" th:field="*{email}" type="text"></div>
+  <div>Role: <input class="input" th:field="*{role}" type="text"></div>
+  <button>Create</button>
+</form>
+
+</body>
+</html>

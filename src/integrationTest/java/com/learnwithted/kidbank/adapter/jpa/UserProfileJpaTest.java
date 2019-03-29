@@ -33,7 +33,7 @@ public class UserProfileJpaTest {
   public void newUserProfileShouldHaveIdAfterSaving() throws Exception {
     UserProfileRepositoryJpaAdapter jpaAdapter = new UserProfileRepositoryJpaAdapter(repository);
 
-    UserProfile userProfile = new UserProfile("test", new PhoneNumber("phone"), "email", Role.UNKNOWN);
+    UserProfile userProfile = new UserProfile("test", new PhoneNumber("+16505550000"), "email", Role.UNKNOWN);
 
     UserProfile saved = jpaAdapter.save(userProfile);
 
@@ -44,7 +44,7 @@ public class UserProfileJpaTest {
   @Test
   public void savedUserIsReturnedViaFindById() throws Exception {
     UserProfileRepositoryJpaAdapter jpaAdapter = new UserProfileRepositoryJpaAdapter(repository);
-    UserProfile userProfile = new UserProfile("findByIdUser", new PhoneNumber("phone"), "email", Role.UNKNOWN);
+    UserProfile userProfile = new UserProfile("findByIdUser", new PhoneNumber("+14155551212"), "email", Role.UNKNOWN);
     Long profileId = jpaAdapter.save(userProfile).getId();
 
     assertThat(jpaAdapter.findById(profileId))
