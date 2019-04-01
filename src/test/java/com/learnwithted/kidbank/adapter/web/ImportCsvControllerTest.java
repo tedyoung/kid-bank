@@ -23,6 +23,7 @@ public class ImportCsvControllerTest {
     importCsvController.processImportCommand(importDto);
 
     assertThat(account.transactions())
+        .usingElementComparatorIgnoringFields("id")
         .containsExactlyInAnyOrder(
             Transaction.createDeposit(LocalDateTime.of(2018, 3, 7, 0, 0),
                                       550, "Bottle return"),

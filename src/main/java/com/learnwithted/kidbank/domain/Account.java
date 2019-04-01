@@ -91,10 +91,10 @@ public class Account {
   }
 
   public void load(List<Transaction> transactionsToLoad) {
-    transactionRepository.saveAll(transactionsToLoad);
+    List<Transaction> savedTransactions = transactionRepository.saveAll(transactionsToLoad);
     transactions = ImmutableSet.<Transaction>builder()
                        .addAll(transactions)
-                       .addAll(transactionsToLoad)
+                       .addAll(savedTransactions)
                        .build();
   }
 

@@ -6,6 +6,7 @@ import com.learnwithted.kidbank.domain.TransactionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 public class FakeTransactionRepository implements TransactionRepository {
 
@@ -28,7 +29,8 @@ public class FakeTransactionRepository implements TransactionRepository {
 
   @Override
   public List<Transaction> saveAll(List<Transaction> transactionsToSave) {
-    transactions.addAll(transactionsToSave);
-    return transactionsToSave;
+    return transactionsToSave.stream()
+                             .map(this::save)
+                             .collect(Collectors.toList());
   }
 }
