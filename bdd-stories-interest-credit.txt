@@ -52,3 +52,37 @@ Given today 2/1/2019 (current-month-year = 2/2019)
 And last interest credit was on 1/1/2019 (most-recent-credit-month-year = 1/2019)
 When we request balance (on 2/1/2019)
 Then we add credit ONLY for 2/1/2019 (1 + 1 thru 2)
+
+---- Recalculate Interest in the Past ---
+Given:
+  04/25/2018 Cash Deposit     $4.00
+  05/01/2018 Interest Credit  $0.24
+  05/03/2018 Cash Deposit     $6.75
+  06/01/2018 Interest Credit  $0.24
+
+And: Today is 06/05/2018
+
+When:
+  Add an "old" transaction:
+
+  05/12/2018 Spent Cash       $5.25
+
+Then:
+  Recalculate interest credit for 6/1/2018, resulting in transactions:
+
+  04/25/2018 Cash Deposit      $4.00
+  05/01/2018 Interest Credit   $0.24
+  05/03/2018 Cash Deposit      $6.75
+  05/12/2018 Spent Cash       ($5.25)
+  06/01/2018 Interest Credit   $0.24
+  06/01/2018 Interest Reverse ($0.24)
+  06/01/2018 Interest Credit   $0.23
+
+Rule: recalculate if deposit/spend added on or before most recent interest credit transaction
+
+
+Virtual Interest Credit Transactions
+1. Delete existing IC Txns
+
+-> Every time Account.transactions() is request, recalculate IC Txns
+-> Have to make sure that this happens before balance calculation

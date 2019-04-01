@@ -10,7 +10,8 @@ import java.util.List;
 
 @Component
 public class Account {
-  private BalanceChangedNotifier balanceChangedNotifier = (amount, balance) -> { };
+  private BalanceChangedNotifier balanceChangedNotifier = (amount, balance) -> {
+  };
   private ImmutableSet<Transaction> transactions;
 
   private final TransactionRepository transactionRepository;
@@ -19,12 +20,12 @@ public class Account {
 
   @Autowired
   public Account(TransactionRepository transactionRepository,
-                 BalanceChangedNotifier balanceChangedNotifier,
-                 InterestStrategy interestStrategy) {
+      BalanceChangedNotifier balanceChangedNotifier,
+      InterestStrategy interestStrategy) {
     this.transactionRepository = transactionRepository;
     this.transactions = ImmutableSet.<Transaction>builder()
-                       .addAll(transactionRepository.findAll())
-                       .build();
+                            .addAll(transactionRepository.findAll())
+                            .build();
     this.clock = Clock.systemDefaultZone();
     this.interestStrategy = interestStrategy;
     this.balanceChangedNotifier = balanceChangedNotifier;
@@ -35,7 +36,7 @@ public class Account {
   }
 
   public Account(TransactionRepository transactionRepository,
-                 BalanceChangedNotifier balanceChangedNotifier) {
+      BalanceChangedNotifier balanceChangedNotifier) {
     this(transactionRepository, balanceChangedNotifier,
          new MonthlyInterestStrategy(Clock.systemDefaultZone()));
   }
@@ -95,5 +96,16 @@ public class Account {
                        .addAll(transactions)
                        .addAll(transactionsToLoad)
                        .build();
+  }
+
+  /**
+   * Calculates Balance just prior to (exclusive) the given date
+   */
+  public int balanceUpTo(LocalDateTime localDateTime) {
+    return transactions
+               .stream()
+               .filter(t -> t.dateTime().isBefore(localDateTime))
+               .mapToInt(Transaction::signedAmount)
+               .sum();
   }
 }

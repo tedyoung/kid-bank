@@ -32,7 +32,7 @@ public class MonthlyInterestStrategy implements InterestStrategy {
 
     LocalDateTime creditDateTime = firstDayOfMonthAfter(mostRecentTransactionDateTime.get());
     while (!creditDateTime.isAfter(lastDateTimeForCredit)) {
-      int interestToCredit = calculateInterestFor(creditDateTime, account.transactions());
+      int interestToCredit = calculateInterest(account.balanceUpTo(creditDateTime));
       account.interestCredit(creditDateTime, interestToCredit);
       creditDateTime = creditDateTime.plusMonths(1);
     }
@@ -41,17 +41,6 @@ public class MonthlyInterestStrategy implements InterestStrategy {
 
   private LocalDateTime firstDayOfMonthAfter(LocalDateTime localDateTime) {
     return localDateTime.plusMonths(1).withDayOfMonth(1);
-  }
-
-  private int calculateInterestFor(LocalDateTime creditDateTime,
-                                  ImmutableSet<Transaction> transactions) {
-    int balanceThruCreditDate = transactions
-                                    .stream()
-                                    .filter(t -> t.dateTime().isBefore(creditDateTime))
-                                    .mapToInt(Transaction::signedAmount)
-                                    .sum();
-    return calculateInterest(balanceThruCreditDate);
-
   }
 
   private int calculateInterest(int currentBalance) {

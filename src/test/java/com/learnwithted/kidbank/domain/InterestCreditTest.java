@@ -24,7 +24,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2016, 12, 7)
                                         .clockOf(2017, 2, 1)
-                                        .monthlyInterestStrategy()
+                                        .withMonthlyInterestStrategy()
                                         .build();
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17

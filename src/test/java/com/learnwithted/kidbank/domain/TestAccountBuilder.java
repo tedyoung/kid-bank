@@ -43,9 +43,13 @@ public class TestAccountBuilder {
     return this;
   }
 
-  public TestAccountBuilder monthlyInterestStrategy() {
+  public TestAccountBuilder withMonthlyInterestStrategy() {
     interestStrategy = new MonthlyInterestStrategy(clock);
     return this;
+  }
+
+  public InterestStrategy interestStrategy() {
+    return interestStrategy;
   }
 
   public TransactionRepository transactionRepository() {

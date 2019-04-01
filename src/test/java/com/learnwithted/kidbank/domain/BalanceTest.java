@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
+import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BalanceTest {
@@ -27,6 +28,19 @@ public class BalanceTest {
 
     assertThat(account.balance())
         .isEqualTo(800);
+  }
+
+  @Test
+  public void balanceUpToEarlierDateDoesNotIncludeMoreRecentTransactions() throws Exception {
+    Account account = TestAccountBuilder.builder()
+                                        .build();
+
+    account.deposit(localDateTimeAtMidnightOf(2011, 5, 11), 17_00, "Bottle Deposit");
+    account.spend(localDateTimeAtMidnightOf(2011, 5, 11), 9_00, "Cards");
+    account.deposit(localDateTimeAtMidnightOf(2012, 1, 5), 50_00, "Gift");
+
+    assertThat(account.balanceUpTo(localDateTimeAtMidnightOf(2012, 1, 5)))
+        .isEqualTo(8_00);
   }
 
 }
