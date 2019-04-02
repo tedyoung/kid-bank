@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.domain;
 
-import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -18,24 +17,30 @@ public class MonthlyInterestStrategy implements InterestStrategy {
   }
 
   @Override
-  public void creditInterestAsNeeded(InterestEarningAccount account) {
-    // get month/year dates for retroactive credits
-    Optional<LocalDateTime> mostRecentTransactionDateTime =
-        mostRecentInterestCreditDateTime(account.transactions());
+  public void createInterestCreditTransactionsFor(InterestEarningAccount account) {
+    Optional<LocalDateTime> firstTransactionDateTime = firstTransactionDateTime(account);
 
-    if (!mostRecentTransactionDateTime.isPresent()) {
+    if (!firstTransactionDateTime.isPresent()) {
       return;
     }
 
-    // loop from recent interest credit date to first of current clock's month
+    LocalDateTime creditDateTime = firstDayOfMonthAfter(firstTransactionDateTime.get());
+
     LocalDateTime lastDateTimeForCredit = firstDayOfNowMonth();
 
-    LocalDateTime creditDateTime = firstDayOfMonthAfter(mostRecentTransactionDateTime.get());
+    // loop through first of current clock's month
     while (!creditDateTime.isAfter(lastDateTimeForCredit)) {
       int interestToCredit = calculateInterest(account.balanceUpTo(creditDateTime));
       account.interestCredit(creditDateTime, interestToCredit);
       creditDateTime = creditDateTime.plusMonths(1);
     }
+  }
+
+  private Optional<LocalDateTime> firstTransactionDateTime(InterestEarningAccount account) {
+    return account.transactions().stream()
+                  .filter(transaction -> !transaction.isInterestCredit())
+                  .map(Transaction::dateTime)
+                  .min(LocalDateTime::compareTo);
   }
 
 
@@ -52,26 +57,8 @@ public class MonthlyInterestStrategy implements InterestStrategy {
   }
 
 
-  private Optional<LocalDateTime> mostRecentInterestCreditDateTime(
-      ImmutableList<Transaction> transactions) {
-    // most recent interest credit date
-    Optional<LocalDateTime> mostRecentInterestCreditTransaction
-        = transactions.stream()
-                      .filter(Transaction::isInterestCredit)
-                      .map(Transaction::dateTime)
-                      .max(LocalDateTime::compareTo);
-
-    Optional<LocalDateTime> firstTransactionDateTime = transactions.stream()
-                                                                   .map(Transaction::dateTime)
-                                                                   .min(LocalDateTime::compareTo);
-    if (mostRecentInterestCreditTransaction.isPresent()) {
-      return mostRecentInterestCreditTransaction;
-    } else {
-      return firstTransactionDateTime;
-    }
-  }
-
   private LocalDateTime firstDayOfNowMonth() {
+    // TODO - refactor candidate: replace clock by passing the "now" date when calling into this class
     return LocalDateTime.now(clock).withDayOfMonth(1);
   }
 

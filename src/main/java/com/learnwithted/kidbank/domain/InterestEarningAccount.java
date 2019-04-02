@@ -22,18 +22,25 @@ public class InterestEarningAccount implements Account {
 
 
   public void interestCredit(LocalDateTime localDateTime, int interestAmount) {
-    Transaction interestCreditTransaction = Transaction.createInterestCredit(localDateTime, interestAmount);
+    Transaction interestCreditTransaction =
+        Transaction.createInterestCredit(localDateTime, interestAmount);
     interestTransactions = ImmutableList.<Transaction>builder()
                                .addAll(interestTransactions)
                                .add(interestCreditTransaction)
                                .build();
   }
 
-
   @Override
   public int balance() {
-    interestStrategy.creditInterestAsNeeded(this);
+    computeInterest();
     return balanceUpTo(LocalDateTime.MAX);
+  }
+
+  private void computeInterest() {
+    // throw away any existing interest credit transactions
+    interestTransactions = ImmutableList.of();
+    // (re)compute the interest credits
+    interestStrategy.createInterestCreditTransactionsFor(this);
   }
 
   @Override

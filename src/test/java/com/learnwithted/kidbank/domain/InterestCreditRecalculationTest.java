@@ -2,6 +2,9 @@ package com.learnwithted.kidbank.domain;
 
 import org.junit.Test;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,7 +13,6 @@ public class InterestCreditRecalculationTest {
   @Test
   public void insertingOlderTransactionRecalculatesInterestCreditsAfterInsertedTransaction() throws Exception {
     //    Given today is 6/5/2018, with initial balance of $500
-//                          .clockOf(2018, 6, 5)
     TestAccountBuilder testAccountBuilder =
         TestAccountBuilder.builder()
                           .initialBalanceOf(500_00, 2018, 4, 15)
@@ -25,13 +27,16 @@ public class InterestCreditRecalculationTest {
     //    When we add old transaction
     account.spend(localDateTimeAtMidnightOf(2018, 5, 12), 75_00, "spend");
 
-    //    And when we calculate interest
-    InterestStrategy interestStrategy = testAccountBuilder.interestStrategy();
-    interestStrategy.creditInterestAsNeeded(account);
+    //    And when we ask for the balance, the interest credits are recomputed
+    account.balance();
 
+    List<Transaction> interestCredits = account.transactions().stream()
+                                       .filter(Transaction::isInterestCredit)
+                                       .collect(Collectors.toList());
+    assertThat(interestCredits)
+        .hasSize(2);
 
-    int interestAmount = account.transactions().stream()
-                                .filter(Transaction::isInterestCredit)
+    int interestAmount = interestCredits.stream()
                                 .filter(t -> t.dateTime().isEqual(localDateTimeAtMidnightOf(2018, 6, 1)))
                                 .mapToInt(Transaction::signedAmount)
                                 .findFirst()
