@@ -1,23 +1,21 @@
 package com.learnwithted.kidbank.domain;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore("During refactoring")
 public class InterestCreditRecalculationTest {
 
   @Test
   public void insertingOlderTransactionRecalculatesInterestCreditsAfterInsertedTransaction() throws Exception {
     //    Given today is 6/5/2018, with initial balance of $500
+//                          .clockOf(2018, 6, 5)
     TestAccountBuilder testAccountBuilder =
         TestAccountBuilder.builder()
-                          .clockOf(2018, 6, 5)
                           .initialBalanceOf(500_00, 2018, 4, 15)
-                          .withMonthlyInterestStrategy();
-    Account account = testAccountBuilder.build();
+                          .withMonthlyInterestStrategyAsOf(2018, 6, 5);
+    InterestEarningAccount account = testAccountBuilder.build();
 
     account.deposit(localDateTimeAtMidnightOf(2018, 4, 25), 40_00, "deposit");
     account.interestCredit(localDateTimeAtMidnightOf(2018, 5, 1), 1_13);
@@ -32,10 +30,15 @@ public class InterestCreditRecalculationTest {
     interestStrategy.creditInterestAsNeeded(account);
 
 
-    //    Then there are 7 transactions: an interest reversal, and a new interest credit
-    assertThat(account.transactions())
-        .hasSize(7);
-  }
+    int interestAmount = account.transactions().stream()
+                                .filter(Transaction::isInterestCredit)
+                                .filter(t -> t.dateTime().isEqual(localDateTimeAtMidnightOf(2018, 6, 1)))
+                                .mapToInt(Transaction::signedAmount)
+                                .findFirst()
+                                .orElse(-1);
 
+    assertThat(interestAmount)
+        .isEqualTo(1_10);
+  }
 
 }

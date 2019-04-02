@@ -11,7 +11,7 @@ public class DepositCommandTest {
 
   @Test
   public void depositCommandShouldDepositAmount() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
     DepositCommand depositCommand = new DepositCommand(account, 13_75);
 
     assertThat(depositCommand.execute(Role.PARENT))

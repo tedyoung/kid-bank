@@ -11,7 +11,7 @@ public class AccountTransactionTest {
 
   @Test
   public void newAccountShouldHaveZeroTransactions() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     assertThat(account.transactions())
         .isEmpty();
@@ -19,7 +19,7 @@ public class AccountTransactionTest {
 
   @Test
   public void depositToAccountShouldResultInOneTransaction() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     LocalDateTime transactionDateTime = LocalDateTime.now();
 

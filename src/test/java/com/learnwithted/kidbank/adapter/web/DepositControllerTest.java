@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.CoreAccount;
 import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ public class DepositControllerTest {
     TransactionDto depositCommand = TransactionDto.createWithTodayDate();
     depositCommand.setAmount(BigDecimal.valueOf(12.34));
 
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     DepositController depositController = new DepositController(account);
 

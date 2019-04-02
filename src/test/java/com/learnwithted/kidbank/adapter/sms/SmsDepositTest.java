@@ -1,7 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.CoreAccount;
 import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class SmsDepositTest {
 
   @Test
   public void depositFromParentShouldDepositTheAmount() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    CoreAccount account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
     SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
@@ -26,7 +26,7 @@ public class SmsDepositTest {
 
   @Test
   public void depositFromParentShouldReturnAmountDepositedWithNewBalance() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    CoreAccount account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 

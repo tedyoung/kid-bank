@@ -1,6 +1,6 @@
 package com.learnwithted.kidbank.domain;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -18,7 +18,7 @@ public class MonthlyInterestStrategy implements InterestStrategy {
   }
 
   @Override
-  public void creditInterestAsNeeded(Account account) {
+  public void creditInterestAsNeeded(InterestEarningAccount account) {
     // get month/year dates for retroactive credits
     Optional<LocalDateTime> mostRecentTransactionDateTime =
         mostRecentInterestCreditDateTime(account.transactions());
@@ -53,7 +53,7 @@ public class MonthlyInterestStrategy implements InterestStrategy {
 
 
   private Optional<LocalDateTime> mostRecentInterestCreditDateTime(
-      ImmutableSet<Transaction> transactions) {
+      ImmutableList<Transaction> transactions) {
     // most recent interest credit date
     Optional<LocalDateTime> mostRecentInterestCreditTransaction
         = transactions.stream()

@@ -13,7 +13,7 @@ public class AccountTest {
 
   @Test
   public void loadTransactionsShouldHaveAccountKnowAboutThoseTransactions() throws Exception {
-    Account account = new Account(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
 
     List<Transaction> transactionsToLoad = new ArrayList<>();
     transactionsToLoad.add(

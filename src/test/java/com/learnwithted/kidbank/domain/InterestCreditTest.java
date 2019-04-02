@@ -3,12 +3,10 @@ package com.learnwithted.kidbank.domain;
 import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import org.junit.Test;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.learnwithted.kidbank.domain.TestClockSupport.createFixedClockOn;
 import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,8 +21,7 @@ public class InterestCreditTest {
     // Given an account with $100
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2016, 12, 7)
-                                        .clockOf(2017, 2, 1)
-                                        .withMonthlyInterestStrategy()
+                                        .withMonthlyInterestStrategyAsOf(2017, 2, 1)
                                         .build();
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17
@@ -35,11 +32,11 @@ public class InterestCreditTest {
   @Test
   public void interestShouldOnlyBeDepositedOnceForCurrentMonth() throws Exception {
     //    Given today is 2/1/2017
-    Clock clock20170201 = createFixedClockOn(2017, 2, 1);
-
-    // Given an account with $100
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20170201);
-    account.deposit(localDateTimeAtMidnightOf(2017, 1, 7), 10000, "initial deposit");
+    //    and Given an account with $100
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00, 2017, 1, 7)
+                                        .withMonthlyInterestStrategyAsOf(2017, 2, 1)
+                                        .build();
 
     // When account balance is requested (will generate interest credit for "today" = 2/1/2017)
     account.balance();
@@ -62,9 +59,11 @@ public class InterestCreditTest {
   public void missingOneMonthCreditShouldAddOneMonthCredit() throws Exception {
 
     //    Given today is 2/1/2019
-    Clock clock20190201 = createFixedClockOn(2019, 2, 1);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20190201);
-    account.deposit(localDateTimeAtMidnightOf(2018, 11, 27), 10000, "initial deposit");
+    InterestEarningAccount account = TestAccountBuilder.builder()
+                                                       .withMonthlyInterestStrategyAsOf(2019, 2, 1)
+                                                       .initialBalanceOf(100_00, 2018, 11, 27)
+                                                       .build();
+
     //    And last interest credit was on 1/1/2019
     account.interestCredit(localDateTimeAtMidnightOf(2019, 1, 1), 27);
 
@@ -85,9 +84,12 @@ public class InterestCreditTest {
   public void missingOneMonthCreditShouldAddOneMonthCreditEvenIfTodayIsNotTheFirstDayOfMonth() throws Exception {
 
     //    Given today is 2/27/2019
-    Clock clock20190227 = createFixedClockOn(2019, 2, 27);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20190227);
-    account.deposit(localDateTimeAtMidnightOf(2018, 11, 27), 20000, "initial deposit");
+    InterestEarningAccount account = TestAccountBuilder
+                                         .builder()
+                                         .withMonthlyInterestStrategyAsOf(2019, 2, 27)
+                                         .initialBalanceOf(200_00, 2018, 11, 27)
+                                         .build();
+
     //    And last interest credit was on 1/1/2019
     account.interestCredit(localDateTimeAtMidnightOf(2019, 1, 1), 33);
 
@@ -106,12 +108,11 @@ public class InterestCreditTest {
   @Test
   public void retroactiveCreditShouldOnlyBeCreatedAsOfFirstAccountTransaction() throws Exception {
     //    Given today is 3/10/2019
-    Clock clock20190310 = createFixedClockOn(2019, 3, 10);
-
     //    And account balance is $100
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20190310);
-    //    And first transaction was 2/3/2019
-    account.deposit(localDateTimeAtMidnightOf(2019, 2, 3), 10000, "initial deposit");
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00, 2019, 2, 3)
+                                        .withMonthlyInterestStrategyAsOf(2019, 3, 10)
+                                        .build();
 
     //    And no interest was ever credited (0 interest credited transactions)
 
@@ -131,11 +132,12 @@ public class InterestCreditTest {
   @Test
   public void monthsWithoutCreditsShouldFillInCreditsRetroactively() throws Exception {
     //    Given today is 2/28/2019
-    Clock clock20190228 = createFixedClockOn(2019, 2, 28);
-
     //    And account has $200 balance
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock20190228);
-    account.deposit(localDateTimeAtMidnightOf(2018, 10, 27), 20000, "initial deposit");
+    InterestEarningAccount account = TestAccountBuilder
+                                         .builder()
+                                         .withMonthlyInterestStrategyAsOf(2019, 2, 28)
+                                         .initialBalanceOf(200_00, 2018, 10, 27)
+                                         .build();
 
     //    And last interest credit was on 11/1/2018
     account.interestCredit(localDateTimeAtMidnightOf(2018, 11, 1), 33);
@@ -162,11 +164,12 @@ public class InterestCreditTest {
   @Test
   public void interestCreditAmountsShouldBeBasedOnBalanceAsOfCreditDate() throws Exception {
     //    Given today is 2/28/2019
-    Clock clock = createFixedClockOn(2019, 2, 28);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
-
     //    And a deposit of $100 was made on 12/1/2018
-    account.deposit(localDateTimeAtMidnightOf(2018, 12, 1), 100_00, "initial deposit");
+    Account account = TestAccountBuilder.builder()
+                                        .initialBalanceOf(100_00, 2018, 12, 1)
+                                        .withMonthlyInterestStrategyAsOf(2019, 2, 28)
+                                        .build();
+
     //    And another deposit of $200 was made on 1/15/2019
     account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 200_00, "second deposit");
 
@@ -186,10 +189,10 @@ public class InterestCreditTest {
 
   @Test
   public void interestCreditShouldIncludePreviousInterestCredits() throws Exception {
-    Clock clock = createFixedClockOn(2019, 1, 28);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
-
-    account.deposit(localDateTimeAtMidnightOf(2018, 10, 31), 5000000, "initial deposit");
+    Account account = TestAccountBuilder.builder()
+                                        .withMonthlyInterestStrategyAsOf(2019, 1, 28)
+                                        .initialBalanceOf(50_000_00, 2018, 10, 31)
+                                        .build();
 
     account.balance();
 
@@ -207,10 +210,11 @@ public class InterestCreditTest {
 
   @Test
   public void interestCreditForAccountWithZeroBalanceShouldNotCreditAnyInterest() throws Exception {
-    Clock clock = createFixedClockOn(2019, 1, 28);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
+    Account account = TestAccountBuilder.builder()
+                                        .withMonthlyInterestStrategyAsOf(2019, 1, 28)
+                                        .initialBalanceOf(500_00, 2018, 10, 31)
+                                        .build();
 
-    account.deposit(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "initial deposit");
     account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend all the moneeze");
 
     assertThat(account.balance())
@@ -219,8 +223,9 @@ public class InterestCreditTest {
 
   @Test
   public void interestCreditForAccountWithNegativeBalanceShouldNotCreditAnyInterest() throws Exception {
-    Clock clock = createFixedClockOn(2019, 1, 28);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
+    Account account = TestAccountBuilder.builder()
+                                        .withMonthlyInterestStrategyAsOf(2019, 1, 28)
+                                        .build();
 
     account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend money I don't have");
 
@@ -230,8 +235,9 @@ public class InterestCreditTest {
 
   @Test
   public void negativeBalanceShouldResultInZeroAmountInterestCreditTransactions() throws Exception {
-    Clock clock = createFixedClockOn(2019, 3, 2);
-    Account account = new Account(FAKE_TRANSACTION_REPOSITORY, clock);
+    Account account = TestAccountBuilder.builder()
+                                        .withMonthlyInterestStrategyAsOf(2019, 3, 2)
+                                        .build();
 
     account.spend(localDateTimeAtMidnightOf(2019, 1, 30), 500_00, "spend money I don't have");
 

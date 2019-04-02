@@ -1,6 +1,6 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.CoreAccount;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,7 +49,7 @@ public class CommandParserTest {
 
   @Test
   public void depositOnlyWithPositiveValidAmountCreatesDepositCommand() throws Exception {
-    Account account = null;
+    CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("deposit 15.75");
@@ -80,7 +80,7 @@ public class CommandParserTest {
 
   @Test
   public void depositWithSingleWordDescriptionCreatesDepositCommandWithDescription() throws Exception {
-    Account account = null;
+    CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("deposit 25 Gift");
@@ -91,7 +91,7 @@ public class CommandParserTest {
 
   @Test
   public void depositWithMultipleWordDescriptionCreatesDepositCommandWithDescription() throws Exception {
-    Account account = null;
+    CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("deposit 2.5 Bottle recycling");
@@ -102,7 +102,7 @@ public class CommandParserTest {
 
   @Test
   public void spendWithSingleWordDescriptionCreatesSpendCommandWithDescription() throws Exception {
-    Account account = null;
+    CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("spend 37.95 Cards");
@@ -123,7 +123,7 @@ public class CommandParserTest {
 
   @Test
   public void spendOnlyWithValidAmountShouldBeSpendCommand() throws Exception {
-    Account account = null;
+    CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
     TransactionCommand command = commandParser.parse("spend 55");
