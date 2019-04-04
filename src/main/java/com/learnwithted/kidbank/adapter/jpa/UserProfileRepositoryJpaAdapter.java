@@ -34,10 +34,10 @@ public class UserProfileRepositoryJpaAdapter implements UserProfileRepository {
 
   @Override
   public List<UserProfile> findAll() {
-    List<UserProfileDto> all = userProfileJpaRepository.findAll();
-    return all.stream()
-              .map(UserProfileDto::asUserProfile)
-              .collect(Collectors.toList());
+    return userProfileJpaRepository.findAll()
+                                   .stream()
+                                   .map(UserProfileDto::asUserProfile)
+                                   .collect(Collectors.toList());
   }
 
   @Override

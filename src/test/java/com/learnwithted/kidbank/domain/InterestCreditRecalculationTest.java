@@ -17,7 +17,7 @@ public class InterestCreditRecalculationTest {
         TestAccountBuilder.builder()
                           .initialBalanceOf(500_00, 2018, 4, 15)
                           .withMonthlyInterestStrategyAsOf(2018, 6, 5);
-    InterestEarningAccount account = testAccountBuilder.build();
+    InterestEarningAccount account = testAccountBuilder.buildAsInterestEarning();
 
     account.deposit(localDateTimeAtMidnightOf(2018, 4, 25), 40_00, "deposit");
     account.interestCredit(localDateTimeAtMidnightOf(2018, 5, 1), 1_13);

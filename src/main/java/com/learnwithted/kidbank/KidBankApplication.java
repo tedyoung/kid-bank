@@ -25,9 +25,11 @@ public class KidBankApplication {
   }
 
   @Bean
-  public Account account(TransactionRepository transactionRepository
-      , BalanceChangedNotifier balanceChangedNotifier, InterestStrategy interestStrategy) {
-    CoreAccount coreAccount = new CoreAccount(transactionRepository, balanceChangedNotifier);
+  public Account account(TransactionRepository transactionRepository,
+      GoalRepository goalRepository,
+      BalanceChangedNotifier balanceChangedNotifier,
+      InterestStrategy interestStrategy) {
+    CoreAccount coreAccount = new CoreAccount(transactionRepository, goalRepository, balanceChangedNotifier);
     return new InterestEarningAccount(coreAccount, interestStrategy);
   }
 

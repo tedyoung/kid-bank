@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class UserProfileJpaTest {
+public class UserProfileJpaAdapterTest {
 
   @Autowired
   UserProfileJpaRepository repository;

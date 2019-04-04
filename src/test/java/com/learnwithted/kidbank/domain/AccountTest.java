@@ -1,6 +1,5 @@
 package com.learnwithted.kidbank.domain;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ public class AccountTest {
 
   @Test
   public void loadTransactionsShouldHaveAccountKnowAboutThoseTransactions() throws Exception {
-    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
 
     List<Transaction> transactionsToLoad = new ArrayList<>();
     transactionsToLoad.add(

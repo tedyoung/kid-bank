@@ -11,14 +11,18 @@ public class TestAccountBuilder {
   private TransactionRepository transactionRepository = new FakeTransactionRepository();
   private BalanceChangedNotifier balanceChangedNotifier = new StubBalanceChangeNotifier();
   private InterestStrategy interestStrategy = (account) -> {};
+  private GoalRepository goalRepository = new StubGoalRepository();
 
   public static TestAccountBuilder builder() {
     return new TestAccountBuilder();
   }
 
-  public InterestEarningAccount build() {
-    CoreAccount coreAccount = new CoreAccount(transactionRepository, balanceChangedNotifier);
-    return new InterestEarningAccount(coreAccount, interestStrategy);
+  public InterestEarningAccount buildAsInterestEarning() {
+    return new InterestEarningAccount(buildAsCore(), interestStrategy);
+  }
+
+  public CoreAccount buildAsCore() {
+    return new CoreAccount(transactionRepository, goalRepository, balanceChangedNotifier);
   }
 
   public TestAccountBuilder notifier(BalanceChangedNotifier balanceChangedNotifier) {
@@ -48,5 +52,10 @@ public class TestAccountBuilder {
 
   public TransactionRepository transactionRepository() {
     return transactionRepository;
+  }
+
+  public TestAccountBuilder withGoalRepository(GoalRepository goalRepository) {
+    this.goalRepository = goalRepository;
+    return this;
   }
 }

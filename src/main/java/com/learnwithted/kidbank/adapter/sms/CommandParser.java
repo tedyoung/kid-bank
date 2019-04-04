@@ -25,6 +25,9 @@ public class CommandParser {
         case "balance":
           return new BalanceCommand(account);
 
+        case "goals":
+          return new GoalsCommand(account);
+
         case "deposit":
           return new DepositCommand(account, parseAmount(tokens), descriptionFrom(tokens));
 

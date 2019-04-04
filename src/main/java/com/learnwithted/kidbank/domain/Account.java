@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface Account {
   int balance();
@@ -17,4 +18,8 @@ public interface Account {
   void load(List<Transaction> transactionsToLoad);
 
   int balanceUpTo(LocalDateTime localDateTime);
+
+  Set<Goal> goals();
+
+  void createGoal(String description, int targetAmount);
 }

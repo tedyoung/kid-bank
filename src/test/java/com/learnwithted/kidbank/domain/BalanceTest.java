@@ -12,7 +12,7 @@ public class BalanceTest {
   @Test
   public void newAccountShouldHaveZeroBalance() throws Exception {
     Account account = TestAccountBuilder.builder()
-                                        .build();
+                                        .buildAsInterestEarning();
 
     assertThat(account.balance())
         .isZero();
@@ -21,7 +21,7 @@ public class BalanceTest {
   @Test
   public void mixingDeposit17AndSpend9ShouldResultInBalanceOf8() throws Exception {
     Account account = TestAccountBuilder.builder()
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.deposit(LocalDateTime.of(2011, 5, 11, 0, 0), 1700, "Bottle Deposit");
     account.spend(LocalDateTime.of(2011, 5, 11, 0, 0), 900, "Cards");
@@ -33,7 +33,7 @@ public class BalanceTest {
   @Test
   public void balanceUpToEarlierDateDoesNotIncludeMoreRecentTransactions() throws Exception {
     Account account = TestAccountBuilder.builder()
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.deposit(localDateTimeAtMidnightOf(2011, 5, 11), 17_00, "Bottle Deposit");
     account.spend(localDateTimeAtMidnightOf(2011, 5, 11), 9_00, "Cards");

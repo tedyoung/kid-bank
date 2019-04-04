@@ -1,8 +1,7 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.CoreAccount;
-import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
+import com.learnwithted.kidbank.domain.TestAccountBuilder;
 import com.learnwithted.kidbank.domain.Transaction;
 import org.junit.Test;
 
@@ -18,7 +17,7 @@ public class ImportCsvControllerTest {
                                  "03/25/2018,Payment, $(12.00),MTG Draft Game Kastle\r\n" +
                                  "04/01/2018,Interest Credit, $0.11 ,Interest based on 2%/year\r\n");
 
-    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
 
     ImportCsvController importCsvController = new ImportCsvController(account);
     importCsvController.processImportCommand(importDto);

@@ -22,7 +22,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2016, 12, 7)
                                         .withMonthlyInterestStrategyAsOf(2017, 2, 1)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17
     assertThat(account.balance())
@@ -36,7 +36,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2017, 1, 7)
                                         .withMonthlyInterestStrategyAsOf(2017, 2, 1)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     // When account balance is requested (will generate interest credit for "today" = 2/1/2017)
     account.balance();
@@ -62,7 +62,7 @@ public class InterestCreditTest {
     InterestEarningAccount account = TestAccountBuilder.builder()
                                                        .withMonthlyInterestStrategyAsOf(2019, 2, 1)
                                                        .initialBalanceOf(100_00, 2018, 11, 27)
-                                                       .build();
+                                                       .buildAsInterestEarning();
 
     //    And last interest credit was on 1/1/2019
     account.interestCredit(localDateTimeAtMidnightOf(2019, 1, 1), 27);
@@ -88,7 +88,7 @@ public class InterestCreditTest {
                                          .builder()
                                          .withMonthlyInterestStrategyAsOf(2019, 2, 27)
                                          .initialBalanceOf(200_00, 2018, 11, 27)
-                                         .build();
+                                         .buildAsInterestEarning();
 
     //    And last interest credit was on 1/1/2019
     account.interestCredit(localDateTimeAtMidnightOf(2019, 1, 1), 33);
@@ -112,7 +112,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2019, 2, 3)
                                         .withMonthlyInterestStrategyAsOf(2019, 3, 10)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     //    And no interest was ever credited (0 interest credited transactions)
 
@@ -137,7 +137,7 @@ public class InterestCreditTest {
                                          .builder()
                                          .withMonthlyInterestStrategyAsOf(2019, 2, 28)
                                          .initialBalanceOf(200_00, 2018, 10, 27)
-                                         .build();
+                                         .buildAsInterestEarning();
 
     //    And last interest credit was on 11/1/2018
     account.interestCredit(localDateTimeAtMidnightOf(2018, 11, 1), 33);
@@ -168,7 +168,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00, 2018, 12, 1)
                                         .withMonthlyInterestStrategyAsOf(2019, 2, 28)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     //    And another deposit of $200 was made on 1/15/2019
     account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 200_00, "second deposit");
@@ -192,7 +192,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .withMonthlyInterestStrategyAsOf(2019, 1, 28)
                                         .initialBalanceOf(50_000_00, 2018, 10, 31)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.balance();
 
@@ -213,7 +213,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .withMonthlyInterestStrategyAsOf(2019, 1, 28)
                                         .initialBalanceOf(500_00, 2018, 10, 31)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend all the moneeze");
 
@@ -225,7 +225,7 @@ public class InterestCreditTest {
   public void interestCreditForAccountWithNegativeBalanceShouldNotCreditAnyInterest() throws Exception {
     Account account = TestAccountBuilder.builder()
                                         .withMonthlyInterestStrategyAsOf(2019, 1, 28)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend money I don't have");
 
@@ -237,7 +237,7 @@ public class InterestCreditTest {
   public void negativeBalanceShouldResultInZeroAmountInterestCreditTransactions() throws Exception {
     Account account = TestAccountBuilder.builder()
                                         .withMonthlyInterestStrategyAsOf(2019, 3, 2)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     account.spend(localDateTimeAtMidnightOf(2019, 1, 30), 500_00, "spend money I don't have");
 

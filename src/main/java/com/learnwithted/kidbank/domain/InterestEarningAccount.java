@@ -4,15 +4,15 @@ import com.google.common.collect.ImmutableList;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Decorator (thanks to flamaddidle84)
  */
 public class InterestEarningAccount implements Account {
-
   private final Account decorateeAccount;
-  private final InterestStrategy interestStrategy;
 
+  private final InterestStrategy interestStrategy;
   private ImmutableList<Transaction> interestTransactions = ImmutableList.of();
 
   public InterestEarningAccount(Account decorateeAccount, InterestStrategy interestStrategy) {
@@ -77,5 +77,15 @@ public class InterestEarningAccount implements Account {
   public int balanceUpTo(LocalDateTime localDateTime) {
     return decorateeAccount.balanceUpTo(localDateTime)
                + interestTotalUpTo(localDateTime);
+  }
+
+  @Override
+  public Set<Goal> goals() {
+    return decorateeAccount.goals();
+  }
+
+  @Override
+  public void createGoal(String description, int targetAmount) {
+    decorateeAccount.createGoal(description, targetAmount);
   }
 }

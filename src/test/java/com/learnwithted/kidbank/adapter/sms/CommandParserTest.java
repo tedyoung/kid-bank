@@ -8,26 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CommandParserTest {
 
   @Test
-  public void invalidCommandTextShouldReturnInvalidCommand() throws Exception {
-    CommandParser commandParser = new CommandParser(null);
-
-    TransactionCommand command = commandParser.parse("mispeld");
-
-    assertThat(command)
-        .isInstanceOf(InvalidCommand.class);
-  }
-
-  @Test
-  public void balanceShouldBeParsedAsBalanceCommand() throws Exception {
-    CommandParser commandParser = new CommandParser(null);
-
-    TransactionCommand balanceCommand = commandParser.parse("balance");
-
-    assertThat(balanceCommand)
-        .isInstanceOf(BalanceCommand.class);
-  }
-
-  @Test
   public void depositTextOnlyWithoutAmountShouldBeInvalidCommand() throws Exception {
     CommandParser commandParser = new CommandParser(null);
 
@@ -98,40 +78,6 @@ public class CommandParserTest {
 
     assertThat(command)
         .isEqualTo(new DepositCommand(account, 2_50, "Bottle recycling"));
-  }
-
-  @Test
-  public void spendWithSingleWordDescriptionCreatesSpendCommandWithDescription() throws Exception {
-    CoreAccount account = null;
-    CommandParser commandParser = new CommandParser(account);
-
-    TransactionCommand command = commandParser.parse("spend 37.95 Cards");
-
-    assertThat(command)
-        .isEqualTo(new SpendCommand(account, 37_95, "Cards"));
-  }
-
-  @Test
-  public void emptyTextShouldBeInvalidCommand() throws Exception {
-    CommandParser commandParser = new CommandParser(null);
-
-    TransactionCommand command = commandParser.parse("");
-
-    assertThat(command)
-        .isInstanceOf(InvalidCommand.class);
-  }
-
-  @Test
-  public void spendOnlyWithValidAmountShouldBeSpendCommand() throws Exception {
-    CoreAccount account = null;
-    CommandParser commandParser = new CommandParser(account);
-
-    TransactionCommand command = commandParser.parse("spend 55");
-
-    SpendCommand expectedSpendCommand = new SpendCommand(account, 55_00);
-
-    assertThat(command)
-        .isEqualTo(expectedSpendCommand);
   }
 
 }

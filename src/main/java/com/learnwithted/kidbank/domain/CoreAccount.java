@@ -6,26 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class CoreAccount implements Account {
   private final TransactionRepository transactionRepository;
+  private final GoalRepository goalRepository;
   private BalanceChangedNotifier balanceChangedNotifier = (amount, balance) -> {
   };
   private ImmutableSet<Transaction> transactions;
+  private ImmutableSet<Goal> goals;
 
   @Autowired
   public CoreAccount(TransactionRepository transactionRepository,
-      BalanceChangedNotifier balanceChangedNotifier) {
+      GoalRepository goalRepository, BalanceChangedNotifier balanceChangedNotifier) {
     this.transactionRepository = transactionRepository;
     this.transactions = ImmutableSet.<Transaction>builder()
                             .addAll(transactionRepository.findAll())
                             .build();
+    this.goalRepository = goalRepository;
+    this.goals = ImmutableSet.<Goal>builder()
+                     .addAll(goalRepository.findAll())
+                     .build();
     this.balanceChangedNotifier = balanceChangedNotifier;
-  }
-
-  public CoreAccount(TransactionRepository transactionRepository) {
-    this.transactionRepository = transactionRepository;
-    this.transactions = ImmutableSet.of();
   }
 
   @Override
@@ -83,5 +85,20 @@ public class CoreAccount implements Account {
                .filter(t -> t.dateTime().isBefore(localDateTime))
                .mapToInt(Transaction::signedAmount)
                .sum();
+  }
+
+  @Override
+  public Set<Goal> goals() {
+    return ImmutableSet.copyOf(goals);
+  }
+
+  @Override
+  public void createGoal(String description, int targetAmount) {
+    Goal goal = new Goal(description, targetAmount);
+    Goal savedGoal = goalRepository.save(goal);
+    goals = ImmutableSet.<Goal>builder()
+                .addAll(goals)
+                .add(savedGoal)
+                .build();
   }
 }

@@ -16,7 +16,7 @@ public class MonthlyInterestStrategyTest {
     Clock today = TestClockSupport.createFixedClockOn(2019, 3, 5);
     MonthlyInterestStrategy interestStrategy = new MonthlyInterestStrategy(today);
 
-    InterestEarningAccount account = TestAccountBuilder.builder().build();
+    InterestEarningAccount account = TestAccountBuilder.builder().buildAsInterestEarning();
 
     // TODO -- future: do this "as of ... some date"
     interestStrategy.createInterestCreditTransactionsFor(account);
@@ -31,7 +31,7 @@ public class MonthlyInterestStrategyTest {
 
     InterestEarningAccount account = TestAccountBuilder.builder()
                                                        .initialBalanceOf(100_00, 2018, 12, 24)
-                                                       .build();
+                                                       .buildAsInterestEarning();
 
     interestStrategy.createInterestCreditTransactionsFor(account);
 

@@ -8,9 +8,6 @@ export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
 heroku pg:psql -a jitterted-kidbank
 
-## Insert
-
-
 ## Schema View
 
 SELECT

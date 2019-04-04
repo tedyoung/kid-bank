@@ -9,10 +9,10 @@ import lombok.ToString;
 @ToString
 public class UserProfile {
 
-  private String name;
-  private PhoneNumber phoneNumber; // SMS authorization
-  private String email; // web-based/OAuth authorization
-  private Role role;
+  private final String name;
+  private final PhoneNumber phoneNumber; // SMS authorization
+  private final String email; // web-based/OAuth authorization
+  private final Role role;
 
   // EXTRINSIC property used by Repository
   @Getter

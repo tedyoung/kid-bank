@@ -1,8 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.CoreAccount;
-import com.learnwithted.kidbank.domain.StubBalanceChangeNotifier;
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.TestAccountBuilder;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +10,7 @@ public class SmsBalanceRequestTest {
 
   @Test
   public void fromUnknownNumberShouldReturnEmptyResponse() throws Exception {
-    CoreAccount account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
     SmsController smsController = new SmsController(account, new AlwaysUnknownPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
@@ -26,7 +25,7 @@ public class SmsBalanceRequestTest {
 
   @Test
   public void fromKnownAuthorizedNumberShouldReturnBalanceMessage() throws Exception {
-    CoreAccount account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
     SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();
@@ -41,7 +40,7 @@ public class SmsBalanceRequestTest {
 
   @Test
   public void fromKnownNumberWithUnknownMessageShouldReturnErrorMessage() throws Exception {
-    CoreAccount account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
     SmsController smsController = new SmsController(account, new AlwaysParentPhoneAuthorizer());
 
     TwilioIncomingRequest twilioIncomingRequest = new TwilioIncomingRequest();

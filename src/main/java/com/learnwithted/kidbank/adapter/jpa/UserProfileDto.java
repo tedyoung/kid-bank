@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @Data
+@Entity
 @Table(name = "user_profiles")
 class UserProfileDto {
   private String name;

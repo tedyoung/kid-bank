@@ -14,7 +14,7 @@ public class SpendCommandTest {
   public void spendWithValidAmountShouldReduceAccountBalance() throws Exception {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00)
-                                        .build();
+                                        .buildAsInterestEarning();
 
     SpendCommand spendCommand = new SpendCommand(account, 13_75);
 
@@ -30,7 +30,7 @@ public class SpendCommandTest {
     TestAccountBuilder builder = TestAccountBuilder.builder();
     Account account = builder
                           .initialBalanceOf(100_00)
-                          .build();
+                          .buildAsInterestEarning();
 
     SpendCommand spendCommand = new SpendCommand(account, 13_75, "Cookie from store");
 

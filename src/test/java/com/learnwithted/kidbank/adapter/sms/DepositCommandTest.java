@@ -1,7 +1,9 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.adapter.web.FakeTransactionRepository;
-import com.learnwithted.kidbank.domain.*;
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.Role;
+import com.learnwithted.kidbank.domain.TestAccountBuilder;
+import com.learnwithted.kidbank.domain.Transaction;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +13,7 @@ public class DepositCommandTest {
 
   @Test
   public void depositCommandShouldDepositAmount() throws Exception {
-    Account account = new CoreAccount(new FakeTransactionRepository(), new StubBalanceChangeNotifier());
+    Account account = TestAccountBuilder.builder().buildAsCore();
     DepositCommand depositCommand = new DepositCommand(account, 13_75);
 
     assertThat(depositCommand.execute(Role.PARENT))
@@ -24,7 +26,7 @@ public class DepositCommandTest {
   @Test
   public void depositCommandWithDescriptionCreatesTransactionWithDescription() throws Exception {
     TestAccountBuilder builder = TestAccountBuilder.builder();
-    Account account = builder.build();
+    Account account = builder.buildAsInterestEarning();
     DepositCommand depositCommand = new DepositCommand(account, 27_95, "Cookie");
 
     depositCommand.execute(Role.PARENT);
@@ -37,7 +39,7 @@ public class DepositCommandTest {
 
   @Test
   public void depositCommandWithAmountLessThanZeroCannotBeCreated() throws Exception {
-    Account account = TestAccountBuilder.builder().build();
+    Account account = TestAccountBuilder.builder().buildAsInterestEarning();
     assertThatThrownBy(() -> new DepositCommand(account, -1))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Amount must be greater than 0.");
