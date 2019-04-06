@@ -38,7 +38,7 @@ public class MonthlyInterestStrategy implements InterestStrategy {
 
   private Optional<LocalDateTime> firstTransactionDateTime(InterestEarningAccount account) {
     return account.transactions().stream()
-                  .filter(transaction -> !transaction.isInterestCredit())
+                  .filter(Transaction.isInterestCredit().negate())
                   .map(Transaction::dateTime)
                   .min(LocalDateTime::compareTo);
   }

@@ -15,9 +15,8 @@ public class InterestCreditRecalculationTest {
     //    Given today is 6/5/2018, with initial balance of $500
     TestAccountBuilder testAccountBuilder =
         TestAccountBuilder.builder()
-                          .initialBalanceOf(500_00, 2018, 4, 15)
-                          .withMonthlyInterestStrategyAsOf(2018, 6, 5);
-    InterestEarningAccount account = testAccountBuilder.buildAsInterestEarning();
+                          .initialBalanceOf(500_00, 2018, 4, 15);
+    InterestEarningAccount account = testAccountBuilder.buildAsInterestEarning(2018, 6, 5);
 
     account.deposit(localDateTimeAtMidnightOf(2018, 4, 25), 40_00, "deposit");
     account.interestCredit(localDateTimeAtMidnightOf(2018, 5, 1), 1_13);
@@ -31,7 +30,7 @@ public class InterestCreditRecalculationTest {
     account.balance();
 
     List<Transaction> interestCredits = account.transactions().stream()
-                                       .filter(Transaction::isInterestCredit)
+                                       .filter(Transaction.isInterestCredit())
                                        .collect(Collectors.toList());
     assertThat(interestCredits)
         .hasSize(2);

@@ -14,7 +14,7 @@ public class BalanceChangeNotificationTest {
     // Given an account
     Account account = TestAccountBuilder.builder()
                                         .notifier(mockNotifier)
-                                        .buildAsInterestEarning();
+                                        .buildAsCore();
 
     // When we deposit money
     account.deposit(now(), 25_00, "test");
@@ -30,7 +30,7 @@ public class BalanceChangeNotificationTest {
     Account account = TestAccountBuilder.builder()
                                         .initialBalanceOf(100_00)
                                         .notifier(mockNotifier)
-                                        .buildAsInterestEarning();
+                                        .buildAsCore();
 
     account.spend(now(), 35_35, "test");
 

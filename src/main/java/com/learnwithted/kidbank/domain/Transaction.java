@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 @ToString
 @NoArgsConstructor
@@ -70,8 +71,8 @@ public class Transaction {
     return action.equals(SPEND) ? -amount : amount;
   }
 
-  public boolean isInterestCredit() {
-    return action.equals(INTEREST);
+  public static Predicate<Transaction> isInterestCredit() {
+    return t -> t.action.equals(INTEREST);
   }
 
   @Override

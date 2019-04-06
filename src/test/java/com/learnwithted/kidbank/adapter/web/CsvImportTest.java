@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvImportTest {
@@ -20,10 +21,51 @@ public class CsvImportTest {
     List<Transaction> transactions = new CsvImporter().importFrom(csvList);
 
     assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
         .containsExactly(
             Transaction.createDeposit(LocalDateTime.of(2018, 1, 5, 0, 0),
                                       5000, "Birthday gift"));
+  }
 
+  @Test
+  public void depositWithNoDecimalForAmountIsTreatedAsDollars() throws Exception {
+    String csv = "02/03/2018,Cash Deposit,40,Birthday gift";
+    List<String> csvList = Lists.list(csv);
+
+    List<Transaction> transactions = new CsvImporter().importFrom(csvList);
+
+    assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(
+            Transaction.createDeposit(localDateTimeAtMidnightOf(2018, 2, 3),
+                                      40_00, "Birthday gift"));
+  }
+
+  @Test
+  public void depositWithNoDescriptionCreatesDepositTransaction() throws Exception {
+    String csv = "02/09/2018,Cash Deposit,75";
+    List<String> csvList = Lists.list(csv);
+
+    List<Transaction> transactions = new CsvImporter().importFrom(csvList);
+
+    assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(
+            Transaction.createDeposit(localDateTimeAtMidnightOf(2018, 2, 9),
+                                      75_00, ""));
+  }
+
+  @Test
+  public void spendWithMinusSignForAmountIsIgnored() throws Exception {
+    List<String> csvList = Lists.list("05/12/2018,Payment,-57");
+
+    List<Transaction> transactions = new CsvImporter().importFrom(csvList);
+
+    assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(
+            Transaction.createSpend(localDateTimeAtMidnightOf(2018, 5, 12),
+                                    57_00, ""));
   }
 
   @Test
@@ -35,6 +77,7 @@ public class CsvImportTest {
     List<Transaction> transactions = new CsvImporter().importFrom(csvList);
 
     assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
         .containsExactly(
             Transaction.createDeposit(LocalDateTime.of(2018, 5, 3, 0, 0),
                                       675, "Bottle return"),
@@ -51,6 +94,7 @@ public class CsvImportTest {
     List<Transaction> transactions = new CsvImporter().importFrom(csvList);
 
     assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
         .containsExactly(
             Transaction.createInterestCredit(LocalDateTime.of(2018, 2, 1, 0, 0), 8));
   }
@@ -64,6 +108,7 @@ public class CsvImportTest {
     List<Transaction> transactions = new CsvImporter().importFrom(csvList);
 
     assertThat(transactions)
+        .usingElementComparatorIgnoringFields("id")
         .containsExactly(
             Transaction.createSpend(LocalDateTime.of(2019, 1, 4, 0, 0),
                                     3000, "Share of Corsair headphones"));

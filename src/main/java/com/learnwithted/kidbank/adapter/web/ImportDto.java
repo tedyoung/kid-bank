@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 @Data
 public class ImportDto {
-  public static final Pattern NEW_LINE_SEPARATOR_PATTERN = Pattern.compile("\r?\n");
+  private static final Pattern NEW_LINE_SEPARATOR_PATTERN = Pattern.compile("\r?\n");
   private String content;
 
   public List<String> asLines() {

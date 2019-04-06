@@ -26,7 +26,7 @@ public class DepositCommandTest {
   @Test
   public void depositCommandWithDescriptionCreatesTransactionWithDescription() throws Exception {
     TestAccountBuilder builder = TestAccountBuilder.builder();
-    Account account = builder.buildAsInterestEarning();
+    Account account = builder.buildAsCore();
     DepositCommand depositCommand = new DepositCommand(account, 27_95, "Cookie");
 
     depositCommand.execute(Role.PARENT);
@@ -39,7 +39,7 @@ public class DepositCommandTest {
 
   @Test
   public void depositCommandWithAmountLessThanZeroCannotBeCreated() throws Exception {
-    Account account = TestAccountBuilder.builder().buildAsInterestEarning();
+    Account account = TestAccountBuilder.builder().buildAsCore();
     assertThatThrownBy(() -> new DepositCommand(account, -1))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Amount must be greater than 0.");

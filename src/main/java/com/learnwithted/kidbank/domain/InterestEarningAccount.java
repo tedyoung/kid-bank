@@ -18,6 +18,7 @@ public class InterestEarningAccount implements Account {
   public InterestEarningAccount(Account decorateeAccount, InterestStrategy interestStrategy) {
     this.decorateeAccount = decorateeAccount;
     this.interestStrategy = interestStrategy;
+    computeInterest();
   }
 
 
@@ -32,7 +33,6 @@ public class InterestEarningAccount implements Account {
 
   @Override
   public int balance() {
-    computeInterest();
     return balanceUpTo(LocalDateTime.MAX);
   }
 
@@ -46,11 +46,13 @@ public class InterestEarningAccount implements Account {
   @Override
   public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
     decorateeAccount.deposit(transactionDateTime, amount, source);
+    computeInterest();
   }
 
   @Override
   public void spend(LocalDateTime transactionDateTime, int amount, String description) {
     decorateeAccount.spend(transactionDateTime, amount, description);
+    computeInterest();
   }
 
   @Override
@@ -70,7 +72,9 @@ public class InterestEarningAccount implements Account {
 
   @Override
   public void load(List<Transaction> transactionsToLoad) {
+    transactionsToLoad.removeIf(Transaction.isInterestCredit());
     decorateeAccount.load(transactionsToLoad);
+    computeInterest();
   }
 
   @Override

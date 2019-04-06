@@ -26,7 +26,7 @@ public class AccountIntegrationTest {
     account.balance();
 
     long count = account.transactions().stream()
-                        .filter(Transaction::isInterestCredit)
+                        .filter(Transaction.isInterestCredit())
                         .count();
 
     assertThat(count)
