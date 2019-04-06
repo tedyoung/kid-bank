@@ -5,27 +5,12 @@ import org.junit.Test;
 public class SimpleTableTest {
 
   @Test
-  public void givenCsvTextCreatesTransactions() throws Exception {
-    String given = "04/25/2018,Cash Deposit,40";
-
-    String then = "04/25/2018,Cash Deposit,40";
-
-    CsvAssertion.on(2018, 4, 25)
-                .given(given)
-                .when("")
-                .then(then);
-  }
-
-  @Test
   public void singleGivenParsedIntoCorrectTransactionMatchesThen() throws Exception {
-    String given = "03/05/2018,Cash Deposit,35";
-
-    String then = "03/05/2018,Cash Deposit,35";
 
     CsvAssertion.on(2018, 3, 5)
-                .given(given)
+                .given("03/05/2018,Cash Deposit,35")
                 .when("")
-                .then(then);
+                .then("03/05/2018,Cash Deposit,35");
   }
 
   @Test
