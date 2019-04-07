@@ -3,34 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <title>Kid Money Manager: Spend</title>
-  <link rel="stylesheet" type="text/css" href="kidbank.css">
+  <link href="../static/kidbank.css" rel="stylesheet"
+        th:href="@{/kidbank.css}"
+        type="text/css">
+
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
 <header>
-  <h3>account balance</h3>
-  <h1 th:text="${balance}">$99.99</h1>
+  <h2 class="subtitle">ACCOUNT BALANCE</h2>
+  <h1 class="title" th:text="${balance}">$99.99</h1>
 </header>
 
 <br/>
 
-<form action="#" th:object="${spendCommand}" th:action="@{/spend}" method="post">
-  <fieldset>
-    <legend>Spend Money</legend>
-    <label>Date: <input th:field="*{date}" type="date">
-      <p th:if="${#fields.hasErrors('date')}"
-         th:errors="*{date}">
-        The date must be today, or in the past.
-      </p>
-    </label>
-    <label>Amount: <input step="0.01" th:field="*{amount}" type="number"/>
-      <div th:if="${#fields.hasErrors('amount')}"
-           th:errors="*{amount}"
-           class="help is-danger">Some error message here</div>
-    </label>
-    <label>Description: <input th:field="*{description}" type="text"></label>
-    <button type="submit">Spend!</button>
-  </fieldset>
-</form>
+<div class="section">
+  <div class="container">
+    <h1 class="title">Spend Money</h1>
+    <form action="#" method="post" th:action="@{/spend}" th:object="${spendCommand}">
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Date</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-narrow">
+            <div class="control has-icons-left">
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar"></i>
+              </span>
+              <input class="input" th:classappend="${#fields.hasErrors('dateAsLocalDateTime')} ? is-danger : ''"
+                     th:field="*{date}"
+                     type="date"
+              >
+            </div>
+            <p class="help is-danger"
+               th:errors="*{dateAsLocalDateTime}"
+               th:if="${#fields.hasErrors('dateAsLocalDateTime')}">
+              The date must be today, or in the past.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">How much?</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-narrow">
+            <div class="control has-icons-left">
+              <span class="icon is-small is-left">
+                <i class="fas fa-dollar-sign"></i>
+              </span>
+              <input class="input"
+                     step="0.01" th:errorclass="is-danger"
+                     th:field="*{amount}"
+                     type="number">
+            </div>
+            <p class="help is-danger"
+               th:errors="*{amount}"
+               th:if="${#fields.hasErrors('amount')}">
+              Must be more than $0.00.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">What'd you buy?</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input" th:errorclass="is-danger"
+                     th:field="*{description}"
+                     type="text">
+            </div>
+            <p class="help is-danger"
+               th:errors="*{description}"
+               th:if="${#fields.hasErrors('description')}">
+              This field is required.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <!-- Left empty for spacing -->
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary">
+                Spend The Money
+              </button>
+            </div>
+            <div class="control">
+              <a class="button is-text" href="/account">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>

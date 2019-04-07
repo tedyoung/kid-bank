@@ -18,6 +18,7 @@
 </header>
 
 <br/>
+
 <div class="section">
   <div class="container">
     <h1 class="title">Deposit Money</h1>
@@ -49,7 +50,7 @@
 
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label">Amount</label>
+          <label class="label">How much?</label>
         </div>
         <div class="field-body">
           <div class="field is-narrow">
@@ -65,7 +66,7 @@
             <p th:if="${#fields.hasErrors('amount')}"
                th:errors="*{amount}"
                class="help is-danger">
-              Must be greater than $0.00.
+              Must be more than $0.00.
             </p>
           </div>
         </div>
@@ -73,7 +74,7 @@
 
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label">Source</label>
+          <label class="label">How'd you get it?</label>
         </div>
         <div class="field-body">
           <div class="field">
@@ -99,7 +100,7 @@
           <div class="field is-grouped">
             <div class="control">
               <button class="button is-primary">
-                Deposit Money
+                Deposit That Money
               </button>
             </div>
             <div class="control">
