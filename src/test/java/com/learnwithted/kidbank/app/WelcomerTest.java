@@ -1,6 +1,11 @@
 package com.learnwithted.kidbank.app;
 
-import com.learnwithted.kidbank.domain.*;
+import com.learnwithted.kidbank.domain.FakeUserProfileRepository;
+import com.learnwithted.kidbank.domain.PhoneNumber;
+import com.learnwithted.kidbank.domain.Role;
+import com.learnwithted.kidbank.domain.UserProfile;
+import com.learnwithted.kidbank.domain.UserProfileRepository;
+import com.learnwithted.kidbank.domain.WelcomerService;
 import org.junit.Test;
 
 import static org.mockito.Mockito.spy;
@@ -19,7 +24,7 @@ public class WelcomerTest {
 
     welcomerService.welcome(1L);
 
-    String welcome = "Hi Ted, welcome to Kid Money Manager. You can use the commands BALANCE, DEPOSIT, and SPEND.";
+    String welcome = "Hi Ted, welcome to Kid Money Manager. You can use the commands: BALANCE, DEPOSIT, SPEND, and GOALS.";
     verify(spy).send(toPhoneNumber, welcome);
   }
 

@@ -27,7 +27,21 @@ public class WelcomerService implements Welcomer {
     }
 
     UserProfile profile = userProfile.get();
-    String welcome = "Hi " + profile.name() + ", welcome to Kid Money Manager. You can use the commands BALANCE, DEPOSIT, and SPEND.";
+    String welcome = welcomeMessageFor(profile);
     textMessageSender.send(profile.phoneNumber().asRaw(), welcome);
+  }
+
+  String welcomeMessageFor(UserProfile profile) {
+    String welcome = "Hi " + profile.name() + ", welcome to Kid Money Manager.";
+    String commandIntro = "You can use the commands: ";
+
+    String allowedCommands;
+    if (profile.role() == Role.PARENT) {
+      allowedCommands = "BALANCE, DEPOSIT, SPEND, and GOALS.";
+    } else {
+      allowedCommands = "BALANCE and GOALS.";
+    }
+
+    return welcome + " " + commandIntro + allowedCommands;
   }
 }
