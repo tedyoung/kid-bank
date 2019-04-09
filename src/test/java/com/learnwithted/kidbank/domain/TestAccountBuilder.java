@@ -11,7 +11,7 @@ public class TestAccountBuilder {
   private TransactionRepository transactionRepository = new FakeTransactionRepository();
   private BalanceChangedNotifier balanceChangedNotifier = new StubBalanceChangeNotifier();
   private InterestStrategy interestStrategy = account -> {};
-  private GoalRepository goalRepository = new StubGoalRepository();
+  private GoalRepository goalRepository = new FakeGoalRepository();
   private CoreAccount coreAccount;
 
   public static TestAccountBuilder builder() {
@@ -62,5 +62,9 @@ public class TestAccountBuilder {
 
   public InterestStrategy interestStrategy() {
     return interestStrategy;
+  }
+
+  public GoalRepository goalRepository() {
+    return goalRepository;
   }
 }

@@ -18,6 +18,22 @@ public class AccountGoalsTest {
   }
 
   @Test
+  public void addGoalDirectlyToRepositoryIsFoundViaAccount() throws Exception {
+    TestAccountBuilder builder = TestAccountBuilder.builder();
+    GoalRepository goalRepository = builder.goalRepository();
+
+    Account account = builder.buildAsCore();
+
+    Goal coolThing = new Goal("Cool Thing", 87_65);
+    goalRepository.save(coolThing);
+
+    assertThat(account.goals())
+        .isNotEmpty()
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(coolThing);
+  }
+
+  @Test
   public void createdGoalIsReturnedInSetOfAllGoals() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
 
@@ -26,12 +42,13 @@ public class AccountGoalsTest {
     Goal expectedGoal = new Goal("description", 65_00);
 
     assertThat(account.goals())
+        .usingElementComparatorIgnoringFields("id")
         .containsOnly(expectedGoal);
   }
 
   @Test
   public void creatingGoalSavesGoalInRepository() throws Exception {
-    GoalRepository repositorySpy = spy(StubGoalRepository.class);
+    GoalRepository repositorySpy = spy(FakeGoalRepository.class);
     CoreAccount account = TestAccountBuilder.builder()
                                             .withGoalRepository(repositorySpy)
                                             .buildAsCore();
@@ -47,7 +64,7 @@ public class AccountGoalsTest {
     Goal second = new Goal("second", 20_00, 2L);
     Goal third = new Goal("third", 30_00, 3L);
 
-    GoalRepository goalRepository = new StubGoalRepository(first, second, third);
+    GoalRepository goalRepository = new FakeGoalRepository(first, second, third);
     Account account = TestAccountBuilder.builder()
                                         .withGoalRepository(goalRepository)
                                         .buildAsCore();

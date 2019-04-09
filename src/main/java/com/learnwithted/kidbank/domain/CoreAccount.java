@@ -2,7 +2,6 @@ package com.learnwithted.kidbank.domain;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,12 +10,9 @@ import java.util.Set;
 public class CoreAccount implements Account {
   private final TransactionRepository transactionRepository;
   private final GoalRepository goalRepository;
-  private BalanceChangedNotifier balanceChangedNotifier = (amount, balance) -> {
-  };
+  private BalanceChangedNotifier balanceChangedNotifier;
   private ImmutableSet<Transaction> transactions;
-  private ImmutableSet<Goal> goals;
 
-  @Autowired
   public CoreAccount(TransactionRepository transactionRepository,
       GoalRepository goalRepository, BalanceChangedNotifier balanceChangedNotifier) {
     this.transactionRepository = transactionRepository;
@@ -24,9 +20,6 @@ public class CoreAccount implements Account {
                             .addAll(transactionRepository.findAll())
                             .build();
     this.goalRepository = goalRepository;
-    this.goals = ImmutableSet.<Goal>builder()
-                     .addAll(goalRepository.findAll())
-                     .build();
     this.balanceChangedNotifier = balanceChangedNotifier;
   }
 
@@ -89,16 +82,12 @@ public class CoreAccount implements Account {
 
   @Override
   public Set<Goal> goals() {
-    return ImmutableSet.copyOf(goals);
+    return ImmutableSet.copyOf(goalRepository.findAll());
   }
 
   @Override
   public void createGoal(String description, int targetAmount) {
     Goal goal = new Goal(description, targetAmount);
-    Goal savedGoal = goalRepository.save(goal);
-    goals = ImmutableSet.<Goal>builder()
-                .addAll(goals)
-                .add(savedGoal)
-                .build();
+    goalRepository.save(goal);
   }
 }
