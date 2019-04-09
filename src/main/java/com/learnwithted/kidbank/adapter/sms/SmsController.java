@@ -36,7 +36,7 @@ public class SmsController {
     PhoneNumber fromPhone = new PhoneNumber(request.getFrom());
     String commandText = request.getBody();
     if (!phoneNumberAuthorizer.isKnown(fromPhone)) {
-      log.info("Message {} from unknown number {}", commandText, fromPhone);
+      log.info("Received message '{}' from unknown number: {}", commandText, fromPhone);
       return "";
     }
 

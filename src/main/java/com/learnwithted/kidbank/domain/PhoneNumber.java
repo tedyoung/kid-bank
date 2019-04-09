@@ -1,8 +1,10 @@
 package com.learnwithted.kidbank.domain;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode
+@ToString
 public class PhoneNumber {
 
   private final String rawPhoneNumber;
