@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Your Goals (Kid Money Manager)</title>
+</head>
+<body>
+<h1>Your Goals</h1>
+
+<div th:if="${goals.isEmpty()}">
+  <b>There are no currently active Goals.</b>
+</div>
+<table th:unless="${goals.isEmpty()}">
+  <thead>
+  <tr>
+    <th>Goal</th>
+    <th>How Much?</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="goal : ${goals}">
+    <td th:text="${goal.description}">Nintendo Splatoon 2</td>
+    <td th:text="${goal.targetAmount}">$60.00</td>
+  </tr>
+  </tbody>
+</table>
+
+
+<h2>Create New Goal</h2>
+<form method="post" th:action="@{/goals/create}" th:object="${createGoal}">
+  <div>What are you saving up for? <input class="input" th:field="*{description}" type="text"></div>
+  <div>How much is it? <input class="input" step="0.01" th:field="*{targetAmount}" type="number"></div>
+  <button>Create Goal</button>
+</form>
+
+</body>
+</html>
