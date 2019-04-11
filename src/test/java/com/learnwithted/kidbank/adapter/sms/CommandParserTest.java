@@ -39,6 +39,28 @@ public class CommandParserTest {
   }
 
   @Test
+  public void spendWithValidAmoungAndDollarSignCreatesSpendCommand() throws Exception {
+    CoreAccount account = null;
+    CommandParser commandParser = new CommandParser(account);
+
+    TransactionCommand command = commandParser.parse("SPEND 78$");
+
+    assertThat(command)
+        .isEqualTo(new SpendCommand(account, 78_00));
+  }
+
+  @Test
+  public void depositWithValidAmountAndDollarSignCreatesDepositCommand() throws Exception {
+    CoreAccount account = null;
+    CommandParser commandParser = new CommandParser(account);
+
+    TransactionCommand command = commandParser.parse("deposit $9.99");
+
+    assertThat(command)
+        .isEqualTo(new DepositCommand(account, 9_99));
+  }
+
+  @Test
   public void depositWithNoDescriptionHasDefaultSmsMessageDescription() throws Exception {
     CommandParser commandParser = new CommandParser(null);
 

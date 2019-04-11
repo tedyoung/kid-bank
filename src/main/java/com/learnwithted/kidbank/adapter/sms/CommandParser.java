@@ -52,7 +52,8 @@ public class CommandParser {
 
   private int parseAmount(String[] parsed) {
     try {
-      return ScaledDecimals.decimalToPennies(parsed[1]);
+      String stringAmount = parsed[1].replaceAll("\\$", "");
+      return ScaledDecimals.decimalToPennies(stringAmount);
     } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
       throw new InvalidCommandException();
     }
