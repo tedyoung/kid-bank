@@ -29,4 +29,4 @@ jobs:
           path: target/surefire-reports
 
       - codecov/upload:
-           ile: {{ coverage_report_filepath }}
+           file: {{ coverage_report_filepath }}
