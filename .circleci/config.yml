@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     
-    working_directory: ~/circleci-demo-java-spring
+    working_directory: ~/kid-bank
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
