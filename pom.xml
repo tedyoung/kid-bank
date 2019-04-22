@@ -122,6 +122,13 @@
       <artifactId>twilio</artifactId>
       <version>7.35.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.3</version>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>
@@ -180,6 +187,26 @@
           <!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
         <!--</configuration>-->
       <!--</plugin>-->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- attached to Maven test phase -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
