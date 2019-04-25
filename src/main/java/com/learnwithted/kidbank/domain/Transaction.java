@@ -47,6 +47,10 @@ public class Transaction {
     return new Transaction(localDateTime, DEPOSIT, amount, source);
   }
 
+  public static Transaction createFooBar(LocalDateTime localDateTime, int amount, String source) {
+    return new Transaction(localDateTime, DEPOSIT, amount, source);
+  }
+
   public static Transaction createInterestCredit(LocalDateTime localDateTime, int amount) {
     return new Transaction(localDateTime, INTEREST, amount, "Interest Credit");
   }
