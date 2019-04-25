@@ -18,17 +18,17 @@ public class BalanceTest {
         .isZero();
   }
 
-  @Test
-  public void mixingDeposit17AndSpend9ShouldResultInBalanceOf8() throws Exception {
-    Account account = TestAccountBuilder.builder()
-                                        .buildAsCore();
-
-    account.deposit(LocalDateTime.of(2011, 5, 11, 0, 0), 1700, "Bottle Deposit");
-    account.spend(LocalDateTime.of(2011, 5, 11, 0, 0), 900, "Cards");
-
-    assertThat(account.balance())
-        .isEqualTo(800);
-  }
+//  @Test
+//  public void mixingDeposit17AndSpend9ShouldResultInBalanceOf8() throws Exception {
+//    Account account = TestAccountBuilder.builder()
+//                                        .buildAsCore();
+//
+//    account.deposit(LocalDateTime.of(2011, 5, 11, 0, 0), 1700, "Bottle Deposit");
+//    account.spend(LocalDateTime.of(2011, 5, 11, 0, 0), 900, "Cards");
+//
+//    assertThat(account.balance())
+//        .isEqualTo(800);
+//  }
 
   @Test
   public void balanceUpToEarlierDateDoesNotIncludeMoreRecentTransactions() throws Exception {
