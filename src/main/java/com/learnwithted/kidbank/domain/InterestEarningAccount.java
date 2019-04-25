@@ -31,6 +31,15 @@ public class InterestEarningAccount implements Account {
                                .build();
   }
 
+  public void interestCreditTake2(LocalDateTime localDateTime, int interestAmount) {
+    Transaction interestCreditTransaction =
+            Transaction.createInterestCredit(localDateTime, interestAmount);
+    interestTransactions = ImmutableList.<Transaction>builder()
+            .addAll(interestTransactions)
+            .add(interestCreditTransaction)
+            .build();
+  }
+
   @Override
   public int balance() {
     return balanceUpTo(LocalDateTime.MAX);
