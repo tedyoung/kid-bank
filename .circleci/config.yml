@@ -1,7 +1,6 @@
 version: 2.1
 
-orbs:
-  codecov: codecov/codecov@1.0.2
+
 jobs:
   build:
     
@@ -29,6 +28,7 @@ jobs:
       - store_test_results:
           path: target/surefire-reports
 
-      - codecov/upload:
-          file: target/site/jacoco/jacoco.xml
+      - run:
+          command: |
+            bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
 
