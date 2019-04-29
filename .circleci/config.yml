@@ -1,9 +1,8 @@
 version: 2.1
 
-orbs:
-  codecov: codecov/codecov@1.0.2
 jobs:
-  build:
+  - build:
+    context: shared_ctx
 
     working_directory: ~/kid-bank
 
@@ -30,7 +29,7 @@ jobs:
           path: target/surefire-reports
 
       - run:
-          context: shared_ctx
+
           command: |
             bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
 
