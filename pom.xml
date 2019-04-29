@@ -1,186 +1,208 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.3.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
-  <groupId>com.learnwithted</groupId>
-  <artifactId>kid-bank</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>KidBank</name>
-  <description>Bank for kids</description>
-
-  <properties>
-    <java.version>1.8</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <azure.version>2.1.2</azure.version>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>27.0.1-jre</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-mail</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-quartz</artifactId>-->
-    <!--</dependency>-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-
-    <!-- S E C U R I T Y -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-      <version>3.0.4.RELEASE</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.security.oauth.boot</groupId>
-      <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-      <version>2.1.3.RELEASE</version>
-    </dependency>
-
-    <!-- A Z U R E -->
-
-    <!--<dependency>-->
-      <!--<groupId>com.microsoft.azure</groupId>-->
-      <!--<artifactId>azure-spring-boot-starter</artifactId>-->
-    <!--</dependency>-->
-
-    <!-- D A T A B A S E -->
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <!-- T E S T   S C O P E -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.twilio.sdk</groupId>
-      <artifactId>twilio</artifactId>
-      <version>7.35.0</version>
-    </dependency>
-  </dependencies>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-spring-boot-bom</artifactId>
-        <version>${azure.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <build>
-    <plugins>
-      <plugin>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>5.2.4</version>
-        <configuration>
-          <url>jdbc:h2:file:./target/foobar</url>
-          <user>sa</user>
-        </configuration>
-        <dependencies>
-          <dependency>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.learnwithted</groupId>
+    <artifactId>kid-bank</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>KidBank</name>
+    <description>Bank for kids</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <azure.version>2.1.2</azure.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0.1-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-mail</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-quartz</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- S E C U R I T Y -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>2.1.3.RELEASE</version>
+        </dependency>
+
+        <!-- A Z U R E -->
+
+        <!--<dependency>-->
+        <!--<groupId>com.microsoft.azure</groupId>-->
+        <!--<artifactId>azure-spring-boot-starter</artifactId>-->
+        <!--</dependency>-->
+
+        <!-- D A T A B A S E -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.197</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-      <!--<plugin>-->
-        <!--<groupId>pl.project13.maven</groupId>-->
-        <!--<artifactId>git-commit-id-plugin</artifactId>-->
-        <!--<version>2.2.5</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
+        <!-- T E S T   S C O P E -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.35.0</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-spring-boot-bom</artifactId>
+                <version>${azure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                    <url>jdbc:h2:file:./target/foobar</url>
+                    <user>sa</user>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.197</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!--<plugin>-->
+            <!--<groupId>pl.project13.maven</groupId>-->
+            <!--<artifactId>git-commit-id-plugin</artifactId>-->
+            <!--<version>2.2.5</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
             <!--<id>get-the-git-infos</id>-->
             <!--<goals>-->
-              <!--<goal>revision</goal>-->
+            <!--<goal>revision</goal>-->
             <!--</goals>-->
-          <!--</execution>-->
-        <!--</executions>-->
-        <!--<configuration>-->
-          <!--<includeOnlyProperties>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<includeOnlyProperties>-->
             <!--<includeOnlyProperty>git.commit.id</includeOnlyProperty>-->
             <!--<includeOnlyProperty>git.commit.time</includeOnlyProperty>-->
             <!--<includeOnlyProperty>git.tags</includeOnlyProperty>-->
-          <!--</includeOnlyProperties>-->
-          <!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
-    </plugins>
-  </build>
+            <!--</includeOnlyProperties>-->
+            <!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>
