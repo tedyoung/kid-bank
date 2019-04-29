@@ -29,7 +29,6 @@ jobs:
           path: target/surefire-reports
 
       - run:
-
           command: |
             bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
 
