@@ -4,7 +4,7 @@ orbs:
   codecov: codecov/codecov@1.0.2
 jobs:
   build:
-    context: shared-ctx
+
     working_directory: ~/kid-bank
 
     docker:
@@ -29,6 +29,10 @@ jobs:
       - store_test_results:
           path: target/surefire-reports
 
-      - codecov/upload:
-          file: target/site/jacoco/jacoco.xml
+      - run:
+          context: shared_ctx
+          command: |
+            bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
+
+
 
