@@ -4,7 +4,7 @@ orbs:
   codecov: codecov/codecov@1.0.2
 jobs:
   build:
-    
+    context: shared-ctx
     working_directory: ~/kid-bank
 
     docker:
@@ -30,6 +30,5 @@ jobs:
           path: target/surefire-reports
 
       - codecov/upload:
-          context: shared-ctx
           file: target/site/jacoco/jacoco.xml
 
