@@ -26,18 +26,15 @@ jobs:
       
       - store_test_results:
           path: target/surefire-reports
-
-  upload_cov:
-    - run:
-        command: |
-          bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
+      - run:
+          command: |
+            bash <(curl -s https://codecov.io/bash)   -f target/site/jacoco/jacoco.xml   -n ${CIRCLE_BUILD_NUM}   -t ${CODECOV_TOKEN}   -F
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - upload_cov:
+      - build:
           context: shared_ctx
 
 
