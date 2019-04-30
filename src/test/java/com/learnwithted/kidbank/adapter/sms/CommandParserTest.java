@@ -39,7 +39,7 @@ public class CommandParserTest {
   }
 
   @Test
-  public void spendWithValidAmoungAndDollarSignCreatesSpendCommand() throws Exception {
+  public void spendWithValidAmountAndDollarSignCreatesSpendCommand() throws Exception {
     CoreAccount account = null;
     CommandParser commandParser = new CommandParser(account);
 
@@ -67,7 +67,7 @@ public class CommandParserTest {
     TransactionCommand command = commandParser.parse("deposit 1.2");
 
     assertThat(command)
-        .isEqualTo(new DepositCommand(null, 1_20, "SMS message"));
+        .isEqualTo(new DepositCommand(null, 1_20, ""));
   }
 
   @Test

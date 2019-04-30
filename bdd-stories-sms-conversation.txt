@@ -1,0 +1,39 @@
+# Conversational Stories
+
+user < spend 5
+kmm  > you've spent $5.00...balance is...
+
+Happy Case Scenario
+----
+
+user < spend 5 // also deposit
+kmm  > What did you spend $5.00 on?
+user < M&Ms at the movies  // this is the description for the spend transaction
+kmm  > OK, you spent $5.00 on "M&Ms at the movies", and your balance is now $45.35.
+
+Timeout Scenario
+----
+user < spend 5
+kmm  > What did you spend $5.00 on?
+[5 minutes pass, with no response from user]
+kmm  > OK, you spent $5.00, and your balance is now $45.35.
+
+
+New Conversation
+----
+user < spend 5
+kmm  > What did you spend $5.00 on?
+user < deposit 7.75
+kmm  > Where did the $7.75 come from?
+user < bottle returns
+
+
+Confused Command Completion
+----
+user < spend 5
+kmm  > What did you spend $5.00 on?
+user < dposit 7.75
+kmm  > OK, you spent $5.00 on "dposit 7.75", and your balance is now $45.35.
+user < no/undo/oops
+kmm  > OK, what did you spend $5.00 on?
+

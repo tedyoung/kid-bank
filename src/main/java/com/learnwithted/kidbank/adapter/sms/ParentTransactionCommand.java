@@ -11,7 +11,7 @@ import lombok.ToString;
 public abstract class ParentTransactionCommand implements TransactionCommand {
   protected final Account account;
   protected final int amount;
-  protected String description = "SMS message";
+  protected String description = "";
 
   public ParentTransactionCommand(Account account, int amount) {
     if (amount <= 0) {

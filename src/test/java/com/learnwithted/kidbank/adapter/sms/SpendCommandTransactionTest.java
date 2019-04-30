@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SpendCommandTest {
+public class SpendCommandTransactionTest {
 
   @Test
   public void spendWithValidAmountShouldReduceAccountBalance() throws Exception {
@@ -16,10 +16,10 @@ public class SpendCommandTest {
                                         .initialBalanceOf(100_00)
                                         .buildAsCore();
 
-    SpendCommand spendCommand = new SpendCommand(account, 13_75);
+    SpendCommand spendCommand = new SpendCommand(account, 13_75, "Stuff");
 
     assertThat(spendCommand.execute(Role.PARENT))
-        .isEqualTo("Spent $13.75, current balance is now $86.25");
+        .isEqualTo("Spent $13.75 on Stuff, current balance is now $86.25");
 
     assertThat(account.balance())
         .isEqualTo(86_25);
