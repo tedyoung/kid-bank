@@ -6,7 +6,11 @@ import com.learnwithted.kidbank.domain.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @NoArgsConstructor
 @Data
@@ -35,7 +39,10 @@ class UserProfileDto {
   }
 
   UserProfile asUserProfile() {
-    UserProfile userProfile = new UserProfile(name, new PhoneNumber(phone), email, Role.valueOf(role));
+    UserProfile userProfile = new UserProfile(name,
+                                              new PhoneNumber(phone),
+                                              email,
+                                              Role.valueOf(role));
     userProfile.setId(id);
     return userProfile;
   }

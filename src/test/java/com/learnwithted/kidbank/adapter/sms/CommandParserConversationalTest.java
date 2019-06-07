@@ -22,7 +22,7 @@ public class CommandParserConversationalTest {
     command.execute(Role.PARENT);
 
     assertThat(account.balance())
-        .isEqualTo(100_00);
+        .isEqualTo(95_00);
 
   }
 
