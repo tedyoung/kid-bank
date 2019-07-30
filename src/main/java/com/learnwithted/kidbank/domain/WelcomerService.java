@@ -3,6 +3,7 @@ package com.learnwithted.kidbank.domain;
 import com.learnwithted.kidbank.app.TextMessageSender;
 import com.learnwithted.kidbank.app.Welcomer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,6 +14,7 @@ public class WelcomerService implements Welcomer {
   private final TextMessageSender textMessageSender;
   private final UserProfileRepository userProfileRepository;
 
+  @Autowired
   public WelcomerService(TextMessageSender textMessageSender, UserProfileRepository userProfileRepository) {
     this.textMessageSender = textMessageSender;
     this.userProfileRepository = userProfileRepository;
