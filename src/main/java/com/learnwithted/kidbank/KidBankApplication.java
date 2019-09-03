@@ -40,8 +40,7 @@ public class KidBankApplication {
     if (isEnabled) {
       return new TextMessageBalanceChangedNotifier(textMessageSender);
     } else {
-      return (amount, balance) -> {
-      };
+      return new DoNothingBalanceChangeNotifier();
     }
   }
 

@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome reverse
+skinparam shadowing false
+
+participant client
+activate client
+activate SpringBoot
+boundary AccountController
+activate AccountController
+client -> SpringBoot: GET /api/accounts/123
+
+SpringBoot -> AccountController: accountInfo("123")
+create Account
+AccountController -> Account: (find Account)
+activate Account
+create AccountView
+AccountController -> AccountView: transform(account)
+activate AccountView
+deactivate Account
+
+SpringBoot -> Jackson: mapToJson(view)
+Jackson -> AccountView: getId()
+AccountView --> Jackson: 123
+Jackson -> AccountView: getBalance()
+AccountView --> Jackson: 10
+Jackson -> Jackson: generate JSON
+deactivate AccountView
+Jackson --> SpringBoot: {"id": 123, "balance": 10}
+
+SpringBoot --> client: {"id": 123, "balance": 10}
+deactivate AccountController
+deactivate SpringBoot
+deactivate client
+@enduml

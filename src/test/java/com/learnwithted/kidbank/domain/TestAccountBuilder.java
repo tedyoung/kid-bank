@@ -9,7 +9,7 @@ import static java.time.LocalDateTime.now;
 public class TestAccountBuilder {
 
   private TransactionRepository transactionRepository = new FakeTransactionRepository();
-  private BalanceChangedNotifier balanceChangedNotifier = new StubBalanceChangeNotifier();
+  private BalanceChangedNotifier balanceChangedNotifier = new DoNothingBalanceChangeNotifier();
   private InterestStrategy interestStrategy = account -> {};
   private GoalRepository goalRepository = new FakeGoalRepository();
   private CoreAccount coreAccount;
