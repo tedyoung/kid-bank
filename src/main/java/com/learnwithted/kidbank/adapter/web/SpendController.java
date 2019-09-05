@@ -24,7 +24,7 @@ public class SpendController extends TransactionController {
 
   @GetMapping
   public String spendForm(Model model) {
-    TransactionDto spendCommand = TransactionDto.createWithTodayDate();
+    TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     model.addAttribute("spendCommand", spendCommand);
 
     return "spend";
@@ -32,7 +32,7 @@ public class SpendController extends TransactionController {
 
   @PostMapping
   public String processSpendCommand(
-                @Valid @ModelAttribute("spendCommand") TransactionDto spendDto,
+                @Valid @ModelAttribute("spendCommand") TransactionCommand spendDto,
                 BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return "spend";

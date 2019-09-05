@@ -21,7 +21,7 @@ public class SpendControllerTest {
 
   @Test
   public void spendCommandShouldReduceAmountInAccount() throws Exception {
-    TransactionDto spendCommand = TransactionDto.createWithTodayDate();
+    TransactionCommand spendCommand = TransactionCommand.createWithTodayDate();
     spendCommand.setAmount(BigDecimal.valueOf(34.79));
 
     Account account = TestAccountBuilder.builder().buildAsCore();

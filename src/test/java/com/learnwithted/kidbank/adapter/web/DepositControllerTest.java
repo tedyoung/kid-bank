@@ -21,7 +21,7 @@ public class DepositControllerTest {
 
   @Test
   public void depositCommandShouldAddAmountToAccount() throws Exception {
-    TransactionDto depositCommand = TransactionDto.createWithTodayDate();
+    TransactionCommand depositCommand = TransactionCommand.createWithTodayDate();
     depositCommand.setAmount(BigDecimal.valueOf(12.34));
 
     Account account = TestAccountBuilder.builder().buildAsCore();

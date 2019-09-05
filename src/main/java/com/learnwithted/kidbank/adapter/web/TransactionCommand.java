@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class TransactionDto {
+public class TransactionCommand {
 
   private String date;
 
@@ -20,11 +20,11 @@ public class TransactionDto {
 
   private String description;
 
-  public static TransactionDto createWithTodayDate() {
-    TransactionDto transactionDto = new TransactionDto();
+  public static TransactionCommand createWithTodayDate() {
+    TransactionCommand transactionCommand = new TransactionCommand();
     LocalDate localDate = LocalDate.now();
-    transactionDto.setDate(localDate.format(DateFormatting.YYYY_MM_DD_DATE_FORMATTER));
-    return transactionDto;
+    transactionCommand.setDate(localDate.format(DateFormatting.YYYY_MM_DD_DATE_FORMATTER));
+    return transactionCommand;
   }
 
   public int amountInCents() {
