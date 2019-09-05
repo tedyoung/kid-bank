@@ -2,7 +2,6 @@ package com.learnwithted.kidbank.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -10,8 +9,6 @@ import java.util.function.Predicate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "transactions")
 public class Transaction {
   private static final String SPEND = "Spend";
   private static final String DEPOSIT = "Deposit";
@@ -20,8 +17,6 @@ public class Transaction {
   // EXTRINSIC property used by Repository
   @Getter
   @Setter
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   // INTRINSIC properties of Transaction

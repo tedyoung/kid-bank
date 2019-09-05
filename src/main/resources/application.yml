@@ -13,6 +13,9 @@ spring:
     hibernate:
       ddl-auto: validate
 
+## This is for running locally with postgres
+#  profiles:
+#    active: postgres
 
 # Configuration for Google OAuth2
 
