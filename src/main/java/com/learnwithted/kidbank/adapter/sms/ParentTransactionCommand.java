@@ -13,7 +13,7 @@ public abstract class ParentTransactionCommand implements TransactionCommand {
   protected final int amount;
   protected String description = "";
 
-  public ParentTransactionCommand(Account account, int amount) {
+  ParentTransactionCommand(Account account, int amount) {
     if (amount <= 0) {
       throw new IllegalArgumentException("Amount must be greater than 0.");
     }
@@ -21,7 +21,7 @@ public abstract class ParentTransactionCommand implements TransactionCommand {
     this.amount = amount;
   }
 
-  public ParentTransactionCommand(Account account, int amount, String description) {
+  ParentTransactionCommand(Account account, int amount, String description) {
     this(account, amount);
 
     if (!description.isEmpty()) {

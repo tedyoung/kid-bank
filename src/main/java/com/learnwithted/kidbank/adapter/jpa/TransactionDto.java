@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.adapter.jpa;
 
+import com.learnwithted.kidbank.domain.Action;
 import com.learnwithted.kidbank.domain.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,12 +27,13 @@ class TransactionDto {
   static TransactionDto from(Transaction transaction) {
     return new TransactionDto(transaction.getId(),
                               transaction.dateTime(),
-                              transaction.action(),
+                              transaction.action().toString(),
                               transaction.amount(),
                               transaction.source());
   }
 
   Transaction asTransaction() {
-    return new Transaction(id, date, action, amount, source);
+    Action actionEnum = Action.valueOf(action.toUpperCase());
+    return new Transaction(id, date, actionEnum, amount, source);
   }
 }

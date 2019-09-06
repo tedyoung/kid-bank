@@ -20,7 +20,10 @@ public class TransactionView {
   public static TransactionView from(Transaction txn) {
     String amountString = ScaledDecimals.formatAsMoney(txn.amount());
     String dateAsString = DateFormatting.formatAsDate(txn.dateTime());
-    return new TransactionView(dateAsString, txn.action(), amountString, txn.source());
+
+    String actionString = ActionFormatter.format(txn.action());
+
+    return new TransactionView(dateAsString, actionString, amountString, txn.source());
   }
 
 }

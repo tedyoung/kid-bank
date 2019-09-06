@@ -25,7 +25,7 @@ public class AccountTransactionTest {
     account.deposit(transactionDateTime, 123, "Bottle Return");
 
     Transaction expectedTransaction = new Transaction(
-        transactionDateTime, "Deposit", 123, "Bottle Return");
+        transactionDateTime, Action.DEPOSIT, 123, "Bottle Return");
     expectedTransaction.setId(0L);
 
     assertThat(account.transactions())

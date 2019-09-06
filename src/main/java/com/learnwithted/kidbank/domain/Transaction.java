@@ -6,13 +6,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import static com.learnwithted.kidbank.domain.Action.*;
+
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
-  private static final String SPEND = "Spend";
-  private static final String DEPOSIT = "Deposit";
-  private static final String INTEREST = "Interest Credit";
 
   // EXTRINSIC property used by Repository
   @Getter
@@ -21,11 +20,11 @@ public class Transaction {
 
   // INTRINSIC properties of Transaction
   private LocalDateTime date;
-  private String action;
+  private Action action;
   private int amount; // scaled two decimal places, i.e., cents
   private String source;
 
-  public Transaction(LocalDateTime date, String action, int amount, String source) {
+  public Transaction(LocalDateTime date, Action action, int amount, String source) {
     this.date = date;
     this.action = action;
     this.amount = amount;
@@ -41,15 +40,15 @@ public class Transaction {
   }
 
   public static Transaction createInterestCredit(LocalDateTime localDateTime, int amount) {
-    return new Transaction(localDateTime, INTEREST, amount, "Interest Credit");
+    return new Transaction(localDateTime, INTEREST_CREDIT, amount, "Interest Credit");
   }
 
   public LocalDateTime dateTime() {
     return date;
   }
 
-  public String action() {
-    return action;
+  public static Predicate<Transaction> isInterestCredit() {
+    return t -> t.action.equals(INTEREST_CREDIT);
   }
 
   public int amount() {
@@ -64,8 +63,8 @@ public class Transaction {
     return action.equals(SPEND) ? -amount : amount;
   }
 
-  public static Predicate<Transaction> isInterestCredit() {
-    return t -> t.action.equals(INTEREST);
+  public Action action() {
+    return action;
   }
 
   @Override

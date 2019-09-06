@@ -1,5 +1,6 @@
 package com.learnwithted.kidbank.adapter.jpa;
 
+import com.learnwithted.kidbank.domain.Action;
 import com.learnwithted.kidbank.domain.Transaction;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -59,7 +60,7 @@ public class TransactionDtoJpaAdapterTest {
     assertThat(savedTransaction.getId())
         .isEqualTo(assignedId);
     assertThat(savedTransaction.action())
-        .isEqualToIgnoringCase("deposit");
+        .isEqualTo(Action.DEPOSIT);
   }
 
   @Test
