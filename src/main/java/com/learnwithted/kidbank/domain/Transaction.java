@@ -21,13 +21,13 @@ public class Transaction {
   // INTRINSIC properties of Transaction
   private LocalDateTime date;
   private Action action;
-  private int amount; // scaled two decimal places, i.e., cents
+  private int amountInCents;
   private String source;
 
-  public Transaction(LocalDateTime date, Action action, int amount, String source) {
+  public Transaction(LocalDateTime date, Action action, int amountInCents, String source) {
     this.date = date;
     this.action = action;
-    this.amount = amount;
+    this.amountInCents = amountInCents;
     this.source = source;
   }
 
@@ -52,7 +52,7 @@ public class Transaction {
   }
 
   public int amount() {
-    return amount;
+    return amountInCents;
   }
 
   public String source() {
@@ -60,7 +60,7 @@ public class Transaction {
   }
 
   public int signedAmount() {
-    return action.equals(SPEND) ? -amount : amount;
+    return action.equals(SPEND) ? -amountInCents : amountInCents;
   }
 
   public Action action() {
