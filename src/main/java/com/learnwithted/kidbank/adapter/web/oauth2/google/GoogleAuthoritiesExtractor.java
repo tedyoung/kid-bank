@@ -1,4 +1,4 @@
-package com.learnwithted.kidbank.adapter.web;
+package com.learnwithted.kidbank.adapter.web.oauth2.google;
 
 import com.learnwithted.kidbank.domain.UserProfile;
 import com.learnwithted.kidbank.domain.UserProfileRepository;

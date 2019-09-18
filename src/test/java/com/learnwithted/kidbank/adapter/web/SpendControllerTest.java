@@ -29,11 +29,10 @@ public class SpendControllerTest {
     SpendController spendController = new SpendController(account);
 
     Mockito.when(mockBindingResult.hasErrors()).thenReturn(false);
-    spendController.processSpendCommand(spendCommand, mockBindingResult);
+    spendController.processSpendCommand(spendCommand, mockBindingResult, null);
 
     assertThat(account.balance())
         .isEqualTo(-3479);
   }
-
 
 }
