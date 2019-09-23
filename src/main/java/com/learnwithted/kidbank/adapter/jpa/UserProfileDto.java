@@ -3,47 +3,40 @@ package com.learnwithted.kidbank.adapter.jpa;
 import com.learnwithted.kidbank.domain.PhoneNumber;
 import com.learnwithted.kidbank.domain.Role;
 import com.learnwithted.kidbank.domain.UserProfile;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "user_profiles")
 class UserProfileDto {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
   private String name;
   private String phone;
   private String email;
   private String role;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-
   public static UserProfileDto from(UserProfile userProfile) {
-    UserProfileDto dto = new UserProfileDto();
-
-    dto.setId(userProfile.getId());
-    dto.setName(userProfile.name());
-    dto.setEmail(userProfile.email());
-    dto.setPhone(userProfile.phoneNumber().asRaw());
-    dto.setRole(userProfile.role().name());
-
-    return dto;
+    return new UserProfileDto(userProfile.getId(),
+                              userProfile.name(),
+                              userProfile.phoneNumber().asRaw(),
+                              userProfile.email(),
+                              userProfile.role().name());
   }
 
   UserProfile asUserProfile() {
-    UserProfile userProfile = new UserProfile(name,
-                                              new PhoneNumber(phone),
-                                              email,
-                                              Role.valueOf(role));
-    userProfile.setId(id);
-    return userProfile;
+    return new UserProfile(id,
+                           name,
+                           new PhoneNumber(phone),
+                           email,
+                           Role.valueOf(role));
   }
 }

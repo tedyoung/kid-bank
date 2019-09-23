@@ -1,16 +1,17 @@
 package com.learnwithted.kidbank.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.learnwithted.kidbank.domain.Action.*;
 
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class Transaction {
 
   // EXTRINSIC property used by Repository
@@ -23,20 +24,41 @@ public class Transaction {
   private Action action;
   private int amountInCents;
   private String source;
+  private Optional<UserProfile> creator;
 
+  // RESTRICTED: Used only by TransactionDto coming from the database
+  public Transaction(Long id, LocalDateTime date, Action action, int amountInCents, String source, UserProfile creator) {
+    this.date = date;
+    this.action = action;
+    this.amountInCents = amountInCents;
+    this.source = source;
+    this.creator = Optional.ofNullable(creator);
+    this.id = id;
+  }
+
+  // backwards compatible (and for interest credit)
   public Transaction(LocalDateTime date, Action action, int amountInCents, String source) {
     this.date = date;
     this.action = action;
     this.amountInCents = amountInCents;
     this.source = source;
+    this.creator = Optional.empty();
   }
 
-  public static Transaction createSpend(LocalDateTime localDateTime, int amount, String source) {
-    return new Transaction(localDateTime, SPEND, amount, source);
+  public Transaction(LocalDateTime date, Action action, int amountInCents, String source, UserProfile creator) {
+    this.date = date;
+    this.action = action;
+    this.amountInCents = amountInCents;
+    this.source = source;
+    this.creator = Optional.of(creator);
   }
 
-  public static Transaction createDeposit(LocalDateTime localDateTime, int amount, String source) {
-    return new Transaction(localDateTime, DEPOSIT, amount, source);
+  public static Transaction createDeposit(LocalDateTime localDateTime, int amount, String source, UserProfile creator) {
+    return new Transaction(localDateTime, DEPOSIT, amount, source, creator);
+  }
+
+  public static Transaction createSpend(LocalDateTime localDateTime, int amount, String source, UserProfile creator) {
+    return new Transaction(localDateTime, SPEND, amount, source, creator);
   }
 
   public static Transaction createInterestCredit(LocalDateTime localDateTime, int amount) {
@@ -80,5 +102,9 @@ public class Transaction {
   @Override
   public int hashCode() {
     return id != null ? id.hashCode() : 0;
+  }
+
+  public Optional<UserProfile> creator() {
+    return creator;
   }
 }

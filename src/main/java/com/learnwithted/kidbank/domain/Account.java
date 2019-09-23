@@ -9,9 +9,9 @@ import java.util.Set;
 public interface Account {
   int balance();
 
-  void deposit(LocalDateTime transactionDateTime, int amount, String source);
+  void deposit(LocalDateTime transactionDateTime, int amount, String source, UserProfile userProfile);
 
-  void spend(LocalDateTime transactionDateTime, int amount, String description);
+  void spend(LocalDateTime transactionDateTime, int amount, String description, UserProfile userProfile);
 
   ImmutableList<Transaction> transactions();
 

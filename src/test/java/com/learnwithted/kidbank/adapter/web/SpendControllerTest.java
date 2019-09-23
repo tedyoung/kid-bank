@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.DummyUserProfile;
 import com.learnwithted.kidbank.domain.TestAccountBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class SpendControllerTest {
     SpendController spendController = new SpendController(account);
 
     Mockito.when(mockBindingResult.hasErrors()).thenReturn(false);
-    spendController.processSpendCommand(spendCommand, mockBindingResult, null);
+    spendController.processSpendCommand(spendCommand, mockBindingResult, new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(-3479);

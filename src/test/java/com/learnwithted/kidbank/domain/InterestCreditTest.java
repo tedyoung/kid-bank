@@ -77,7 +77,7 @@ public class InterestCreditTest {
                                         .buildAsInterestEarning(2019, 2, 28);
 
     //    And another deposit of $200 was made on 1/15/2019
-    account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 200_00, "second deposit");
+    account.deposit(localDateTimeAtMidnightOf(2019, 1, 15), 200_00, "second deposit", new DummyUserProfile());
 
     //    Then we add interest credits of 1/1/2018 (bal=$100/21c), 2/1/2018 (bal=$300.21/63c)
     List<Integer> transactions = account.transactions()
@@ -114,7 +114,7 @@ public class InterestCreditTest {
                                         .initialBalanceOf(500_00, 2018, 10, 31)
                                         .buildAsInterestEarning(2019, 1, 28);
 
-    account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend all the moneeze");
+    account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend all the moneeze", new DummyUserProfile());
 
     assertThat(account.balance())
         .isZero();
@@ -125,7 +125,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .buildAsInterestEarning(2019, 1, 28);
 
-    account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend money I don't have");
+    account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend money I don't have", new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(-500_00);
@@ -136,7 +136,7 @@ public class InterestCreditTest {
     Account account = TestAccountBuilder.builder()
                                         .buildAsInterestEarning(2019, 3, 2);
 
-    account.spend(localDateTimeAtMidnightOf(2019, 1, 30), 500_00, "spend money I don't have");
+    account.spend(localDateTimeAtMidnightOf(2019, 1, 30), 500_00, "spend money I don't have", new DummyUserProfile());
 
     assertThat(account.transactions()
                       .stream()

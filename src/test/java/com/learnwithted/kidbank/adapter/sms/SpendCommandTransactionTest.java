@@ -1,9 +1,6 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.Role;
-import com.learnwithted.kidbank.domain.TestAccountBuilder;
-import com.learnwithted.kidbank.domain.Transaction;
+import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,8 +15,8 @@ public class SpendCommandTransactionTest {
 
     SpendCommand spendCommand = new SpendCommand(account, 13_75, "Stuff");
 
-    assertThat(spendCommand.execute(Role.PARENT))
-        .isEqualTo("Spent $13.75 on Stuff, current balance is now $86.25");
+    assertThat(spendCommand.execute(new UserProfile(null, null, null, Role.PARENT)))
+        .isEqualTo("Spent $13.75, current balance is now $86.25");
 
     assertThat(account.balance())
         .isEqualTo(86_25);
@@ -34,7 +31,7 @@ public class SpendCommandTransactionTest {
 
     SpendCommand spendCommand = new SpendCommand(account, 13_75, "Cookie from store");
 
-    spendCommand.execute(Role.PARENT);
+    spendCommand.execute(new UserProfile(null, null, null, Role.PARENT));
 
     assertThat(builder.transactionRepository().findAll().get(1))
         .extracting(Transaction::source)

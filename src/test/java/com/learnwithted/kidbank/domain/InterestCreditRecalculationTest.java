@@ -18,13 +18,13 @@ public class InterestCreditRecalculationTest {
                           .initialBalanceOf(500_00, 2018, 4, 15);
     InterestEarningAccount account = testAccountBuilder.buildAsInterestEarning(2018, 6, 5);
 
-    account.deposit(localDateTimeAtMidnightOf(2018, 4, 25), 40_00, "deposit");
+    account.deposit(localDateTimeAtMidnightOf(2018, 4, 25), 40_00, "deposit", new DummyUserProfile());
     account.interestCredit(localDateTimeAtMidnightOf(2018, 5, 1), 1_13);
-    account.deposit(localDateTimeAtMidnightOf(2018, 5, 3), 60_00, "deposit");
+    account.deposit(localDateTimeAtMidnightOf(2018, 5, 3), 60_00, "deposit", new DummyUserProfile());
     account.interestCredit(localDateTimeAtMidnightOf(2018, 6, 1), 1_25);
 
     //    When we add old transaction
-    account.spend(localDateTimeAtMidnightOf(2018, 5, 12), 75_00, "spend");
+    account.spend(localDateTimeAtMidnightOf(2018, 5, 12), 75_00, "spend", new DummyUserProfile());
 
     //    And when we ask for the balance, the interest credits are recomputed
     account.balance();

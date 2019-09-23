@@ -23,7 +23,7 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createDeposit(LocalDateTime.of(2018, 1, 5, 0, 0),
+            CsvImporter.createDeposit(LocalDateTime.of(2018, 1, 5, 0, 0),
                                       5000, "Birthday gift"));
   }
 
@@ -37,7 +37,7 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createDeposit(localDateTimeAtMidnightOf(2018, 2, 3),
+            CsvImporter.createDeposit(localDateTimeAtMidnightOf(2018, 2, 3),
                                       40_00, "Birthday gift"));
   }
 
@@ -51,7 +51,7 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createDeposit(localDateTimeAtMidnightOf(2018, 2, 9),
+            CsvImporter.createDeposit(localDateTimeAtMidnightOf(2018, 2, 9),
                                       75_00, ""));
   }
 
@@ -64,7 +64,7 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createSpend(localDateTimeAtMidnightOf(2018, 5, 12),
+            CsvImporter.createSpend(localDateTimeAtMidnightOf(2018, 5, 12),
                                     57_00, ""));
   }
 
@@ -79,9 +79,9 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createDeposit(LocalDateTime.of(2018, 5, 3, 0, 0),
+            CsvImporter.createDeposit(LocalDateTime.of(2018, 5, 3, 0, 0),
                                       675, "Bottle return"),
-            Transaction.createDeposit(LocalDateTime.of(2018, 5, 24, 0, 0),
+            CsvImporter.createDeposit(LocalDateTime.of(2018, 5, 24, 0, 0),
                                       775, "Bottle return"));
   }
 
@@ -110,7 +110,7 @@ public class CsvImportTest {
     assertThat(transactions)
         .usingElementComparatorIgnoringFields("id")
         .containsExactly(
-            Transaction.createSpend(LocalDateTime.of(2019, 1, 4, 0, 0),
+            CsvImporter.createSpend(LocalDateTime.of(2019, 1, 4, 0, 0),
                                     3000, "Share of Corsair headphones"));
 
   }

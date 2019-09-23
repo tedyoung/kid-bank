@@ -8,11 +8,16 @@ import static java.time.LocalDateTime.now;
 
 public class TestAccountBuilder {
 
+  private static final UserProfile CREATOR = new UserProfile("jpdAdapterTest",
+                                                             new PhoneNumber("+16505551212"),
+                                                             "jpaEmail", Role.PARENT);
+
   private TransactionRepository transactionRepository = new FakeTransactionRepository();
   private BalanceChangedNotifier balanceChangedNotifier = new DoNothingBalanceChangeNotifier();
   private InterestStrategy interestStrategy = account -> {};
   private GoalRepository goalRepository = new FakeGoalRepository();
   private CoreAccount coreAccount;
+
 
   public static TestAccountBuilder builder() {
     return new TestAccountBuilder();
@@ -41,13 +46,13 @@ public class TestAccountBuilder {
   }
 
   public TestAccountBuilder initialBalanceOf(int amount) {
-    transactionRepository.save(Transaction.createDeposit(now(), amount, "initialized in test"));
+    transactionRepository.save(Transaction.createDeposit(now(), amount, "initialized in test", CREATOR));
     return this;
   }
 
   public TestAccountBuilder initialBalanceOf(int amount, int year, int month, int day) {
     transactionRepository.save(Transaction.createDeposit(
-        localDateTimeAtMidnightOf(year, month, day), amount, "initialized in test"));
+        localDateTimeAtMidnightOf(year, month, day), amount, "initialized in test", CREATOR));
     return this;
   }
 

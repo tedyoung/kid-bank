@@ -1,9 +1,6 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.domain.Account;
-import com.learnwithted.kidbank.domain.Role;
-import com.learnwithted.kidbank.domain.TestAccountBuilder;
-import com.learnwithted.kidbank.domain.Transaction;
+import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,12 +8,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DepositCommandTest {
 
+  private static final UserProfile PARENT_USER_PROFILE = new UserProfile(null, null, null, Role.PARENT);
+
   @Test
   public void depositCommandShouldDepositAmount() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
     DepositCommand depositCommand = new DepositCommand(account, 13_75);
 
-    assertThat(depositCommand.execute(Role.PARENT))
+    assertThat(depositCommand.execute(PARENT_USER_PROFILE))
         .isEqualTo("Deposited $13.75, current balance is now $13.75");
 
     assertThat(account.balance())
@@ -29,7 +28,7 @@ public class DepositCommandTest {
     Account account = builder.buildAsCore();
     DepositCommand depositCommand = new DepositCommand(account, 27_95, "Cookie");
 
-    depositCommand.execute(Role.PARENT);
+    depositCommand.execute(PARENT_USER_PROFILE);
 
     assertThat(builder.transactionRepository().findAll())
         .hasSize(1)

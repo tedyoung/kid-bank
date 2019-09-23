@@ -44,7 +44,7 @@ public class SpendController extends TransactionController {
     int spendAmount = spendDto.amountInCents();
     LocalDateTime dateTime = spendDto.getDateAsLocalDateTime();
 
-    account.spend(dateTime, spendAmount, spendDto.getDescription());
+    account.spend(dateTime, spendAmount, spendDto.getDescription(), userProfile);
 
     return "redirect:" + AccountController.ACCOUNT_URL;
   }

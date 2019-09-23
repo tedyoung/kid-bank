@@ -44,14 +44,14 @@ public class InterestEarningAccount implements Account {
   }
 
   @Override
-  public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
-    decorateeAccount.deposit(transactionDateTime, amount, source);
+  public void deposit(LocalDateTime transactionDateTime, int amount, String source, UserProfile userProfile) {
+    decorateeAccount.deposit(transactionDateTime, amount, source, userProfile);
     computeInterest();
   }
 
   @Override
-  public void spend(LocalDateTime transactionDateTime, int amount, String description) {
-    decorateeAccount.spend(transactionDateTime, amount, description);
+  public void spend(LocalDateTime transactionDateTime, int amount, String description, UserProfile userProfile) {
+    decorateeAccount.spend(transactionDateTime, amount, description, userProfile);
     computeInterest();
   }
 

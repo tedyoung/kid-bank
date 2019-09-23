@@ -25,9 +25,9 @@ public class ImportCsvControllerTest {
     assertThat(account.transactions())
         .usingElementComparatorIgnoringFields("id")
         .containsExactlyInAnyOrder(
-            Transaction.createDeposit(LocalDateTime.of(2018, 3, 7, 0, 0),
+            CsvImporter.createDeposit(LocalDateTime.of(2018, 3, 7, 0, 0),
                                       550, "Bottle return"),
-            Transaction.createSpend(LocalDateTime.of(2018, 3, 25, 0, 0),
+            CsvImporter.createSpend(LocalDateTime.of(2018, 3, 25, 0, 0),
                                     1200, "MTG Draft Game Kastle"),
             Transaction.createInterestCredit(LocalDateTime.of(2018, 4, 1, 0, 0), 11));
   }

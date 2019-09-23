@@ -1,10 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.IntegrationTestConfiguration;
-import com.learnwithted.kidbank.domain.PhoneNumber;
-import com.learnwithted.kidbank.domain.Role;
-import com.learnwithted.kidbank.domain.UserProfile;
-import com.learnwithted.kidbank.domain.UserProfileRepository;
+import com.learnwithted.kidbank.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,14 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WithMockUser(username = "parent", roles = {"KID", "PARENT"})
-public class SmsBalanceCheckIntegrationTest {
-  public static final String PARENT_PHONE_NUMBER = "+14085551212";
+public class SmsIntegrationTest {
+  private static final String PARENT_PHONE_NUMBER = "+14085551212";
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockBean
   private UserProfileRepository userProfileRepository;
+
+  @Autowired
+  private Account account;
 
   @Test
   public void fromTwilioViaParentNumberShouldProcessDepositAndRespondWithCurrentBalance() throws Exception {
@@ -66,6 +67,30 @@ public class SmsBalanceCheckIntegrationTest {
                                            "<Message><Body>" +
                                            "Your balance is $98.95" +
                                            "</Body></Message></Response>"));
+  }
+
+  @Test
+  public void depositCreatesTransactionWithUserProfileForPhoneNumber() throws Exception {
+    PhoneNumber parentPhoneNumber = new PhoneNumber(PARENT_PHONE_NUMBER);
+    UserProfile parentUserProfile = new UserProfile(73L, "The Parent", parentPhoneNumber,
+                                             "parent@example.com", Role.PARENT);
+
+    when(userProfileRepository.findByPhoneNumber(parentPhoneNumber))
+        .thenReturn(Optional.of(parentUserProfile));
+
+    mockMvc.perform(post("/api/sms")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("Body", "deposit 98.95 Gift from Grandparents")
+                        .param("From", PARENT_PHONE_NUMBER)
+                        .param("MessageSid", "98765"))
+           .andExpect(status().isOk());
+
+    assertThat(account.transactions())
+        .hasSize(1);
+
+    Optional<UserProfile> creator = account.transactions().iterator().next().creator();
+    assertThat(creator)
+        .contains(parentUserProfile);
   }
 
 }

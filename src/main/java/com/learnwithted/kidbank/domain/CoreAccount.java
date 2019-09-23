@@ -29,8 +29,8 @@ public class CoreAccount implements Account {
   }
 
   @Override
-  public void deposit(LocalDateTime transactionDateTime, int amount, String source) {
-    Transaction deposit = Transaction.createDeposit(transactionDateTime, amount, source);
+  public void deposit(LocalDateTime transactionDateTime, int amount, String source, UserProfile userProfile) {
+    Transaction deposit = Transaction.createDeposit(transactionDateTime, amount, source, userProfile);
     addNewTransaction(deposit);
     balanceChangedNotifier.balanceChanged(amount, transactions.stream()
                                                               .mapToInt(Transaction::signedAmount)
@@ -38,8 +38,8 @@ public class CoreAccount implements Account {
   }
 
   @Override
-  public void spend(LocalDateTime transactionDateTime, int amount, String description) {
-    Transaction spend = Transaction.createSpend(transactionDateTime, amount, description);
+  public void spend(LocalDateTime transactionDateTime, int amount, String description, UserProfile userProfile) {
+    Transaction spend = Transaction.createSpend(transactionDateTime, amount, description, userProfile);
     addNewTransaction(spend);
     balanceChangedNotifier.balanceChanged(-amount, transactions.stream()
                                                                .mapToInt(Transaction::signedAmount)

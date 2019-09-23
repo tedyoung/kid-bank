@@ -12,7 +12,7 @@ public class DepositTest {
     Account account = TestAccountBuilder.builder()
                                         .buildAsCore();
 
-    account.deposit(localDateTimeAtMidnightOf(2018, 12, 27), 495, "Bottle Return");
+    account.deposit(localDateTimeAtMidnightOf(2018, 12, 27), 495, "Bottle Return", new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(495);
@@ -23,8 +23,8 @@ public class DepositTest {
     Account account = TestAccountBuilder.builder()
                                         .buildAsCore();
 
-    account.deposit(localDateTimeAtMidnightOf(2019, 2, 13), 100, "Bottle Return");
-    account.deposit(localDateTimeAtMidnightOf(2019, 2, 13), 200, "Bottle Return");
+    account.deposit(localDateTimeAtMidnightOf(2019, 2, 13), 100, "Bottle Return", new DummyUserProfile());
+    account.deposit(localDateTimeAtMidnightOf(2019, 2, 13), 200, "Bottle Return", new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(300);

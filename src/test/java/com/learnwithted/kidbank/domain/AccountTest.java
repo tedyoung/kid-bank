@@ -10,15 +10,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountTest {
 
+  private static final UserProfile CREATOR = new UserProfile("jpdAdapterTest",
+                                                             new PhoneNumber("+16505551212"),
+                                                             "jpaEmail", Role.PARENT);
+
   @Test
   public void loadTransactionsIntoCoreAccountStoresThoseTransactions() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
 
     List<Transaction> transactionsToLoad = new ArrayList<>();
     transactionsToLoad.add(
-        Transaction.createDeposit(localDateTimeAtMidnightOf(2015, 5, 8), 7825, "txn 1"));
+        Transaction.createDeposit(localDateTimeAtMidnightOf(2015, 5, 8), 7825, "txn 1", CREATOR));
     transactionsToLoad.add(
-        Transaction.createSpend(localDateTimeAtMidnightOf(2015, 5, 9), 2595, "txn 2"));
+        Transaction.createSpend(localDateTimeAtMidnightOf(2015, 5, 9), 2595, "txn 2", CREATOR));
 
     account.load(transactionsToLoad);
 
@@ -34,9 +38,9 @@ public class AccountTest {
 
     List<Transaction> transactionsToLoad = new ArrayList<>();
     transactionsToLoad.add(
-        Transaction.createDeposit(localDateTimeAtMidnightOf(2015, 5, 8), 78_25, "deposit"));
+        Transaction.createDeposit(localDateTimeAtMidnightOf(2015, 5, 8), 78_25, "deposit", CREATOR));
     transactionsToLoad.add(
-        Transaction.createSpend(localDateTimeAtMidnightOf(2015, 5, 9), 25_95, "spend"));
+        Transaction.createSpend(localDateTimeAtMidnightOf(2015, 5, 9), 25_95, "spend", CREATOR));
     transactionsToLoad.add(
         Transaction.createInterestCredit(localDateTimeAtMidnightOf(2015, 6, 1), 2_15));
 

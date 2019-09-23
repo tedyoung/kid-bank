@@ -2,29 +2,32 @@ package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.PhoneNumber;
-import com.learnwithted.kidbank.domain.PhoneNumberAuthorizer;
+import com.learnwithted.kidbank.domain.UserProfile;
+import com.learnwithted.kidbank.domain.UserProfileRepository;
 import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.messaging.Body;
 import com.twilio.twiml.messaging.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api")
 @Slf4j
 public class SmsController {
 
-  private final PhoneNumberAuthorizer phoneNumberAuthorizer;
   private final CommandParser commandParser;
+  private final UserProfileRepository userProfileRepository;
 
   @Autowired
-  public SmsController(Account account, PhoneNumberAuthorizer phoneNumberAuthorizer) {
-    this.phoneNumberAuthorizer = phoneNumberAuthorizer;
+  public SmsController(Account account,
+                       UserProfileRepository userProfileRepository) {
     commandParser = new CommandParser(account);
+    this.userProfileRepository = userProfileRepository;
   }
 
   @PostMapping(
@@ -35,17 +38,24 @@ public class SmsController {
   public String incomingSms(TwilioIncomingRequest request) {
     PhoneNumber fromPhone = new PhoneNumber(request.getFrom());
     String commandText = request.getBody();
-    if (!phoneNumberAuthorizer.isKnown(fromPhone)) {
-      log.info("Received message '{}' from unknown number: {}", commandText, fromPhone);
-      return "";
-    }
 
-    return executeCommand(commandText, fromPhone);
+    UserProfile userProfile = userProfileRepository.findByPhoneNumber(fromPhone)
+        .orElseThrow(() -> new NoSuchElementException(
+            "Could not find authorized User Profile for " + fromPhone + ", command text was: " + commandText));
+
+    return executeCommand(commandText, userProfile);
   }
 
-  private String executeCommand(String commandText, PhoneNumber fromPhone) {
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.OK)
+  public String handleException(Exception exception) {
+    log.info("Authorized Phone Number not found", exception);
+    return "";
+  }
+
+  private String executeCommand(String commandText, UserProfile userProfile) {
     TransactionCommand command = commandParser.parse(commandText);
-    return wrapInTwiml(command.execute(phoneNumberAuthorizer.roleFor(fromPhone)));
+    return wrapInTwiml(command.execute(userProfile));
   }
 
   private String wrapInTwiml(String message) {

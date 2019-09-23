@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.DummyUserProfile;
 import com.learnwithted.kidbank.domain.TestAccountBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class DepositControllerTest {
     DepositController depositController = new DepositController(account);
 
     Mockito.when(mockBindingResult.hasErrors()).thenReturn(false);
-    depositController.processDepositCommand(depositCommand, mockBindingResult);
+    depositController.processDepositCommand(depositCommand, mockBindingResult, new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(1234);

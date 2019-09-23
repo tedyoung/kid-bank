@@ -1,12 +1,12 @@
 package com.learnwithted.kidbank.domain;
 
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class UserProfile {
 
   // EXTRINSIC property used by Repository
@@ -40,5 +40,20 @@ public class UserProfile {
 
   public PhoneNumber phoneNumber() {
     return phoneNumber;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    UserProfile that = (UserProfile) o;
+
+    return id != null ? id.equals(that.id) : that.id == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
   }
 }

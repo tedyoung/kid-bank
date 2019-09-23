@@ -1,12 +1,13 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.UserProfile;
 import lombok.ToString;
 
-@ToString
-public class SpendCommand extends ParentTransactionCommand implements TransactionCommand {
+import java.time.LocalDateTime;
 
-  private CommandState commandState;
+@ToString
+public class SpendCommand extends ParentTransactionCommand {
 
   public SpendCommand(Account account, int amount) {
     this(account, amount, "");
@@ -14,29 +15,17 @@ public class SpendCommand extends ParentTransactionCommand implements Transactio
 
   public SpendCommand(Account account, int amount, String description) {
     super(account, amount, description);
-    updateState();
-  }
-
-  @Override
-  protected void execute() {
-    commandState.execute(account, amount, description);
   }
 
   @Override
   protected String response(String formattedAmount, String formattedBalance) {
-    return commandState.response(formattedAmount, formattedBalance, description);
+    return "Spent " + formattedAmount + ", current balance is now " + formattedBalance;
   }
 
-  public void changeDescriptionTo(String description) {
-    super.description = description;
-    updateState();
+  @Override
+  protected void executeTransaction(UserProfile userProfile) {
+    account.spend(LocalDateTime.now(), amount, description, userProfile);
+
   }
 
-  private void updateState() {
-    if (description.isEmpty()) {
-      commandState = new EmptyDescriptionCommandState();
-    } else {
-      commandState = new ExecutableCommandState();
-    }
-  }
 }

@@ -8,6 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountTransactionTest {
 
+  private static final LocalDateTime NOW = LocalDateTime.now();
+
   @Test
   public void newAccountShouldHaveZeroTransactions() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
@@ -17,19 +19,19 @@ public class AccountTransactionTest {
   }
 
   @Test
-  public void depositToAccountShouldResultInOneTransaction() throws Exception {
+  public void depositToAccountShouldResultInOneCorrectTransaction() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
+    UserProfile userProfile = new DummyUserProfile();
 
-    LocalDateTime transactionDateTime = LocalDateTime.now();
+    account.deposit(NOW, 123, "Bottle Return", userProfile);
 
-    account.deposit(transactionDateTime, 123, "Bottle Return");
-
-    Transaction expectedTransaction = new Transaction(
-        transactionDateTime, Action.DEPOSIT, 123, "Bottle Return");
-    expectedTransaction.setId(0L);
+    Transaction expectedTransaction =
+        new Transaction(0L, NOW, Action.DEPOSIT, 123, "Bottle Return", userProfile);
 
     assertThat(account.transactions())
-        .containsOnly(
-            expectedTransaction);
+        .hasSize(1);
+
+    assertThat(account.transactions().iterator().next())
+        .isEqualToComparingFieldByField(expectedTransaction);
   }
 }

@@ -1,6 +1,7 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.UserProfile;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +21,7 @@ public class DepositCommand extends ParentTransactionCommand {
   }
 
   @Override
-  protected void execute() {
-    account.deposit(LocalDateTime.now(), amount, description);
+  protected void executeTransaction(UserProfile userProfile) {
+    account.deposit(LocalDateTime.now(), amount, description, userProfile);
   }
 }

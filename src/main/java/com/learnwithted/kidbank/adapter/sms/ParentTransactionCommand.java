@@ -3,6 +3,7 @@ package com.learnwithted.kidbank.adapter.sms;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.Role;
+import com.learnwithted.kidbank.domain.UserProfile;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -29,12 +30,12 @@ public abstract class ParentTransactionCommand implements TransactionCommand {
     }
   }
 
-  public String execute(Role role) {
-    if (role != Role.PARENT) {
+  public String execute(UserProfile userProfile) {
+    if (userProfile.role() != Role.PARENT) {
       return "Only Parents can do that.";
     }
 
-    execute();
+    executeTransaction(userProfile);
 
     String formattedBalance = ScaledDecimals.formatAsMoney(account.balance());
     String formattedAmount = ScaledDecimals.formatAsMoney(amount);
@@ -44,5 +45,5 @@ public abstract class ParentTransactionCommand implements TransactionCommand {
 
   protected abstract String response(String formattedAmount, String formattedBalance);
 
-  protected abstract void execute();
+  protected abstract void executeTransaction(UserProfile userProfile);
 }

@@ -1,17 +1,20 @@
 package com.learnwithted.kidbank.adapter.web;
 
 import com.learnwithted.kidbank.IntegrationTestConfiguration;
+import com.learnwithted.kidbank.domain.DummyUserProfile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,6 +40,8 @@ public class DepositViewIntegrationTest {
   @Test
   public void submitDepositFormRedirectsToHomePage() throws Exception {
     mockMvc.perform(post("/deposit")
+                        .with(authentication(
+                            new TestingAuthenticationToken(new DummyUserProfile(), null, "ROLE_PARENT")))
                         .param("amount", "12.45")
                         .param("date", "2000-01-02")
                         .param("description", "the source of money"))

@@ -3,7 +3,7 @@ package com.learnwithted.kidbank.adapter.sms;
 import com.learnwithted.kidbank.adapter.ScaledDecimals;
 import com.learnwithted.kidbank.domain.Account;
 import com.learnwithted.kidbank.domain.Goal;
-import com.learnwithted.kidbank.domain.Role;
+import com.learnwithted.kidbank.domain.UserProfile;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -19,7 +19,7 @@ public class GoalsCommand implements TransactionCommand {
   private final Account account;
 
   @Override
-  public String execute(Role role) {
+  public String execute(UserProfile userProfile) {
     Set<Goal> goals = account.goals();
     if (goals.isEmpty()) {
       return "Sorry, you don't have any goals.";

@@ -51,7 +51,7 @@ public class GoalTextMessageRequestIntegrationTest {
 
   @Test
   public void goalCommandReturnsGoalStatusMessage() throws Exception {
-    account.deposit(TestClockSupport.localDateTimeAtMidnightOf(2019, 2, 3), 35_00, "Initial balance.");
+    account.deposit(TestClockSupport.localDateTimeAtMidnightOf(2019, 2, 3), 35_00, "Initial balance.", new DummyUserProfile());
 
     account.createGoal("\"Nintendo Game: Our World Is Ended\"", 65_39);
 

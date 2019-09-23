@@ -34,6 +34,7 @@
     <th>Date</th>
     <th>Action</th>
     <th>Description</th>
+    <th>Creator</th>
     <th>Amount</th>
   </tr>
   </thead>
@@ -42,6 +43,7 @@
     <td th:text="${txn.date}">01/05/2018</td>
     <td th:text="${txn.action}">Cash Deposit</td>
     <td th:text="${txn.source}">Birthday gift</td>
+    <td th:text="${txn.creator}">A Parent</td>
     <td th:text="${txn.amount}">$50.00</td>
   </tr>
   </tbody>

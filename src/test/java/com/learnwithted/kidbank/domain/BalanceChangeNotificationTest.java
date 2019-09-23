@@ -17,7 +17,7 @@ public class BalanceChangeNotificationTest {
                                         .buildAsCore();
 
     // When we deposit money
-    account.deposit(now(), 25_00, "test");
+    account.deposit(now(), 25_00, "test", new DummyUserProfile());
 
     // Then we expect the notification to be sent
     verify(mockNotifier).balanceChanged(25_00, 25_00);
@@ -32,7 +32,7 @@ public class BalanceChangeNotificationTest {
                                         .notifier(mockNotifier)
                                         .buildAsCore();
 
-    account.spend(now(), 35_35, "test");
+    account.spend(now(), 35_35, "test", new DummyUserProfile());
 
     verify(mockNotifier).balanceChanged(-35_35, 64_65);
   }

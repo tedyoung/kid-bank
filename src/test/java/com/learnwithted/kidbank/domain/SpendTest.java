@@ -11,7 +11,7 @@ public class SpendTest {
   public void spendMoneyShouldReduceAccountBalance() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
 
-    account.spend(localDateTimeAtMidnightOf(2012, 10, 11), 5695, "New Switch Game");
+    account.spend(localDateTimeAtMidnightOf(2012, 10, 11), 5695, "New Switch Game", new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(-5695);
@@ -21,8 +21,8 @@ public class SpendTest {
   public void spendMoneyTwiceShouldReduceAccountBalanceBySumOfAllSpending() throws Exception {
     Account account = TestAccountBuilder.builder().buildAsCore();
 
-    account.spend(localDateTimeAtMidnightOf(2013, 12, 11), 1695, "New Game");
-    account.spend(localDateTimeAtMidnightOf(2013, 12, 12), 3100, "New Game");
+    account.spend(localDateTimeAtMidnightOf(2013, 12, 11), 1695, "New Game", new DummyUserProfile());
+    account.spend(localDateTimeAtMidnightOf(2013, 12, 12), 3100, "New Game", new DummyUserProfile());
 
     assertThat(account.balance())
         .isEqualTo(-4795);
