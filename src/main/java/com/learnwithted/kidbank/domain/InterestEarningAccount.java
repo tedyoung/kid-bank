@@ -38,7 +38,7 @@ public class InterestEarningAccount implements Account {
 
   @Override
   public int interestEarned() {
-    throw new UnsupportedOperationException();
+    return interestTotalUpTo(LocalDateTime.MAX);
   }
 
   private void computeInterest() {

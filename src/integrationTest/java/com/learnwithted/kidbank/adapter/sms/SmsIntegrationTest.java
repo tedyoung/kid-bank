@@ -1,7 +1,11 @@
 package com.learnwithted.kidbank.adapter.sms;
 
 import com.learnwithted.kidbank.IntegrationTestConfiguration;
-import com.learnwithted.kidbank.domain.*;
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.PhoneNumber;
+import com.learnwithted.kidbank.domain.Role;
+import com.learnwithted.kidbank.domain.UserProfile;
+import com.learnwithted.kidbank.domain.UserProfileRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -65,7 +69,7 @@ public class SmsIntegrationTest {
            .andExpect(status().isOk())
            .andExpect(content().string("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>" +
                                            "<Message><Body>" +
-                                           "Your balance is $98.95" +
+                                           "Your balance is $98.95, with interest earned of $0.00." +
                                            "</Body></Message></Response>"));
   }
 

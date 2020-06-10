@@ -21,6 +21,9 @@ public class InterestCreditTest {
                                         .buildAsInterestEarning(2017, 2, 1);
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17
+    assertThat(account.interestEarned())
+        .isEqualTo(21 + 21);
+
     assertThat(account.balance())
         .isEqualTo(100_00 + 21 + 21); // rounding up 20.8333 to 21 cents
   }
@@ -115,6 +118,9 @@ public class InterestCreditTest {
                                         .buildAsInterestEarning(2019, 1, 28);
 
     account.spend(localDateTimeAtMidnightOf(2018, 10, 31), 500_00, "spend all the moneeze", new DummyUserProfile());
+
+    assertThat(account.interestEarned())
+        .isZero();
 
     assertThat(account.balance())
         .isZero();
