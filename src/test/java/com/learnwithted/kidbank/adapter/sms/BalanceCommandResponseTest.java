@@ -10,19 +10,6 @@ import static org.assertj.core.api.Assertions.*;
 public class BalanceCommandResponseTest {
 
   @Test
-  public void givenCoreAccountRespondsWithOnlyBalanceAmount() throws Exception {
-    Account account = TestAccountBuilder
-        .builder()
-        .initialBalanceOf(10_00)
-        .buildAsCore();
-
-    BalanceCommand balanceCommand = new BalanceCommand(account);
-
-    assertThat(balanceCommand.execute(new DummyUserProfile()))
-        .isEqualTo("Your balance is $10.00, with interest earned of $0.00.");
-  }
-
-  @Test
   public void givenInterestBearingAccountRespondWithAccruedInterestAmount() throws Exception {
 
     Account account = TestAccountBuilder
@@ -37,6 +24,6 @@ public class BalanceCommandResponseTest {
         .isEqualTo("Your balance is $100.21, with interest earned of $0.21.");
   }
 
-  // test for when no interest has been accrued, possibly different message
+  // test for when no interest has been earned yet, possibly different message
 
 }

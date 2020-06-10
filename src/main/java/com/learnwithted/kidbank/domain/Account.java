@@ -9,6 +9,8 @@ import java.util.Set;
 public interface Account {
   int balance();
 
+  int interestEarned();
+
   void deposit(LocalDateTime transactionDateTime, int amount, String source, UserProfile userProfile);
 
   void spend(LocalDateTime transactionDateTime, int amount, String description, UserProfile userProfile);

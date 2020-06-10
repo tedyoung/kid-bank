@@ -14,7 +14,7 @@ public class BalanceCommand implements TransactionCommand {
   @Override
   public String execute(UserProfile userProfile) {
     String balance = ScaledDecimals.formatAsMoney(account.balance());
-    String interest = "$0.00";
+    String interest = ScaledDecimals.formatAsMoney(account.interestEarned());
     return String.format("Your balance is %s, with interest earned of %s.", balance, interest);
   }
 

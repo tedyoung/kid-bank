@@ -1,12 +1,16 @@
 package com.learnwithted.kidbank.adapter.sms;
 
-import com.learnwithted.kidbank.domain.*;
+import com.learnwithted.kidbank.domain.Account;
+import com.learnwithted.kidbank.domain.DummyUserProfileRepository;
+import com.learnwithted.kidbank.domain.FakeUserProfileRepository;
+import com.learnwithted.kidbank.domain.PhoneNumber;
+import com.learnwithted.kidbank.domain.TestAccountBuilder;
+import com.learnwithted.kidbank.domain.UserProfile;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class SmsBalanceRequestTest {
 
@@ -26,7 +30,7 @@ public class SmsBalanceRequestTest {
 
   @Test
   public void fromKnownAuthorizedNumberShouldReturnBalanceMessage() throws Exception {
-    Account account = TestAccountBuilder.builder().buildAsCore();
+    Account account = TestAccountBuilder.builder().buildAsInterestEarning(2020, 1, 1);
     String fromPhone = "+16541231234";
     SmsController smsController = new SmsController(account, new FakeUserProfileRepository(
         new UserProfile("name", new PhoneNumber(fromPhone), null, null)

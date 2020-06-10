@@ -36,6 +36,11 @@ public class InterestEarningAccount implements Account {
     return balanceUpTo(LocalDateTime.MAX);
   }
 
+  @Override
+  public int interestEarned() {
+    throw new UnsupportedOperationException();
+  }
+
   private void computeInterest() {
     // throw away any existing interest credit transactions
     interestTransactions = ImmutableList.of();

@@ -29,6 +29,11 @@ public class CoreAccount implements Account {
   }
 
   @Override
+  public int interestEarned() {
+    throw new UnsupportedOperationException("Core Account does not support querying interest earned because it's not intended to be called in production, it's always wrapped bu the InterestEarningAccount decorator.");
+  }
+
+  @Override
   public void deposit(LocalDateTime transactionDateTime, int amount, String source, UserProfile userProfile) {
     Transaction deposit = Transaction.createDeposit(transactionDateTime, amount, source, userProfile);
     addNewTransaction(deposit);
