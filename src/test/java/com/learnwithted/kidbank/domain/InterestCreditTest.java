@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import static com.learnwithted.kidbank.domain.TestClockSupport.localDateTimeAtMidnightOf;
 import static java.util.Comparator.comparing;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class InterestCreditTest {
 
@@ -22,7 +22,7 @@ public class InterestCreditTest {
 
     // Then $100 * (2.5% / 12) should be credited into the account, twice: for 1/1/17 & 2/1/17
     assertThat(account.balance())
-        .isEqualTo(10000 + 21 + 21); // rounding up 20.8333 to 21 cents
+        .isEqualTo(100_00 + 21 + 21); // rounding up 20.8333 to 21 cents
   }
 
   @Test
