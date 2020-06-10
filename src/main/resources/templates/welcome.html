@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Kid Money Manager</title>
 <!-- MailerLite Universal -->
@@ -20,6 +21,9 @@ var ml_account = ml('accounts', '1499098', 'q5t9e4q9u2', 'load');
   <h2>Find out more about Kid Money Manager</h2>
   <div class="ml-form-embed" data-account="1499098:q5t9e4q9u2" data-form="1373362:r2l2y1"></div>
 <hr>
-<footer><span th:text="${commitIdShort}">abcde</span> | <span th:text="${commitTime}"></span></footer>
+<footer>
+  <span>New: Balance command provides interest earned.</span>
+  <span th:text="${commitIdShort}">abcde</span> | <span th:text="${commitTime}"></span>
+</footer>
 </body>
 </html>
