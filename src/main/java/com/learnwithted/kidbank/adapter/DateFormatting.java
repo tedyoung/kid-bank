@@ -13,7 +13,7 @@ public class DateFormatting {
 
   public static LocalDateTime fromBrowserDate(String rawDate) {
     LocalDate localDate = LocalDate.parse(rawDate, YYYY_MM_DD_DATE_FORMATTER);
-    return localDate.atStartOfDay(); // midnight on the above date
+    return localDate.atStartOfDay();
   }
 
   public static LocalDateTime fromCsvDate(String rawDate) {
