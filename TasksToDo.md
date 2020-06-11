@@ -2,11 +2,9 @@
 
 ## Today
 
-1. Add running balance to web account view
+1. Rework the account view page to use Tailwind CSS
 
 1. Add interest earned total to header of web pages
-
-1. Rework the account view page to use Tailwind CSS
 
 1. Extract the account header to a template to be used on all pages
 
@@ -14,11 +12,21 @@
 
 ## This Afternoon
 
-* TDD/Task Overlay 
+* TDD/Task Overlay
 
 ## Tomorrow
 
-* Update Java version to at least 11
+* Updates
+    
+    * Java version to at least 11 (maybe 14?)
+    
+        * Check Heroku settings before updating
+
+    * JUnit 5
+    
+    * Spring Boot 2.2.8
+    
+    * Other deps?
 
 * Fix JitterShoutOutBot
 
