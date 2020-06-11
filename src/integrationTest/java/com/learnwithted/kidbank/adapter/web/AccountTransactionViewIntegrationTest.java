@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Collection;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -56,7 +56,7 @@ public class AccountTransactionViewIntegrationTest {
 
     assertThat(transactions)
         .contains(new TransactionView(
-            "02/09/2018", "Deposit", "$12.45", "Birthday gift", "The Parent"));
+            "02/09/2018", "Deposit", "$12.45", "$12.45", "Birthday gift", "The Parent"));
   }
 
   @Test
@@ -78,13 +78,12 @@ public class AccountTransactionViewIntegrationTest {
 
     assertThat(transactions)
         .contains(new TransactionView(
-            "12/19/2018", "Spend", "$49.95", "Video game", "Parent Spender"));
+            "12/19/2018", "Spend", "$49.95", "$49.95", "Video game", "Parent Spender"));
   }
 
   @Test
   public void newAccountViewHasNoTransactions() throws Exception {
-
-    Collection transactions = transactionsFromModel();
+    Collection<TransactionView> transactions = transactionsFromModel();
     assertThat(transactions)
         .isEmpty();
   }
