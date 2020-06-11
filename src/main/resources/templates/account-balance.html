@@ -29,13 +29,15 @@
 <br/>
 
 <table>
+  <caption>List of Transactions for this Account</caption>
   <thead>
   <tr>
-    <th>Date</th>
-    <th>Action</th>
-    <th>Description</th>
-    <th>Creator</th>
-    <th>Amount</th>
+    <th scope="col">Date</th>
+    <th scope="col">Action</th>
+    <th scope="col">Description</th>
+    <th scope="col">Creator</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Balance</th>
   </tr>
   </thead>
   <tbody>
@@ -45,7 +47,7 @@
     <td th:text="${txn.source}">Birthday gift</td>
     <td th:text="${txn.creator}">A Parent</td>
     <td th:text="${txn.amount}">$50.00</td>
-    <td th:text="${txn.runningTotal}">$55.00</td>
+    <td th:text="${txn.runningBalance}">$55.00</td>
   </tr>
   </tbody>
 </table>

@@ -78,7 +78,7 @@ public class AccountTransactionViewIntegrationTest {
 
     assertThat(transactions)
         .contains(new TransactionView(
-            "12/19/2018", "Spend", "$49.95", "$49.95", "Video game", "Parent Spender"));
+            "12/19/2018", "Spend", "$49.95", "-$49.95", "Video game", "Parent Spender"));
   }
 
   @Test
