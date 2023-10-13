@@ -152,7 +152,7 @@
       <plugin>
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-maven-plugin</artifactId>
-        <version>5.2.4</version>
+        <version>9.22.3</version>
         <configuration>
           <url>jdbc:h2:file:./target/foobar</url>
           <user>sa</user>
